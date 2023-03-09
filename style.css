@@ -1,0 +1,35 @@
+html, body { 
+    background: #FFF;
+    width: 100%;
+    height: 100%;
+    margin: 0; 
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#game_viewport{
+    background: #00000000;
+    overflow: hidden;
+    height: fit-content;
+    width: fit-content;
+}
+
+@media (max-aspect-ratio: 1/1) {
+    #game_viewport{
+        width: 100vw;
+    }
+}
+@media (min-aspect-ratio: 1/1) {
+    #game_viewport{
+        width: calc(100vh * (3/2));
+    }
+}
+
+canvas {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
