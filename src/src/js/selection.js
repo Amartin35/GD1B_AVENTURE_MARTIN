@@ -116,7 +116,7 @@ export default class Selection extends Phaser.Scene{ // ATTENTION POTENTIELLE LI
       player.setVelocityY(-330);
     }
     if (Phaser.Input.Keyboard.JustDown(clavier.space) == true) {
-        this.scene.start("niveau1");
+        this.scene.start("Hub");
       } 
   }
   
