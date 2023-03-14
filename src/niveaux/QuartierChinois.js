@@ -3,15 +3,18 @@ var groupe_plateformes; // contient toutes les plateformes
 var clavier; // pour la gestion du clavier
 
 // définition de la classe "selection"
-export default class Selection extends Phaser.Scene{ // ATTENTION POTENTIELLE LIGNE A METTRE class selection extends Phaser.Scene
+export default class QuartierChinois extends Phaser.Scene{ // ATTENTION POTENTIELLE LIGNE A METTRE class selection extends Phaser.Scene
   
   constructor() {
-    super({key : "Selection"}); // mettre le meme nom que le nom de la classe
+    super({key : "QuartierChinois"}); // mettre le meme nom que le nom de la classe
   }
   
   preload() {
     // tous les assets du jeu sont placés dans le sous-répertoire src/assets/
     this.load.image("img_ciel", "src/assets/sky.png");
+    this.load.image('img_porte1', 'src/assets/door1.png');
+    this.load.image('img_porte2', 'src/assets/door2.png');
+    this.load.image('img_porte3', 'src/assets/door3.png'); 
     this.load.image("img_plateforme", "src/assets/platform.png");
     this.load.spritesheet("img_perso", "src/assets/dude.png", {
       frameWidth: 32,
@@ -23,11 +26,15 @@ export default class Selection extends Phaser.Scene{ // ATTENTION POTENTIELLE LI
     /*************************************
     *  CREATION DU MONDE + PLATEFORMES  *
     *************************************/
+
+     
     
     // On ajoute une simple image de fond, le ciel, au centre de la zone affichée (400, 300)
     // Par défaut le point d'ancrage d'une image est le centre de cette derniere
     this.add.image(400, 300, "img_ciel");
-    
+
+    this.porte1 = this.physics.add.staticSprite(600, 414, "img_porte1");
+
     // la création d'un groupes permet de gérer simultanément les éléments d'une meme famille
     //  Le groupe groupe_plateformes contiendra le sol et deux platesformes sur lesquelles sauter
     // notez le mot clé "staticGroup" : le static indique que ces élements sont fixes : pas de gravite,
@@ -115,9 +122,7 @@ export default class Selection extends Phaser.Scene{ // ATTENTION POTENTIELLE LI
     if (clavier.up.isDown && player.body.touching.down) {
       player.setVelocityY(-330);
     }
-    if (Phaser.Input.Keyboard.JustDown(clavier.space) == true) {
-        this.scene.start("Hub");
-      } 
+    if (this.physics.overlap(player, this.porte1)) this.scene.start("Hub");
   }
   
 }

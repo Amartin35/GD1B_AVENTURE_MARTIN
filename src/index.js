@@ -1,5 +1,9 @@
-import Selection from "./src/js/selection.js";
-import Hub from "./src/js/Hub.js";
+import QuartierChinois from "./niveaux/QuartierChinois.js";
+import Hub from "./niveaux/Hub.js";
+import Egout from "./niveaux/Egout.js";
+
+
+
 // configuration générale du jeu
 var config = {
   type: Phaser.AUTO,
@@ -15,17 +19,17 @@ var config = {
     arcade: {
       // parametres du mode arcade
       gravity: {
-        y: 300 // gravité verticale : acceleration ddes corps en pixels par seconde
+        y: 400 // gravité verticale : acceleration ddes corps en pixels par seconde
       },
       debug: true // permet de voir les hitbox et les vecteurs d'acceleration quand mis à true
     }
   },
-  scene: [Selection, Hub]
+  scene: [QuartierChinois, Hub, Egout]
 };
 
 // création et lancement du jeu à partir de la configuration config
 var game = new Phaser.Game(config);
-game.scene.start("Selection"); // lancement de la scene selection
+game.scene.start("QuartierChinois"); // lancement de la scene selection
 
 
 

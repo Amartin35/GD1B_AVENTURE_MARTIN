@@ -1,5 +1,4 @@
 
-
 // définition de la classe "selection"
 export default class Hub extends Phaser.Scene{
   
@@ -7,12 +6,16 @@ export default class Hub extends Phaser.Scene{
     super({key : "Hub"}); // mettre le meme nom que le nom de la classe
   }
   
-  preload() {}
+  preload() {
+
+  }
 
   create() {
     this.add.image(400, 300, "img_ciel");
+    this.porte2 = this.physics.add.staticSprite(50, 550, "img_porte2");
+    this.porte3 = this.physics.add.staticSprite(750, 550, "img_porte3");
     this.groupe_plateformes = this.physics.add.staticGroup();
-    this.groupe_plateformes.create(200, 584, "img_plateforme");
+    this.groupe_plateformes.create(200, 584, "img_plateforme"); 
     this.groupe_plateformes.create(600, 584, "img_plateforme");
     // ajout d'un texte distintcif  du niveau
     this.add.text(400, 100, "Vous êtes dans le Hub", {
@@ -42,5 +45,8 @@ export default class Hub extends Phaser.Scene{
     if (this.clavier.up.isDown && this.player.body.touching.down) {
       this.player.setVelocityY(-330);
     }
+    if (this.physics.overlap(this.player, this.porte2)) this.scene.start("QuartierChinois");
+    if (this.physics.overlap(this.player, this.porte3)) this.scene.start("Egout");
+    
   }
 }
