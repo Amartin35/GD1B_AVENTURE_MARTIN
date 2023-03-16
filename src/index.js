@@ -18,9 +18,6 @@ var config = {
     default: "arcade", // mode arcade : le plus simple : des rectangles pour gérer les collisions. Pas de pentes
     arcade: {
       // parametres du mode arcade
-      gravity: {
-        y: 400 // gravité verticale : acceleration ddes corps en pixels par seconde
-      },
       debug: true // permet de voir les hitbox et les vecteurs d'acceleration quand mis à true
     }
   },
@@ -30,7 +27,3 @@ var config = {
 // création et lancement du jeu à partir de la configuration config
 var game = new Phaser.Game(config);
 game.scene.start("QuartierChinois"); // lancement de la scene selection
-
-
-
-
