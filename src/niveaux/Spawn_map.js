@@ -16,10 +16,8 @@ export default class Spawn_map extends Phaser.Scene{
   
   create()  {
     
-
+    // creation de ma carte
     const map = this.add.tilemap("map");
-
-
     const tileset = map.addTilesetImage("Assets_zelda", "TileSet");
 
     const no_collisionLayer = map.createLayer(
@@ -43,16 +41,31 @@ export default class Spawn_map extends Phaser.Scene{
       tileset
     );
 
-    // affichage du sprite du personage
-    this.player = new Player(this, 50, 50, 'perso');
+
+
+
+
+
+
+    // affichage du sprite du personage       1420, 1340 coordonné du vrais spawn
+
+    this.player = new Player(this, 100, 100, 'perso');
     this.physics.world.setBounds(0, 0, 1600, 1600);
     
-
+    // ajout des collision  
+    collisionLayer.setCollisionByExclusion(-1, true); 
+    this.physics.add.collider(this.player, collisionLayer);
+    propsLayer.setCollisionByExclusion(-1, true); 
+    this.physics.add.collider(this.player, propsLayer);
+    sortieLayer.setCollisionByExclusion(-1, true); 
+    this.physics.add.collider(this.player, sortieLayer, () => {
+      this.scene.switch("Hub");
+    });
+  
+    // ajout camera
     this.cameras.main.setBounds(0, 0, 1600, 1600);
-    this.cameras.main.zoom = 1;
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBackgroundColor(0xaaaaaa)
-
     // ancrage de la camera sur le joueur
     this.cameras.main.startFollow(this.player);  
 

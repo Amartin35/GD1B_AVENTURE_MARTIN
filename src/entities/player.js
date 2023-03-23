@@ -4,16 +4,28 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         super(scene, x, y, texture); 
         this.clavier = scene.input.keyboard.createCursorKeys();
         
-        console.log(this)
+
         scene.physics.world.enable(this)
         scene.add.existing(this)
         this.setCollideWorldBounds(true);
 
     }
+
+
+    create(){
+
+    }
+
     
     update(){
         var mouvement = new Phaser.Math.Vector2(0, 0)
+        /// POUR DASH
+        const aKey = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        const isAJustDown = Phaser.Input.Keyboard.JustDown(aKey); 
+
+
         
+
         if (this.clavier.left.isDown) {
             mouvement.x = -1;
         } 
@@ -34,8 +46,18 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             mouvement.y = 0;
         }
 
+        if (isAJustDown) {
+                    /// A FAIRE DASH
+        } 
+       
+
+        
+        
         mouvement.normalize();
         
+        
         this.setVelocity(mouvement.x*PLAYER_SPEED, mouvement.y*PLAYER_SPEED);
+        this.x = Math.round(this.x);
+        this.y = Math.round(this.y);
     }
 }

@@ -3,12 +3,23 @@ import Hub from "./niveaux/Hub.js";
 import Egout from "./niveaux/Egout.js";
 
 
+var gameViewport = document.getElementById("game_viewport");
+
+addEventListener("resize", onResizeWindow);
+function onResizeWindow(){
+    var gameZoomX = (window.innerWidth - (window.innerWidth % GAME_WIDTH)) / GAME_WIDTH;
+    var gameZoomY = (window.innerHeight - (window.innerHeight % GAME_HEIGHT)) / GAME_HEIGHT;
+    var gameZoom = gameZoomX < gameZoomY ? gameZoomX : gameZoomY;
+    gameViewport.style.width = (GAME_WIDTH * gameZoom) + 'px';
+}
+
+onResizeWindow();
 
 // configuration générale du jeu
 var config = {
   type: Phaser.AUTO,
-  width: 512, // largeur en pixels
-  height: 288, // hauteur en pixels
+  width: GAME_WIDTH,
+  height: GAME_HEIGHT, 
   parent: 'game_viewport',
   render: {
     antialias: false
