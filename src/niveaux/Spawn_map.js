@@ -1,6 +1,4 @@
-var player; // désigne le sprite du joueur
-var groupe_plateformes; // contient toutes les plateformes
-var clavier; // pour la gestion du clavier
+import Player from "../entities/player.js";
 
 // définition de la classe "selection"
 export default class Spawn_map extends Phaser.Scene{ 
@@ -12,7 +10,7 @@ export default class Spawn_map extends Phaser.Scene{
   preload() {
     this.load.image('TileSet', 'src/assets/Assets_zelda.png');    
     this.load.tilemapTiledJSON('map', 'src/assets/spawn_map.json');
-    this.load.spritesheet('perso','assets/perso.png',
+    this.load.spritesheet('perso','src/assets/perso.png',
     { frameWidth: 31, frameHeight: 52 });
   }
   
@@ -46,23 +44,25 @@ export default class Spawn_map extends Phaser.Scene{
     );
 
     // affichage du sprite du personage
-    this.player = this.physics.add.sprite(10, 0, 'perso');
+    this.player = new Player(this, 50, 50, 'perso');
+    this.physics.world.setBounds(0, 0, 1600, 1600);
     
 
     this.cameras.main.setBounds(0, 0, 1600, 1600);
     this.cameras.main.zoom = 1;
     this.cameras.main.startFollow(this.player);
+    this.cameras.main.setBackgroundColor(0xaaaaaa)
 
     // ancrage de la camera sur le joueur
     this.cameras.main.startFollow(this.player);  
 
 
 
+
   }
   
   update()  {
-
-
-
-  
+    this.player.update();
+  }
 }
+

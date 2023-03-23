@@ -1,0 +1,1 @@
+const PLAYER_SPEED = 160
