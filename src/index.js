@@ -24,6 +24,7 @@ var config = {
   render: {
     antialias: false
   },
+  pixelArt: true,
   physics: {
     // définition des parametres physiques
     default: "arcade", // mode arcade : le plus simple : des rectangles pour gérer les collisions. Pas de pentes
