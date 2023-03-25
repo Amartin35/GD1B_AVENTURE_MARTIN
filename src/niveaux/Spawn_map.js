@@ -59,6 +59,7 @@ export default class Spawn_map extends Phaser.Scene{
     this.physics.add.collider(this.player, propsLayer);
     sortieLayer.setCollisionByExclusion(-1, true); 
     this.physics.add.collider(this.player, sortieLayer, () => {
+      this.player.resetDash()
       this.scene.switch("Hub");
     });
   

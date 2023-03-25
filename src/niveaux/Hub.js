@@ -51,10 +51,12 @@ export default class Hub extends Phaser.Scene{
      this.physics.add.collider(this.player, propsLayer);
      sortie_ELayer.setCollisionByExclusion(-1, true); 
      this.physics.add.collider(this.player, sortie_ELayer, () => {
+       this.player.resetDash()
        this.scene.switch("Egout");
      });
      sortie_QLayer.setCollisionByExclusion(-1, true); 
      this.physics.add.collider(this.player, sortie_QLayer, () => {
+       this.player.resetDash()
        this.scene.switch("Spawn_map");
      });
 

@@ -33,6 +33,10 @@ var config = {
       debug: true // permet de voir les hitbox et les vecteurs d'acceleration quand mis à true
     }
   },
+  fps: {
+    target: 55,
+    forceSetTimeOut: true
+  },
   scene: [Spawn_map, Hub, Egout]
 };
 

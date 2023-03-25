@@ -49,6 +49,7 @@ export default class Egout extends Phaser.Scene{
      this.physics.add.collider(this.player, porteLayer);
      sortie_HLayer.setCollisionByExclusion(-1, true); 
      this.physics.add.collider(this.player, sortie_HLayer, () => {
+       this.player.resetDash()
        this.scene.switch("Hub");
      });
 
