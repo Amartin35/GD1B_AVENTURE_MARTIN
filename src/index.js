@@ -1,7 +1,7 @@
 import Spawn_map from "./niveaux/Spawn_map.js";
 import Hub from "./niveaux/Hub.js";
 import Egout from "./niveaux/Egout.js";
-
+import Menu from "./niveaux/Menu.js";
 
 var gameViewport = document.getElementById("game_viewport");
 
@@ -37,11 +37,11 @@ var config = {
     target: 55,
     forceSetTimeOut: true
   },
-  scene: [Spawn_map, Hub, Egout]
+  scene: [Menu, Spawn_map, Hub, Egout]
 };
 
 // création et lancement du jeu à partir de la configuration config
 var game = new Phaser.Game(config);
-game.scene.start("Spawn_map"); // lancement de la scene selection
+game.scene.start("Menu"); // lancement de la scene selection
 
 

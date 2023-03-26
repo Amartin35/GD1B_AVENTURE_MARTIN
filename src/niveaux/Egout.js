@@ -71,5 +71,5 @@ export default class Egout extends Phaser.Scene{
       this.player.update();
     
     }
-  }
+}
   
