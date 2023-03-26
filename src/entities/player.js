@@ -7,6 +7,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);
         this.setCollideWorldBounds(true);
         
+
+
+        this.CreateAnimations();
+        this.facingUp = false;
+
+
         // Propriétés du dash
         this.dashTime = 0;
         this.isDashing = false;
@@ -16,12 +22,15 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.dashSpeed = 600;
         this.direction = "right"; 
         
+        // resize collision 
+        this.body.setSize(28, 42);
+        this.body.setOffset(2, );
     }
     
     update(time, delta) {
 
         var mouvement = new Phaser.Math.Vector2(0, 0);
-
+        // Mouvement
         if (this.clavier.left.isDown) {
             mouvement.x = -1;
             this.direction = "left"; 
@@ -32,15 +41,19 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         } 
         else {
             mouvement.x = 0;
+            
         }
         
         if (this.clavier.up.isDown) {
             mouvement.y = -1;
             this.direction = "up"; 
+            this.facingUp = true;
         } 
         else if (this.clavier.down.isDown) {
             mouvement.y = 1;
-            this.direction = "down"; 
+            this.direction = "down";
+            this.facingUp = false;
+
         } 
         else {
             mouvement.y = 0;
@@ -56,8 +69,25 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             this.flipX = false;
         }
 
+        if(mouvement.length() != 0) {
+            if(this.facingUp){
+                this.anims.play("MoveUp",true);
+            }
+            else{
+                this.anims.play("MoveDown",true);
+            }
+        }
+        else{
+            if(this.facingUp){
+                this.anims.play("IdleUp",true);
+            }
+            else{
+                this.anims.play("IdleDown",true);
+            }
+        }
 
-        console.log(this.isDashing);
+        console.log(this.direction);
+        // console.log(this.isDashing);
         // Gestion du dash
         if (this.clavier.space.isDown && this.dashCooldown <= 0 && this.isDashing == false) {
             this.isDashing = true;
@@ -94,6 +124,37 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.isDashing = false;
         this.dashTime = 0;
         this.dashCooldown = this.dashCooldownMax;
+    }
+
+
+    //Animations
+    CreateAnimations(){
+        
+        this.scene.anims.create({
+            key: 'IdleDown',
+            frames: this.scene.anims.generateFrameNumbers('perso', {start:0, end:3}),
+            frameRate: 4,
+            repeat: -1
+        });
+        this.scene.anims.create({
+            key: 'IdleUp',
+            frames: this.scene.anims.generateFrameNumbers('perso', {start:4, end:7}),
+            frameRate: 4,
+            repeat: -1
+        });
+       
+        this.scene.anims.create({
+            key: 'MoveDown',
+            frames: this.scene.anims.generateFrameNumbers('perso', {start:8, end:11}),
+            frameRate: 4,
+            repeat: -1
+        });
+        this.scene.anims.create({
+            key: 'MoveUp',
+            frames: this.scene.anims.generateFrameNumbers('perso', {start:12, end:15}),
+            frameRate: 4,
+            repeat: -1
+        });
     }
 }
 

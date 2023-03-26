@@ -10,8 +10,7 @@ export default class Spawn_map extends Phaser.Scene{
   preload() {
     this.load.image('TileSet', 'src/assets/Assets_zelda.png');    
     this.load.tilemapTiledJSON('map', 'src/assets/spawn_map.json');
-    this.load.spritesheet('perso','src/assets/perso.png',
-    { frameWidth: 31, frameHeight: 52 });
+    this.load.spritesheet('perso', 'src/assets/PlayerSpriteSheet.png',{frameWidth: 34, frameHeight: 66});
   }
   
   create()  {
