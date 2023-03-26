@@ -7,6 +7,9 @@ export default class Egout extends Phaser.Scene{
       super({key : "Egout"}); // mettre le meme nom que le nom de la classe
     }
     
+
+
+
     preload() {
       this.load.tilemapTiledJSON('mapEgout', 'src/assets/Egout.json');
     }

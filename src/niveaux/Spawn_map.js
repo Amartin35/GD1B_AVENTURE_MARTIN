@@ -7,6 +7,11 @@ export default class Spawn_map extends Phaser.Scene{
     super({key : "Spawn_map"}); // mettre le meme nom que le nom de la classe
   }
   
+
+
+ 
+
+
   preload() {
     this.load.image('TileSet', 'src/assets/Assets_zelda.png');    
     this.load.tilemapTiledJSON('map', 'src/assets/spawn_map.json');

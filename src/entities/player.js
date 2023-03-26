@@ -8,23 +8,22 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.setCollideWorldBounds(true);
         
 
-
+        // Propriétés des animations
         this.CreateAnimations();
         this.facingUp = false;
-
 
         // Propriétés du dash
         this.dashTime = 0;
         this.isDashing = false;
         this.dashCooldown = 0;
         this.dashCooldownMax = 50;
-        this.dashDuration = 7;
-        this.dashSpeed = 600;
+        this.dashDuration = 8;
+        this.dashSpeed = 625;
         this.direction = "right"; 
         
         // resize collision 
-        this.body.setSize(28, 42);
-        this.body.setOffset(2, );
+        this.body.setSize(28, 28);
+        this.body.setOffset(3, 35);
     }
     
     update(time, delta) {
@@ -87,7 +86,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         }
 
         console.log(this.direction);
-        // console.log(this.isDashing);
+        console.log(this.isDashing);
         // Gestion du dash
         if (this.clavier.space.isDown && this.dashCooldown <= 0 && this.isDashing == false) {
             this.isDashing = true;

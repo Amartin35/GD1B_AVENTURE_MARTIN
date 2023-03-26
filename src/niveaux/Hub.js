@@ -7,6 +7,10 @@ export default class Hub extends Phaser.Scene{
     super({key : "Hub"}); // mettre le meme nom que le nom de la classe
   }
   
+
+
+
+
   preload() {
     this.load.tilemapTiledJSON('mapHub', 'src/assets/Hub.json');
   }

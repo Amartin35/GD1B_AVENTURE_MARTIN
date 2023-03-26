@@ -43,3 +43,5 @@ var config = {
 // création et lancement du jeu à partir de la configuration config
 var game = new Phaser.Game(config);
 game.scene.start("Spawn_map"); // lancement de la scene selection
+
+
