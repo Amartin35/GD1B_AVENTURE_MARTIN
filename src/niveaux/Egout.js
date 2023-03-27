@@ -7,7 +7,11 @@ export default class Egout extends Phaser.Scene{
       super({key : "Egout"}); // mettre le meme nom que le nom de la classe
     }
     
-
+    init(data){ 
+      this.hpData = data.hp; 
+    this.hasArmeData = data.arme;
+    this.hasDashData = data.dash;
+    }
 
 
     preload() {
@@ -42,6 +46,9 @@ export default class Egout extends Phaser.Scene{
 
       // affichage du sprite du personage
     this.player = new Player(this, 960, 128, 'perso');
+    this.player.hp = this.hpData;
+    this.player.hasArme = this.hasArmeData;
+    this.player.hasDash = this.hasDashData;
     this.physics.world.setBounds(0, 0, 1600, 1600);
 
 
@@ -53,7 +60,11 @@ export default class Egout extends Phaser.Scene{
      sortie_HLayer.setCollisionByExclusion(-1, true); 
      this.physics.add.collider(this.player, sortie_HLayer, () => {
        this.player.resetDash()
-       this.scene.switch("Hub");
+       this.scene.switch("Hub",{
+        hp: this.player.hp,
+        arme: this.player.hasArme,
+        dash: this.player.hasDash,
+      });
      });
 
      

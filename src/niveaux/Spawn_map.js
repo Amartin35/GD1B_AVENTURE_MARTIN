@@ -7,7 +7,13 @@ export default class Spawn_map extends Phaser.Scene{
     super({key : "Spawn_map"}); // mettre le meme nom que le nom de la classe
   }
   
-
+  init(data){ 
+    
+    this.hpData = data.hp; 
+    this.hasArmeData = data.arme;
+    this.hasDashData = data.dash;
+    console.log(data.dash);
+  }
 
  
 
@@ -51,9 +57,12 @@ export default class Spawn_map extends Phaser.Scene{
 
 
 
-    // affichage du sprite du personage       1420, 1340 coordonné du vrais spawn
+    // affichage du sprite du personage
 
-    this.player = new Player(this, 100, 100, 'perso');
+    this.player = new Player(this, 1420, 1340, 'perso');
+    this.player.hp = this.hpData;
+    this.player.hasArme = this.hasArmeData;
+    this.player.hasDash = this.hasDashData;
     this.physics.world.setBounds(0, 0, 1600, 1600);
     
     // ajout des collision  
@@ -64,7 +73,11 @@ export default class Spawn_map extends Phaser.Scene{
     sortieLayer.setCollisionByExclusion(-1, true); 
     this.physics.add.collider(this.player, sortieLayer, () => {
       this.player.resetDash()
-      this.scene.switch("Hub");
+      this.scene.switch("Hub",{
+        hp: this.player.hp,
+        arme: this.player.hasArme,
+        dash: this.player.hasDash,
+      });
     });
   
     // ajout camera

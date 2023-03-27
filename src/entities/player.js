@@ -18,7 +18,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.dashCooldown = 0;
         this.dashCooldownMax = 50;
         this.dashDuration = 8;
-        this.dashSpeed = 625;
+        this.dashSpeed = 550;
         this.direction = "right"; 
         
         // resize collision 
@@ -26,6 +26,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.body.setOffset(3, 35);
     }
     
+  
     update(time, delta) {
 
         var mouvement = new Phaser.Math.Vector2(0, 0);
@@ -85,14 +86,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             }
         }
 
-        console.log(this.direction);
-        console.log(this.isDashing);
+      //  console.log(this.direction);
+       // console.log(this.isDashing);
         // Gestion du dash
-        if (this.clavier.space.isDown && this.dashCooldown <= 0 && this.isDashing == false) {
+        if (this.clavier.space.isDown && this.hasDash && this.dashCooldown <= 0 && this.isDashing == false) {
             this.isDashing = true;
             this.dashTime = 0;
         }
-
+        console.log(this.hasDash);
         // Vérifie si le joueur est en train de dasher
         if (this.isDashing) {
             // Met à jour le temps de dash et détermine s'il est terminé

@@ -8,7 +8,11 @@ export default class Hub extends Phaser.Scene{
   }
   
 
-
+  init(data){ 
+    this.hpData = data.hp; 
+    this.hasArmeData = data.arme;
+    this.hasDashData = data.dash;
+  }
 
 
   preload() {
@@ -45,6 +49,9 @@ export default class Hub extends Phaser.Scene{
 
     // affichage du sprite du personage
     this.player = new Player(this, 336, 1516, 'perso');
+    this.player.hp = this.hpData;
+    this.player.hasArme = this.hasArmeData;
+    this.player.hasDash = this.hasDashData;
     this.physics.world.setBounds(0, 0, 1600, 1600);
 
 
@@ -56,12 +63,20 @@ export default class Hub extends Phaser.Scene{
      sortie_ELayer.setCollisionByExclusion(-1, true); 
      this.physics.add.collider(this.player, sortie_ELayer, () => {
        this.player.resetDash()
-       this.scene.switch("Egout");
+       this.scene.switch("Egout",{
+        hp: this.player.hp,
+        arme: this.player.hasArme,
+        dash: this.player.hasDash,
+      });
      });
      sortie_QLayer.setCollisionByExclusion(-1, true); 
      this.physics.add.collider(this.player, sortie_QLayer, () => {
        this.player.resetDash()
-       this.scene.switch("Spawn_map");
+       this.scene.switch("Spawn_map",{
+        hp: this.player.hp,
+        arme: this.player.hasArme,
+        dash: this.player.hasDash,
+      });
      });
 
     // ajout camera
