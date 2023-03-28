@@ -12,7 +12,10 @@ export default class Spawn_map extends Phaser.Scene{
     this.hpData = data.hp; 
     this.hasArmeData = data.arme;
     this.hasDashData = data.dash;
+    this.moneyData = data.money;
+    this.dropBossData = data.dropBoss;
     console.log(data.dash);
+    console.log(data.dropBoss);
   }
 
  
@@ -63,6 +66,8 @@ export default class Spawn_map extends Phaser.Scene{
     this.player.hp = this.hpData;
     this.player.hasArme = this.hasArmeData;
     this.player.hasDash = this.hasDashData;
+    this.player.money = this.moneyData;
+    this.player.hasDropBoss = this.dropBossData;
     this.physics.world.setBounds(0, 0, 1600, 1600);
     
     // ajout des collision  
@@ -77,6 +82,8 @@ export default class Spawn_map extends Phaser.Scene{
         hp: this.player.hp,
         arme: this.player.hasArme,
         dash: this.player.hasDash,
+        money: this.player.money,
+        dropBoss: this.player.dropBoss
       });
     });
   
@@ -94,6 +101,7 @@ export default class Spawn_map extends Phaser.Scene{
   
   update()  {
     this.player.update();
+    
   }
 }
 

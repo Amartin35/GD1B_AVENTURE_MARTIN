@@ -24,9 +24,39 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         // resize collision 
         this.body.setSize(28, 28);
         this.body.setOffset(3, 35);
+
+        // declaration variable pour le controleur
+        this.gamepadConnected = false;
+        this.gamepad;
+        this.gamepadButtons; 
+
+
+
+
+         // prise en charge d'un controleur
+         this.input.gamepad.on('connected', () => {
+            gamepad = this.input.gamepad.pad1;
+            console.log("Controller connected!");
+            
+            gamepadButtons = {
+                'left': gamepad.buttons[14],
+                'right': gamepad.buttons[15],
+                'jump': gamepad.buttons[0],
+                'pause': gamepad.buttons[9]
+            };
+            
+            gamepadConnected = true;
+        });
+        
+        this.input.gamepad.on('disconnected', () => {
+            console.log("Controller disconnected!");
+            gamepadConnected = false;
+        });
     }
     
-  
+
+
+
     update(time, delta) {
 
         var mouvement = new Phaser.Math.Vector2(0, 0);
@@ -86,8 +116,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             }
         }
 
-      //  console.log(this.direction);
-       // console.log(this.isDashing);
+        //  console.log(this.direction);
+        // console.log(this.isDashing);
         // Gestion du dash
         if (this.clavier.space.isDown && this.hasDash && this.dashCooldown <= 0 && this.isDashing == false) {
             this.isDashing = true;
