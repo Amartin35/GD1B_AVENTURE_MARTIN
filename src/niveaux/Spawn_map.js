@@ -14,8 +14,12 @@ export default class Spawn_map extends Phaser.Scene{
     this.hasDashData = data.dash;
     this.moneyData = data.money;
     this.dropBossData = data.dropBoss;
-    console.log(data.dash);
-    console.log(data.dropBoss);
+
+    console.log(data.hp, "hp");
+    console.log(data.arme ? "a  arme" :"n'a pas l'arme");
+    console.log(data.dash ? "a  dash" :"n'a pas le dash");
+    console.log(data.money, "money");
+    console.log(data.dropBoss ? "a  le drop du boss" :"n'a pas le drop du boss");
   }
 
  
@@ -25,10 +29,13 @@ export default class Spawn_map extends Phaser.Scene{
     this.load.image('TileSet', 'src/assets/Assets_zelda.png');    
     this.load.tilemapTiledJSON('map', 'src/assets/spawn_map.json');
     this.load.spritesheet('perso', 'src/assets/PlayerSpriteSheet.png',{frameWidth: 34, frameHeight: 66});
+    this.load.image("bullet", "src/assets/balle.png");  
   }
   
   create()  {
     
+
+
     // creation de ma carte
     const map = this.add.tilemap("map");
     const tileset = map.addTilesetImage("Assets_zelda", "TileSet");
@@ -59,6 +66,8 @@ export default class Spawn_map extends Phaser.Scene{
 
 
 
+    const attackAnimation;
+    attackAnimation = this.physics.add.group();
 
     // affichage du sprite du personage
 

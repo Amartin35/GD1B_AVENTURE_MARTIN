@@ -15,7 +15,7 @@ export default class Menu extends Phaser.Scene{
     create(){
         this.add.image(288, 512, "ecranTitre");
 
-        this.add.text(100, 250, "Appuyer sur Space pour commencé"), {
+        this.add.text(100, 250, "Appuyer sur Space pour commencer"), {
             fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
             fontSize: "40pt"
         }

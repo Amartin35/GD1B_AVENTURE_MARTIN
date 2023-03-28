@@ -1,7 +1,15 @@
 export default class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, texture) {
         super(scene, x, y, texture); 
-        this.clavier = scene.input.keyboard.createCursorKeys();
+        this.clavier = scene.input.keyboard.addKeys({
+            left: Phaser.Input.Keyboard.KeyCodes.LEFT,
+            right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
+            up: Phaser.Input.Keyboard.KeyCodes.UP,
+            down: Phaser.Input.Keyboard.KeyCodes.DOWN,
+            
+            space: Phaser.Input.Keyboard.KeyCodes.SPACE,
+            attack: Phaser.Input.Keyboard.KeyCodes.V,
+        });
         this.pad; // récupère la manette
         
         scene.physics.world.enable(this);
@@ -21,6 +29,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.dashDuration = 8;
         this.dashSpeed = 550;
         this.direction = "right"; 
+        
+        //Propriété de l'attaque
+        this.attackTime = 0;
+        this.isAttacking = false;
+        this.attackCooldown = 0;
+        this.attackCooldownMax = 20;
+        this.attackDuration = 1;
         
         // resize collision 
         this.body.setSize(28, 28);
@@ -107,12 +122,45 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             }
         }
         
+        
+        // Condition de frappe avec une arme RAJOUTER LA CONDITION THIS.HASARME
+        if ((this.clavier.attack.isDown || this.pad?.B.isDown)&& this.attackCooldown <= 0) {
+            console.log("Frapper avec une arme");
+            this.isAttacking = true;
+            this.attackTime = 0;
+        }
+
+
+        // Vérifie si le joueur est en train d'attaquer
+        if(this.isAttacking) {
+            this.attack();
+         
+
+
+            this.attackTime += 1;
+            if (this.attackTime >= this.attackDuration) {
+            this.resetAttack(); 
+            }
+        }
+
+            
+        // Vérifie si l'attaque est prête à être utilisée à nouveau
+        if (this.attackCooldown > 0) {
+            this.attackCooldown--;
+        }
+
+
+        
+        
+       
+        
+        
         // Gestion du dash
         if ((this.clavier.space.isDown || this.pad?.A) && this.hasDash && this.dashCooldown <= 0 && this.isDashing == false) {
             this.isDashing = true;
             this.dashTime = 0;
         }
-        console.log(this.hasDash);
+        
         // Vérifie si le joueur est en train de dasher
         if (this.isDashing) {
             // Met à jour le temps de dash et détermine s'il est terminé
@@ -131,18 +179,35 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         
         // Vérifie si le dash est prêt à être utilisé à nouveau
         if (this.dashCooldown > 0) {
-            this.dashCooldown -= 1;
+            this.dashCooldown--;
         }
         
         
         this.x = Math.round(this.x);
         this.y = Math.round(this.y);
+        
+        
+        
     }
+
+    attack() {
+        // mesasge d'alerte affichant les attributs de player
+        alert("joueur en position"+this.x + ","+this.y + ", direction du tir: "
+        + this.direction) ; 
+    } 
     
     resetDash(){
         this.isDashing = false;
         this.dashTime = 0;
         this.dashCooldown = this.dashCooldownMax;
+    }
+    
+    
+    
+    resetAttack(){
+        this.isAttacking = false;
+        this.attackTime = 0;
+        this.attackCooldown = this.attackCooldownMax;
     }
     
     

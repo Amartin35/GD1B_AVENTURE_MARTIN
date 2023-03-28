@@ -9,12 +9,16 @@ export default class Egout extends Phaser.Scene{
     
     init(data){ 
       this.hpData = data.hp; 
-    this.hasArmeData = data.arme;
-    this.hasDashData = data.dash;
-    this.moneyData = data.money;
-    this.dropBossData = data.dropBoss;
-    console.log(data.dash);
-    console.log(data.dropBoss);
+      this.hasArmeData = data.arme;
+      this.hasDashData = data.dash;
+      this.moneyData = data.money;
+      this.dropBossData = data.dropBoss;
+  
+      console.log(data.hp, "hp");
+      console.log(data.arme ? "a  arme" :"n'a pas l'arme");
+      console.log(data.dash ? "a  dash" :"n'a pas le dash");
+      console.log(data.money, "money");
+      console.log(data.dropBoss ? "a  le drop du boss" :"n'a pas le drop du boss");
     }
 
 
