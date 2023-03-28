@@ -33,6 +33,9 @@ var config = {
       debug: true // permet de voir les hitbox et les vecteurs d'acceleration quand mis à true
     }
   },
+  input: {
+    gamepad: true // Activer le support des manettes
+  },
   fps: {
     target: 55,
     forceSetTimeOut: true
