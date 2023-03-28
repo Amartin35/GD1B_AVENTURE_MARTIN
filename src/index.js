@@ -31,7 +31,10 @@ var config = {
     arcade: {
       // parametres du mode arcade
       debug: true // permet de voir les hitbox et les vecteurs d'acceleration quand mis à true
-    }
+    },
+    input: {
+      gamepad: true
+    },
   },
   input: {
     gamepad: true // Activer le support des manettes

@@ -27,10 +27,12 @@ export default class Menu extends Phaser.Scene{
         //LANCE PREMIERE SCENE QUAND ESPACE APPUYE
         if (Phaser.Input.Keyboard.JustDown(this.clavier.space) == true){
             this.scene.start("Spawn_map",{
-                hp:10,
+                hp: 10,
                 arme: false,
                 dash: false,
-                // ADD COLLECTIBLE  ET DROP DU BOSS
+                money: 0,
+                dropBoss: false,
+
             });
           } 
     }
