@@ -34,9 +34,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.attackTime = 0;
         this.isAttacking = false;
         this.attackCooldown = 0;
-        this.attackCooldownMax = 20;
+        this.attackCooldownMax = 30;
         this.attackDuration = 1;
-        
+
+    
+
+
         // resize collision 
         this.body.setSize(28, 28);
         this.body.setOffset(3, 35);
@@ -191,10 +194,35 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     attack() {
-        // mesasge d'alerte affichant les attributs de player
-        alert("joueur en position"+this.x + ","+this.y + ", direction du tir: "
-        + this.direction) ; 
-    } 
+        let x_offset = 0;
+        let y_offset = 0;
+        const diagonalAngle = 45 * Math.PI / 180; // convertir 45 degrés en radians pour la fonction Math.cos et Math.sin
+    
+        if (this.direction === "left") {
+            x_offset = -45;
+        } else if (this.direction === "right") {
+            x_offset = 45;
+        } else if (this.direction === "up") {
+            y_offset = -45;
+        } else if (this.direction === "down") {
+            y_offset = 45;
+        }
+    
+        if (x_offset !== 0 && y_offset !== 0) {
+            // Si la balle est dans une direction diagonale, ajuster l'offset pour inverser la direction diagonale sur l'axe x
+            const angle = Math.atan2(y_offset, x_offset);
+            const distance = Math.sqrt(x_offset ** 2 + y_offset ** 2);
+            x_offset = Math.cos(angle + diagonalAngle) * distance;
+            y_offset = Math.sin(angle + diagonalAngle) * distance;
+        }
+    
+        const bullet = this.scene.physics.add.sprite(this.x + x_offset, this.y + y_offset, 'bullet', 0).setSize(50, 50 );
+        setTimeout(() => { bullet.destroy(); }, 20);
+
+    }
+    
+    
+    
     
     resetDash(){
         this.isDashing = false;

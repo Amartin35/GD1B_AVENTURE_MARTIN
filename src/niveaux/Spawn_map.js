@@ -1,4 +1,7 @@
 import Player from "../entities/player.js";
+import Enemy from "../entities/enemy.js";
+
+
 
 // définition de la classe "selection"
 export default class Spawn_map extends Phaser.Scene{ 
@@ -30,6 +33,7 @@ export default class Spawn_map extends Phaser.Scene{
     this.load.tilemapTiledJSON('map', 'src/assets/spawn_map.json');
     this.load.spritesheet('perso', 'src/assets/PlayerSpriteSheet.png',{frameWidth: 34, frameHeight: 66});
     this.load.image("bullet", "src/assets/balle.png");  
+    this.load.image('enemy', 'src/assets/zombie_characters.png');
   }
   
   create()  {
@@ -63,11 +67,8 @@ export default class Spawn_map extends Phaser.Scene{
 
 
 
-
-
-
-    const attackAnimation;
-    attackAnimation = this.physics.add.group();
+      
+    this.enemy = new Enemy(this, 1400, 1400);
 
     // affichage du sprite du personage
 
@@ -80,6 +81,7 @@ export default class Spawn_map extends Phaser.Scene{
     this.physics.world.setBounds(0, 0, 1600, 1600);
     
     // ajout des collision  
+    this.physics.add.collider(this.player, this.enemy);
     collisionLayer.setCollisionByExclusion(-1, true); 
     this.physics.add.collider(this.player, collisionLayer);
     propsLayer.setCollisionByExclusion(-1, true); 
