@@ -1,5 +1,5 @@
 import Player from "../entities/player.js";
-import Enemy from "../entities/enemy.js";
+import { Zombie1 } from "../entities/enemy.js";
 
 
 
@@ -32,8 +32,8 @@ export default class Spawn_map extends Phaser.Scene{
     this.load.image('TileSet', 'src/assets/Assets_zelda.png');    
     this.load.tilemapTiledJSON('map', 'src/assets/spawn_map.json');
     this.load.spritesheet('perso', 'src/assets/PlayerSpriteSheet.png',{frameWidth: 34, frameHeight: 66});
-    this.load.image("bullet", "src/assets/balle.png");  
-    this.load.image('enemy', 'src/assets/zombie_characters.png');
+    this.load.image("bullet", "src/assets/SpriteAttack.png");  
+    this.load.spritesheet('zombie1', 'src/assets/zombie_characters1.png',{frameWidth: 34, frameHeight: 66});
   }
   
   create()  {
@@ -65,10 +65,24 @@ export default class Spawn_map extends Phaser.Scene{
       tileset
     );
 
+    this.enemies = this.physics.add.group();
 
+    let positions = [
+      { x: 1400, y: 1400 },
+      { x: 1111, y: 1111 },
+    
+    ];
+    
+    for (let i = 0; i < 2; i++) {
+      let x = positions[i].x;
+      let y = positions[i].y;
+      let zombie1 = new Zombie1(this, x, y, 'zombie1');
+      this.enemies.add(zombie1);
+      zombie1.body.setImmovable(true);
+    }
+    
 
       
-    this.enemy = new Enemy(this, 1400, 1400);
 
     // affichage du sprite du personage
 
@@ -81,7 +95,7 @@ export default class Spawn_map extends Phaser.Scene{
     this.physics.world.setBounds(0, 0, 1600, 1600);
     
     // ajout des collision  
-    this.physics.add.collider(this.player, this.enemy);
+    this.physics.add.collider(this.player, this.enemies);
     collisionLayer.setCollisionByExclusion(-1, true); 
     this.physics.add.collider(this.player, collisionLayer);
     propsLayer.setCollisionByExclusion(-1, true); 
@@ -104,6 +118,7 @@ export default class Spawn_map extends Phaser.Scene{
     this.cameras.main.setBackgroundColor(0xaaaaaa)
     // ancrage de la camera sur le joueur
     this.cameras.main.startFollow(this.player);  
+  
 
 
 
@@ -112,6 +127,9 @@ export default class Spawn_map extends Phaser.Scene{
   
   update()  {
     this.player.update();
+    this.enemies.children.each((zombie) => {
+      zombie.update();
+    });
     
   }
 }

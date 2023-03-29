@@ -1,15 +1,44 @@
-export default class Enemy extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y) {
-        super(scene, x, y, 'enemy');
-        this.scene = scene;
-        this.scene.add.existing(this);
-        this.scene.physics.world.enable(this);
-        this.body.setCollideWorldBounds(true);
-        this.body.immovable = true;
-
-      }
+export class Zombie1 extends Phaser.GameObjects.Sprite {
+  constructor(scene, x, y) {
+    super(scene, x, y, 'zombie1');
+    this.scene = scene;
+    this.scene.add.existing(this);
+    this.scene.physics.world.enable(this);
+    this.body.setCollideWorldBounds(true);
+    this.body.setSize(32, 44);
+    this.body.setOffset(0, 21);
+    
+    
+    
+    
+  }
   
-    update() {
-      // ajoutez ici le code pour mettre à jour le comportement de l'ennemi
+  
+  update() {
+    const player = this.scene.player;
+    
+    // Calcule la direction vers le joueur
+    let vecteurDeplacement = new Phaser.Math.Vector2(0, 0);
+    vecteurDeplacement.setTo(
+      player.x - this.x, 
+      player.y - this.y
+    );
+
+    if(vecteurDeplacement.length() < ZOMBIE_RANGE){
+      vecteurDeplacement.normalize();
+    
+      // Déplace le zombie vers le joueur
+      this.body.setVelocity(
+        vecteurDeplacement.x * ZOMBIE_SPEED,
+        vecteurDeplacement.y * ZOMBIE_SPEED
+      );
+    }
+    else {
+      this.body.setVelocity(0, 0);
     }
   }
+}
+
+
+
+

@@ -41,8 +41,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
 
         // resize collision 
-        this.body.setSize(28, 28);
-        this.body.setOffset(3, 35);
+        this.body.setSize(20, 20);
+        this.body.setOffset(7, 43);
         
         // setup the controller connected/disconnected event
         this.scene.input.gamepad.on('connected', () => {
@@ -196,30 +196,59 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     attack() {
         let x_offset = 0;
         let y_offset = 0;
-        const diagonalAngle = 45 * Math.PI / 180; // convertir 45 degrés en radians pour la fonction Math.cos et Math.sin
-    
+        let angle = 0; // Ajouter une variable pour stocker l'angle
+        
         if (this.direction === "left") {
             x_offset = -45;
+            angle = 180; // Définir l'angle pour "left"
         } else if (this.direction === "right") {
             x_offset = 45;
+            angle = 0; // Définir l'angle pour "right"
         } else if (this.direction === "up") {
             y_offset = -45;
+            // Inverser les arguments de setSize pour "up"
+            const bullet = this.scene.physics.add.sprite(this.x + x_offset, this.y + y_offset, 'bullet', 0).setSize(96, 64 );
+            bullet.setAngle(-90); // Définir l'angle pour "up"
+            setTimeout(() => { bullet.destroy(); }, 80);
+                        // détecter la collision avec l'ennemi
+            this.scene.physics.add.overlap(bullet, this.scene.enemies, (bullet, enemy) => {
+                // appel de la méthode de dégâts sur l'ennemi
+                enemy.destroy();
+                // détruire le projectile
+                bullet.destroy();
+            });
+            return;
         } else if (this.direction === "down") {
             y_offset = 45;
+            // Inverser les arguments de setSize pour "down"
+            const bullet = this.scene.physics.add.sprite(this.x + x_offset, this.y + y_offset, 'bullet', 0).setSize(96, 64 );
+            bullet.setAngle(90); // Définir l'angle pour "down"
+            setTimeout(() => { bullet.destroy(); }, 80);
+            // détecter la collision avec l'ennemi
+            this.scene.physics.add.overlap(bullet, this.scene.enemies, (bullet, enemy) => {
+                // appel de la méthode de dégâts sur l'ennemi
+                enemy.destroy();
+                // détruire le projectile
+                bullet.destroy();
+            });
+            return;
         }
     
-        if (x_offset !== 0 && y_offset !== 0) {
-            // Si la balle est dans une direction diagonale, ajuster l'offset pour inverser la direction diagonale sur l'axe x
-            const angle = Math.atan2(y_offset, x_offset);
-            const distance = Math.sqrt(x_offset ** 2 + y_offset ** 2);
-            x_offset = Math.cos(angle + diagonalAngle) * distance;
-            y_offset = Math.sin(angle + diagonalAngle) * distance;
-        }
-    
-        const bullet = this.scene.physics.add.sprite(this.x + x_offset, this.y + y_offset, 'bullet', 0).setSize(50, 50 );
-        setTimeout(() => { bullet.destroy(); }, 20);
+        const bullet = this.scene.physics.add.sprite(this.x + x_offset, this.y + y_offset, 'bullet', 0).setSize(64, 96 );
+        bullet.setAngle(angle); // Définir l'angle pour "left" ou "right"
+        setTimeout(() => { bullet.destroy(); }, 80);
 
-    }
+        // détecter la collision avec l'ennemi
+        this.scene.physics.add.overlap(bullet, this.scene.enemies, (bullet, enemy) => {
+            // appel de la méthode de dégâts sur l'ennemi
+            enemy.destroy();
+            // détruire le projectile
+            bullet.destroy();
+        });
+
+    }    
+    
+    
     
     
     
@@ -245,26 +274,26 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.scene.anims.create({
             key: 'IdleDown',
             frames: this.scene.anims.generateFrameNumbers('perso', {start:0, end:3}),
-            frameRate: 4,
+            frameRate: 8,
             repeat: -1
         });
         this.scene.anims.create({
             key: 'IdleUp',
             frames: this.scene.anims.generateFrameNumbers('perso', {start:4, end:7}),
-            frameRate: 4,
+            frameRate: 8,
             repeat: -1
         });
         
         this.scene.anims.create({
             key: 'MoveDown',
             frames: this.scene.anims.generateFrameNumbers('perso', {start:8, end:11}),
-            frameRate: 4,
+            frameRate: 8,
             repeat: -1
         });
         this.scene.anims.create({
             key: 'MoveUp',
             frames: this.scene.anims.generateFrameNumbers('perso', {start:12, end:15}),
-            frameRate: 4,
+            frameRate: 8,
             repeat: -1
         });
     }

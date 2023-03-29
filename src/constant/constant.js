@@ -1,4 +1,7 @@
-const PLAYER_SPEED = 160
+const PLAYER_SPEED = 180
 const GAME_HEIGHT = 288
 const GAME_WIDTH = 512
+const ZOMBIE_SPEED = 50
+
+const ZOMBIE_RANGE = 225;
 
