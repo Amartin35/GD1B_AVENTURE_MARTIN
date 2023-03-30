@@ -27,7 +27,7 @@ export default class Menu extends Phaser.Scene{
         //LANCE PREMIERE SCENE QUAND ESPACE APPUYE
         if (Phaser.Input.Keyboard.JustDown(this.clavier.space) == true){
             this.scene.start("Spawn_map",{
-                hp: 10,
+                hp: 5,
                 arme: false,
                 dash: false,
                 money: 0,

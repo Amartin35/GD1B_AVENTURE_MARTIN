@@ -1,3 +1,4 @@
+
 export default class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, texture) {
         super(scene, x, y, texture); 
@@ -10,6 +11,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             space: Phaser.Input.Keyboard.KeyCodes.SPACE,
             attack: Phaser.Input.Keyboard.KeyCodes.V,
         });
+
+
         this.pad; // récupère la manette
         
         scene.physics.world.enable(this);

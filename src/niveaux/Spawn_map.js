@@ -1,6 +1,6 @@
 import Player from "../entities/player.js";
 import { Zombie1 } from "../entities/enemy.js";
-
+import UI from "../ui/ui.js";
 
 
 // définition de la classe "selection"
@@ -29,15 +29,18 @@ export default class Spawn_map extends Phaser.Scene{
 
 
   preload() {
+    this.load.spritesheet("UIHP5", "src/assets/UIHP5.png", {frameWidth: 100, frameHeight: 40}); 
     this.load.image('TileSet', 'src/assets/Assets_zelda.png');    
     this.load.tilemapTiledJSON('map', 'src/assets/spawn_map.json');
     this.load.spritesheet('perso', 'src/assets/PlayerSpriteSheet.png',{frameWidth: 34, frameHeight: 66});
     this.load.image("bullet", "src/assets/SpriteAttack.png");  
     this.load.spritesheet('zombie1', 'src/assets/zombie_characters1.png',{frameWidth: 34, frameHeight: 66});
+    this.load.spritesheet('zombie2', 'src/assets/zombie_characters2.png',{frameWidth: 34, frameHeight: 66});
+    
   }
   
   create()  {
-    
+
 
 
     // creation de ma carte
@@ -65,24 +68,35 @@ export default class Spawn_map extends Phaser.Scene{
       tileset
     );
 
+
+    // Ajout des ennemis
     this.enemies = this.physics.add.group();
 
     let positions = [
-      { x: 1400, y: 1400 },
-      { x: 1111, y: 1111 },
-    
+      { x: 960, y: 1472 },
+      { x: 1024, y: 1472 },
+      { x: 960, y: 1536 },
+      { x: 1056, y: 1536 },
+      { x: 1216, y: 1568 },
+      { x: 1536, y: 1536 },
+      { x: 1536, y: 1312 },
+      { x: 1376, y: 768 },
+      { x: 960, y: 1152 },
+      { x: 416, y: 1024 },
+      { x: 896, y: 672 },
+      { x: 224, y: 128 },
     ];
     
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 12; i++) {
       let x = positions[i].x;
       let y = positions[i].y;
-      let zombie1 = new Zombie1(this, x, y, 'zombie1');
-      this.enemies.add(zombie1);
-      zombie1.body.setImmovable(true);
-    }
-    
-
       
+      let zombie = new Zombie1(this, x, y);
+      this.enemies.add(zombie);
+      zombie.body.setImmovable(true);
+    
+    }
+
 
     // affichage du sprite du personage
 
@@ -95,11 +109,14 @@ export default class Spawn_map extends Phaser.Scene{
     this.physics.world.setBounds(0, 0, 1600, 1600);
     
     // ajout des collision  
-    this.physics.add.collider(this.player, this.enemies);
+    
+    this.physics.add.overlap(this.player, this.enemies);
     collisionLayer.setCollisionByExclusion(-1, true); 
     this.physics.add.collider(this.player, collisionLayer);
+    this.physics.add.collider(this.enemies, collisionLayer);
     propsLayer.setCollisionByExclusion(-1, true); 
     this.physics.add.collider(this.player, propsLayer);
+    this.physics.add.collider(this.enemies, propsLayer);
     sortieLayer.setCollisionByExclusion(-1, true); 
     this.physics.add.collider(this.player, sortieLayer, () => {
       this.player.resetDash()
@@ -111,16 +128,29 @@ export default class Spawn_map extends Phaser.Scene{
         dropBoss: this.player.dropBoss
       });
     });
+
+
+    // Ajouter la scène UI en tant que scène imbriquée
+    this.scene.add('UI', UI, true, { hp: this.player.hpData });
+ 
+    this.scene.get('UI').scene.start('UI', { hp: this.player.hpData });
+
+
+
   
-    // ajout camera
+
+    // Ajout de la caméra
     this.cameras.main.setBounds(0, 0, 1600, 1600);
     this.cameras.main.startFollow(this.player);
-    this.cameras.main.setBackgroundColor(0xaaaaaa)
-    // ancrage de la camera sur le joueur
-    this.cameras.main.startFollow(this.player);  
+    this.cameras.main.setBackgroundColor(0xaaaaaa);
+
+
+
   
 
 
+
+    console.log(this.children);
 
 
   }

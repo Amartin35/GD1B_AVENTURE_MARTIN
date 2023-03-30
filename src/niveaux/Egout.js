@@ -1,3 +1,4 @@
+import { Zombie1 } from "../entities/enemy.js";
 import Player from "../entities/player.js";
 
 // définition de la classe "selection"
@@ -52,6 +53,43 @@ export default class Egout extends Phaser.Scene{
         tileset
       );
 
+    // Ajout des ennemis
+    this.enemies = this.physics.add.group();
+
+    let positions = [
+      { x: 1504, y: 1280 },
+      { x: 1216, y: 1472 },
+      { x: 1056, y: 1152 },
+      { x: 1024, y: 1248 },
+      { x: 800, y: 1472 },
+      { x: 672, y: 1216 },
+      { x: 416, y: 1440 },
+      { x: 192, y: 1408 },
+      { x: 64, y: 1472 },
+      { x: 128, y: 960 },
+      { x: 320, y: 1024 },
+      { x: 608, y: 928 },
+      { x: 832, y: 640 },
+      { x: 64, y: 480 },
+      { x: 256, y: 480 },
+    ];
+    
+    for (let i = 0; i < 15; i++) {
+      let x = positions[i].x;
+      let y = positions[i].y;
+      
+      let zombie = new Zombie1(this, x, y);
+      this.enemies.add(zombie);
+      zombie.body.setImmovable(true);
+    
+    }
+
+
+
+
+
+
+
       // affichage du sprite du personage
     this.player = new Player(this, 960, 128, 'perso');
     this.player.hp = this.hpData;
@@ -63,8 +101,12 @@ export default class Egout extends Phaser.Scene{
 
 
      // ajout des collision  
+     this.physics.add.overlap(this.player, this.enemies);
      collisionLayer.setCollisionByExclusion(-1, true); 
+     this.physics.add.collider(this.enemies, collisionLayer);
      this.physics.add.collider(this.player, collisionLayer);
+     this.physics.add.collider(this.enemies, eauLayer);
+     eauLayer.setCollisionByExclusion(-1, true); 
      porteLayer.setCollisionByExclusion(-1, true); 
      this.physics.add.collider(this.player, porteLayer);
      sortie_HLayer.setCollisionByExclusion(-1, true); 
@@ -92,6 +134,9 @@ export default class Egout extends Phaser.Scene{
     
     update() {
       this.player.update();
+      this.enemies.children.each((zombie) => {
+        zombie.update();
+      });
     
     }
 }
