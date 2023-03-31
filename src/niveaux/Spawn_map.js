@@ -1,6 +1,5 @@
 import Player from "../entities/player.js";
 import { Zombie1 } from "../entities/enemy.js";
-import UI from "../ui/ui.js";
 
 
 // définition de la classe "selection"
@@ -41,6 +40,8 @@ export default class Spawn_map extends Phaser.Scene{
   
   create()  {
 
+
+    
 
 
     // creation de ma carte
@@ -97,6 +98,7 @@ export default class Spawn_map extends Phaser.Scene{
     
     }
 
+  
 
     // affichage du sprite du personage
 
@@ -130,10 +132,7 @@ export default class Spawn_map extends Phaser.Scene{
     });
 
 
-    // Ajouter la scène UI en tant que scène imbriquée
-    this.scene.add('UI', UI, true, { hp: this.player.hpData });
- 
-    this.scene.get('UI').scene.start('UI', { hp: this.player.hpData });
+
 
 
 
@@ -146,11 +145,7 @@ export default class Spawn_map extends Phaser.Scene{
 
 
 
-  
 
-
-
-    console.log(this.children);
 
 
   }
@@ -160,7 +155,16 @@ export default class Spawn_map extends Phaser.Scene{
     this.enemies.children.each((zombie) => {
       zombie.update();
     });
-    
+
+    this.enemies.children.each((zombie) => {
+      zombie.overlap();
+      
+
+     
+      
+
+    });
+
   }
 }
 

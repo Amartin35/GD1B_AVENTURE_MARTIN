@@ -11,6 +11,21 @@ export class Zombie1 extends Phaser.GameObjects.Sprite {
     this.setRandomSkin();
   }
 
+  init(data){ 
+    
+    this.hpData = data.hp; 
+    this.hasArmeData = data.arme;
+    this.hasDashData = data.dash;
+    this.moneyData = data.money;
+    this.dropBossData = data.dropBoss;
+
+    console.log(player.hp, "hp");
+    console.log(data.arme ? "a  arme" :"n'a pas l'arme");
+    console.log(data.dash ? "a  dash" :"n'a pas le dash");
+    console.log(data.money, "money");
+    console.log(data.dropBoss ? "a  le drop du boss" :"n'a pas le drop du boss");
+  }
+
   // Rajoute un skin aléatoire entre 2
   setRandomSkin() {
     let randomSkin = Math.random();
@@ -21,21 +36,46 @@ export class Zombie1 extends Phaser.GameObjects.Sprite {
     }
   }
 
-  // Gère la détection des collisions entre les zombies
-  overlap(enemies) {
-    this.scene.physics.overlap(this, enemies, (zombie, enemy) => {
-      // Détermine la direction dans laquelle le zombie doit se déplacer pour éviter la collision avec l'autre zombie
-      let vecteurDeplacement = new Phaser.Math.Vector2(0, 0);
-      vecteurDeplacement.setTo(zombie.x - enemy.x, zombie.y - enemy.y);
-      vecteurDeplacement.normalize();
 
-      // Déplace le zombie dans la direction opposée à l'autre zombie
-      zombie.body.setVelocity(
-        vecteurDeplacement.x * ZOMBIE_SPEED,
-        vecteurDeplacement.y * ZOMBIE_SPEED
-      );
+
+  overlap(player) {
+    this.scene.physics.overlap(this, player, () => {
+      if (!player.isInvincible) { // Vérifie si le joueur est invincible
+        // Teinte le joueur en rouge
+        player.setTint(0xff0000);
+        
+        setTimeout(() => {
+          player.clearTint();
+        }, 300);
+  
+        // Inflige des dégâts au joueur
+        player.hp -= 1;
+  
+        player.isInvincible = true; // Rend le joueur invincible
+        setTimeout(() => {
+          player.isInvincible = false; // Rend le joueur vulnérable après 1 seconde
+        }, 300);
+        
+        console.log(player.hp, "hp");
+        
+        // Vérifie si le joueur est mort
+        if (player.hp == 0) {
+          
+          this.scene.cameras.main.fadeOut(3000); // Fondu de la caméra
+          setTimeout(() => {
+            
+            this.scene.add.text(200, 200, "Vous êtes mort !", { font: "32px Arial", fill: "#FFFFFF" }).setScrollFactor(0); // Affichage du texte à la caméra
+            setTimeout(() => {
+              location.reload(); // Recharge la page
+            }, 3333); // Attends 3.33 secondes avant de recharger la page
+          }, 150); // Attends 1 seconde avant d'afficher le texte
+        }
+      }
     });
   }
+  
+  
+  
 
   update() {
     const player = this.scene.player;
@@ -53,8 +93,8 @@ export class Zombie1 extends Phaser.GameObjects.Sprite {
         vecteurDeplacement.y * ZOMBIE_SPEED
       );
 
-      // Détection des collisions entre les zombies
-      this.overlap(this.scene.enemies);
+      // Détection des collisions entre les zombies et le joueur
+      this.overlap(player);
     } else {
       this.body.setVelocity(0, 0);
     }

@@ -1,4 +1,5 @@
 
+
 export default class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, texture) {
         super(scene, x, y, texture); 
@@ -11,6 +12,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             space: Phaser.Input.Keyboard.KeyCodes.SPACE,
             attack: Phaser.Input.Keyboard.KeyCodes.V,
         });
+
+
+        
 
 
         this.pad; // récupère la manette
@@ -41,6 +45,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.attackDuration = 1;
 
     
+        this.isInvincible = false; // Ajout de la variable "isInvincible"
 
 
         // resize collision 
@@ -65,6 +70,18 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         
     }
     
+
+
+    init(data){ 
+    
+        this.hpData = data.hp; 
+        this.hasArmeData = data.arme;
+        this.hasDashData = data.dash;
+        this.moneyData = data.money;
+        this.dropBossData = data.dropBoss;
+
+    }    
+
     update(time, delta) {
         
         // Vérifie si le gamepad est connecté
@@ -130,7 +147,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         
         
         // Condition de frappe avec une arme RAJOUTER LA CONDITION THIS.HASARME
-        if ((this.clavier.attack.isDown || this.pad?.B.isDown)&& this.attackCooldown <= 0) {
+        if ((this.clavier.attack.isDown || this.pad?.B)&& this.attackCooldown <= 0) {
             console.log("Frapper avec une arme");
             this.isAttacking = true;
             this.attackTime = 0;
@@ -252,10 +269,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }    
     
     
-    
-    
-    
-    
     resetDash(){
         this.isDashing = false;
         this.dashTime = 0;
@@ -300,5 +313,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             repeat: -1
         });
     }
+
+
+
+
+    
 }
 
