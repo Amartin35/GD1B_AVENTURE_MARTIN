@@ -38,7 +38,7 @@ export class Zombie1 extends Phaser.GameObjects.Sprite {
 
 
 
-  overlap(player) {
+  overlapPlayer(player) {
     this.scene.physics.overlap(this, player, () => {
       if (!player.isInvincible) { // Vérifie si le joueur est invincible
         // Teinte le joueur en rouge
@@ -64,7 +64,7 @@ export class Zombie1 extends Phaser.GameObjects.Sprite {
           this.scene.cameras.main.fadeOut(3000); // Fondu de la caméra
           setTimeout(() => {
             
-            this.scene.add.text(200, 200, "Vous êtes mort !", { font: "32px Arial", fill: "#FFFFFF" }).setScrollFactor(0); // Affichage du texte à la caméra
+            this.scene.add.text(60, 120, "Vous êtes mort !", { font: "54px Arial", fill: "#FFFFFF" }).setScrollFactor(0); // Affichage du texte à la caméra
             setTimeout(() => {
               location.reload(); // Recharge la page
             }, 3333); // Attends 3.33 secondes avant de recharger la page
@@ -74,27 +74,45 @@ export class Zombie1 extends Phaser.GameObjects.Sprite {
     });
   }
   
+  overlapEnemies(enemies) {
+    this.scene.physics.overlap(this, enemies, (zombie, otherZombie) => {
+      // Détermine la direction dans laquelle le zombie doit se déplacer pour éviter la collision avec l'autre zombie
+      let vecteurDeplacement = new Phaser.Math.Vector2(0, 0);
+      vecteurDeplacement.setTo(zombie.x - otherZombie.x, zombie.y - otherZombie.y);
+      vecteurDeplacement.normalize();
+  
+      // Déplace le zombie dans la direction opposée à l'autre zombie
+      zombie.body.setVelocity(
+        vecteurDeplacement.x * ZOMBIE_SPEED,
+        vecteurDeplacement.y * ZOMBIE_SPEED
+      );
+    });
+  }
   
   
 
   update() {
     const player = this.scene.player;
-
+    const enemies = this.scene.enemies.getChildren();
+  
     // Calcule la direction vers le joueur
     let vecteurDeplacement = new Phaser.Math.Vector2(0, 0);
     vecteurDeplacement.setTo(player.x - this.x, player.y - this.y);
-
+  
     if (vecteurDeplacement.length() < ZOMBIE_RANGE) {
       vecteurDeplacement.normalize();
-
+  
       // Déplace le zombie vers le joueur
       this.body.setVelocity(
         vecteurDeplacement.x * ZOMBIE_SPEED,
         vecteurDeplacement.y * ZOMBIE_SPEED
       );
-
-      // Détection des collisions entre les zombies et le joueur
-      this.overlap(player);
+  
+      // Détection des collisions entre le zombie et le joueur
+      this.overlapPlayer(player);
+  
+      // Détection des collisions entre les zombies
+      this.overlapEnemies(enemies);
     } else {
       this.body.setVelocity(0, 0);
     }

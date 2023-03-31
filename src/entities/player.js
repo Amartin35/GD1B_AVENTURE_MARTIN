@@ -1,5 +1,3 @@
-
-
 export default class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, texture) {
         super(scene, x, y, texture); 
@@ -266,6 +264,26 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             bullet.destroy();
         });
 
+
+        if(this.hp == 5){
+            this.anims.play("Hp5",true);
+        }
+
+        if(this.hp == 4){
+            this.anims.play("Hp4",true);
+        }
+
+        if(this.hp == 3){
+            this.anims.play("Hp3",true);
+        }
+
+        if(this.hp == 2){
+            this.anims.play("Hp2",true);
+        }
+
+        if(this.hp == 1){
+            this.anims.play("Hp1",true);
+        }
     }    
     
     
@@ -311,6 +329,32 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             frames: this.scene.anims.generateFrameNumbers('perso', {start:12, end:15}),
             frameRate: 8,
             repeat: -1
+        });
+
+        this.scene.anims.create({
+            key: 'hp5',
+            frames:[{key: 'UIHP5', frame: 0}],
+            frameRate: 20
+        });
+        this.scene.anims.create({
+            key: 'hp4',
+            frames:[{key: 'UIHP5', frame: 1}],
+            frameRate: 20
+        });
+        this.scene.anims.create({
+            key: 'hp3',
+            frames:[{key: 'UIHP5', frame: 2}],
+            frameRate: 20
+        });
+        this.scene.anims.create({
+            key: 'hp2',
+            frames:[{key: 'UIHP5', frame: 3}],
+            frameRate: 20
+        });
+        this.scene.anims.create({
+            key: 'hp1',
+            frames:[{key: 'UIHP5', frame: 4}],
+            frameRate: 20
         });
     }
 

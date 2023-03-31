@@ -127,7 +127,7 @@ export default class Spawn_map extends Phaser.Scene{
         arme: this.player.hasArme,
         dash: this.player.hasDash,
         money: this.player.money,
-        dropBoss: this.player.dropBoss
+        dropBoss: this.player.hasDropBoss
       });
     });
 
@@ -153,17 +153,12 @@ export default class Spawn_map extends Phaser.Scene{
   update()  {
     this.player.update();
     this.enemies.children.each((zombie) => {
+
       zombie.update();
-    });
-
-    this.enemies.children.each((zombie) => {
-      zombie.overlap();
-      
-
-     
-      
 
     });
+
+
 
   }
 }
