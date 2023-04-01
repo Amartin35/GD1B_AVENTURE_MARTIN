@@ -9,17 +9,19 @@ export default class Egout extends Phaser.Scene{
     }
     
     init(data){ 
-      this.hpData = data.hp; 
-      this.hasArmeData = data.arme;
-      this.hasDashData = data.dash;
-      this.moneyData = data.money;
-      this.dropBossData = data.dropBoss;
+    // Récupérez les données passées depuis la scène précédente
+    this.hpData = data.hpData;
+    this.hasArmeData = data.hasArmeData;
+    this.hasDashData = data.hasDashData;
+    this.moneyData = data.moneyData;
+    this.dropBossData = data.dropBossData;
   
-      console.log(data.hp, "hp");
-      console.log(data.arme ? "a  arme" :"n'a pas l'arme");
-      console.log(data.dash ? "a  dash" :"n'a pas le dash");
-      console.log(data.money, "money");
-      console.log(data.dropBoss ? "a  le drop du boss" :"n'a pas le drop du boss");
+
+    console.log(data.hpData, "hp");
+    console.log(data.hasArmeData ? "a  arme" :"n'a pas l'arme");
+    console.log(data.hasDashData ? "a  dash" :"n'a pas le dash");
+    console.log(data.moneyData, "money");
+    console.log(data.dropBossData ? "a  le drop du boss" :"n'a pas le drop du boss");
     }
 
 
@@ -100,29 +102,30 @@ export default class Egout extends Phaser.Scene{
     this.physics.world.setBounds(0, 0, 1600, 1600);
 
 
-     // ajout des collision  
-     this.physics.add.overlap(this.player, this.enemies);
-     collisionLayer.setCollisionByExclusion(-1, true); 
-     this.physics.add.collider(this.enemies, collisionLayer);
-     this.physics.add.collider(this.player, collisionLayer);
-     this.physics.add.collider(this.enemies, eauLayer);
-     eauLayer.setCollisionByExclusion(-1, true); 
-     porteLayer.setCollisionByExclusion(-1, true); 
-     this.physics.add.collider(this.player, porteLayer);
-     sortie_HLayer.setCollisionByExclusion(-1, true); 
-     this.physics.add.collider(this.player, sortie_HLayer, () => {
-       this.player.resetDash()
-       this.scene.switch("Hub",{
+    // ajout des collision  
+    this.physics.add.overlap(this.player, this.enemies);
+    collisionLayer.setCollisionByExclusion(-1, true); 
+    this.physics.add.collider(this.enemies, collisionLayer);
+    this.physics.add.collider(this.player, collisionLayer);
+    this.physics.add.collider(this.enemies, eauLayer);
+    eauLayer.setCollisionByExclusion(-1, true); 
+    porteLayer.setCollisionByExclusion(-1, true); 
+    this.physics.add.collider(this.player, porteLayer);
+    sortie_HLayer.setCollisionByExclusion(-1, true); 
+    this.physics.add.collider(this.player, sortie_HLayer, () => {
+      this.player.resetDash()
+      this.scene.switch("Hub",{
         hp: this.player.hp,
-        arme: this.player.hasArme,
-        dash: this.player.hasDash,
+        hasArme: this.player.hasArme,
+        hasDash: this.player.hasDash,
         money: this.player.money,
-        dropBoss: this.player.dropBoss
-      });
-     });
+        dropBoss: this.player.hasDropBoss
+    });
+    });
 
      
-
+    this.player.healthBar = this.add.sprite(50,20,'healtbar');
+    this.player.healthBar.setScrollFactor(0);
     // ajout camera
     this.cameras.main.setBounds(0, 0, 1600, 1600);
     this.cameras.main.startFollow(this.player);

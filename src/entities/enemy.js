@@ -1,4 +1,4 @@
-import Player from "./player.js";
+
 export class Zombie1 extends Phaser.GameObjects.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, 'zombie1');
@@ -68,9 +68,9 @@ export class Zombie1 extends Phaser.GameObjects.Sprite {
             
             this.scene.add.text(60, 120, "Vous êtes mort !", { font: "54px Arial", fill: "#FFFFFF" }).setScrollFactor(0); // Affichage du texte à la caméra
             setTimeout(() => {
-              location.reload(); // Recharge la page
-            }, 3333); // Attends 3.33 secondes avant de recharger la page
-          }, 150); // Attends 1 seconde avant d'afficher le texte
+              location.reload(); // Recharge la page apres un delai
+            }, 3333); 
+          }, 150); // Attends 150 milisecondes avant d'afficher le texte
         }
       }
     });

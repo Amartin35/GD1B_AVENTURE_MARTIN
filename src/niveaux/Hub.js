@@ -7,29 +7,30 @@ export default class Hub extends Phaser.Scene{
     super({key : "Hub"}); // mettre le meme nom que le nom de la classe
   }
   
-
+  
   init(data){ 
-    this.hpData = data.hp; 
-    this.hasArmeData = data.arme;
-    this.hasDashData = data.dash;
+    // Récupérez les données passées depuis la scène précédente
+    this.hpData = data.hp;
+    this.hasArmeData = data.hasArme;
+    this.hasDashData = data.hasDash;
     this.moneyData = data.money;
     this.dropBossData = data.dropBoss;
 
     console.log(data.hp, "hp");
-    console.log(data.arme ? "a  arme" :"n'a pas l'arme");
-    console.log(data.dash ? "a  dash" :"n'a pas le dash");
+    console.log(data.hasArme ? "a  arme" :"n'a pas l'arme");
+    console.log(data.hasDash ? "a  dash" :"n'a pas le dash");
     console.log(data.money, "money");
     console.log(data.dropBoss ? "a  le drop du boss" :"n'a pas le drop du boss");
   }
-
-
+  
+  
   preload() {
     this.load.tilemapTiledJSON('mapHub', 'src/assets/Hub.json');
   }
-
-  create() {
   
-
+  create() {
+    
+    
     const map = this.add.tilemap("mapHub");
     const tileset = map.addTilesetImage("Assets_zelda", "TileSet");
     
@@ -37,73 +38,79 @@ export default class Hub extends Phaser.Scene{
     const no_collisionLayer = map.createLayer(
       "no_collision",
       tileset
-    );
+      );
     const collisionLayer = map.createLayer(
       "collision",
       tileset
-    );
+      );
     const propsLayer = map.createLayer(
       "props",
       tileset
-    );
+      );
     const sortie_ELayer = map.createLayer(
       "sortie_E",
       tileset
-    );
+      );
     const sortie_QLayer = map.createLayer(
       "sortie_Q",
       tileset
-    );
-
-    // affichage du sprite du personage
-    this.player = new Player(this, 336, 1516, 'perso');
-    this.player.hp = this.hpData;
-    this.player.hasArme = this.hasArmeData;
-    this.player.hasDash = this.hasDashData;
-    this.player.money = this.moneyData;
-    this.player.hasDropBoss = this.dropBossData;
-    this.physics.world.setBounds(0, 0, 1600, 1600);
-
-
-     // ajout des collision  
-     collisionLayer.setCollisionByExclusion(-1, true); 
-     this.physics.add.collider(this.player, collisionLayer);
-     propsLayer.setCollisionByExclusion(-1, true); 
-     this.physics.add.collider(this.player, propsLayer);
-     sortie_ELayer.setCollisionByExclusion(-1, true); 
-     this.physics.add.collider(this.player, sortie_ELayer, () => {
-       this.player.resetDash()
-       this.scene.switch("Egout",{
-        hp: this.player.hp,
-        arme: this.player.hasArme,
-        dash: this.player.hasDash,
-      });
-     });
-     sortie_QLayer.setCollisionByExclusion(-1, true); 
-     this.physics.add.collider(this.player, sortie_QLayer, () => {
-       this.player.resetDash()
-       this.scene.switch("Spawn_map",{
-        hp: this.player.hp,
-        arme: this.player.hasArme,
-        dash: this.player.hasDash,
-        money: this.player.money,
-        dropBoss: this.player.dropBoss
-      });
-     });
-
-    // ajout camera
-    this.cameras.main.setBounds(0, 0, 1600, 1600);
-    this.cameras.main.startFollow(this.player);
-    this.cameras.main.setBackgroundColor(0xaaaaaa)
-    // ancrage de la camera sur le joueur
-    this.cameras.main.startFollow(this.player);  
-  
-
-   
-  }
-  
-  update() {
-    this.player.update();
-
-  }
-}
+      );
+        
+        // affichage du sprite du personage
+        this.player = new Player(this, 336, 1516, 'perso');
+        this.player.hp = this.hpData;
+        this.player.hasArme = this.hasArmeData;
+        this.player.hasDash = this.hasDashData;
+        this.player.money = this.moneyData;
+        this.player.hasDropBoss = this.dropBossData;
+        this.physics.world.setBounds(0, 0, 1600, 1600);
+        
+        
+        // ajout des collision  
+        collisionLayer.setCollisionByExclusion(-1, true); 
+        this.physics.add.collider(this.player, collisionLayer);
+        propsLayer.setCollisionByExclusion(-1, true); 
+        this.physics.add.collider(this.player, propsLayer);
+        sortie_ELayer.setCollisionByExclusion(-1, true); 
+        this.physics.add.collider(this.player, sortie_ELayer, () => {
+          this.player.resetDash()
+          this.scene.switch("Egout",{
+            hp: this.player.hp,
+            hasArme: this.player.hasArme,
+            hasDash: this.player.hasDash,
+            money: this.player.money,
+            dropBoss: this.player.hasDropBoss
+          });
+        });
+        sortie_QLayer.setCollisionByExclusion(-1, true); 
+        this.physics.add.collider(this.player, sortie_QLayer, () => {
+          this.player.resetDash()
+          this.scene.switch("Spawn_map",{
+            hp: this.player.hp,
+            hasArme: this.player.hasArme,
+            hasDash: this.player.hasDash,
+            money: this.player.money,
+            dropBoss: this.player.hasDropBoss
+          });
+        });
+        
+        
+        this.player.healthBar = this.add.sprite(50,20,'healtbar');
+        this.player.healthBar.setScrollFactor(0);
+        // ajout camera
+        this.cameras.main.setBounds(0, 0, 1600, 1600);
+        this.cameras.main.startFollow(this.player);
+        this.cameras.main.setBackgroundColor(0xaaaaaa)
+        // ancrage de la camera sur le joueur
+        this.cameras.main.startFollow(this.player);  
+        
+        
+        
+      }
+      
+      update() {
+        this.player.update();
+        
+      }
+    }
+    

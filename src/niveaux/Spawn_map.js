@@ -9,17 +9,18 @@ export default class Spawn_map extends Phaser.Scene{
     super({key : "Spawn_map"}); // mettre le meme nom que le nom de la classe
   }
   
-  init(data){ 
-    
-    this.hpData = data.hp; 
-    this.hasArmeData = data.arme;
-    this.hasDashData = data.dash;
+  init(data) {
+    // Récupérez les données passées depuis la scène précédente
+    this.hpData = data.hp;
+    this.hasArmeData = data.hasArme;
+    this.hasDashData = data.hasDash;
     this.moneyData = data.money;
     this.dropBossData = data.dropBoss;
+  
 
     console.log(data.hp, "hp");
-    console.log(data.arme ? "a  arme" :"n'a pas l'arme");
-    console.log(data.dash ? "a  dash" :"n'a pas le dash");
+    console.log(data.hasArme ? "a  arme" :"n'a pas l'arme");
+    console.log(data.hasDash ? "a  dash" :"n'a pas le dash");
     console.log(data.money, "money");
     console.log(data.dropBoss ? "a  le drop du boss" :"n'a pas le drop du boss");
   }
@@ -127,12 +128,13 @@ export default class Spawn_map extends Phaser.Scene{
     sortieLayer.setCollisionByExclusion(-1, true); 
     this.physics.add.collider(this.player, sortieLayer, () => {
       this.player.resetDash()
-      this.scene.switch("Hub",{
+      this.scene.switch("Hub", {
         hp: this.player.hp,
-        arme: this.player.hasArme,
-        dash: this.player.hasDash,
+        hasArme: this.player.hasArme,
+        hasDash: this.player.hasDash,
         money: this.player.money,
-        dropBoss: this.player.hasDropBoss
+        dropBoss: this.player.hasDropBoss,
+        
       });
     });
 
@@ -163,7 +165,7 @@ export default class Spawn_map extends Phaser.Scene{
       zombie.update();
     });
 
-    
+
     
   }
 }

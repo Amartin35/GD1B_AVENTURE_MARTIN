@@ -40,7 +40,7 @@ var config = {
     gamepad: true // Activer le support des manettes
   },
   fps: {
-    target: 55,
+    target: 60,
     forceSetTimeOut: true
   },
   scene: [Menu, Spawn_map, Hub, Egout]
