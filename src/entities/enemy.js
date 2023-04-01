@@ -1,5 +1,5 @@
 
-export class Zombie1 extends Phaser.GameObjects.Sprite {
+export default class Zombie1 extends Phaser.GameObjects.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, 'zombie1');
     this.scene = scene;
@@ -12,20 +12,6 @@ export class Zombie1 extends Phaser.GameObjects.Sprite {
     this.setRandomSkin();
   }
 
-  init(data){ 
-    
-    this.hpData = data.hp; 
-    this.hasArmeData = data.arme;
-    this.hasDashData = data.dash;
-    this.moneyData = data.money;
-    this.dropBossData = data.dropBoss;
-
-    console.log(player.hp, "hp");
-    console.log(data.arme ? "a  arme" :"n'a pas l'arme");
-    console.log(data.dash ? "a  dash" :"n'a pas le dash");
-    console.log(data.money, "money");
-    console.log(data.dropBoss ? "a  le drop du boss" :"n'a pas le drop du boss");
-  }
 
   // Rajoute un skin aléatoire entre 2
   setRandomSkin() {
@@ -50,7 +36,7 @@ export class Zombie1 extends Phaser.GameObjects.Sprite {
         }, 300);
   
         // Inflige des dégâts au joueur
-        player.hp -= 1;
+        window.myGameValues.hpValues -= 1;
         player.degats();
   
         player.isInvincible = true; // Rend le joueur invincible
@@ -58,10 +44,10 @@ export class Zombie1 extends Phaser.GameObjects.Sprite {
           player.isInvincible = false; // Rend le joueur vulnérable 
         }, PLAYER_INVINCIBLE);
         
-        console.log(player.hp, "hp");
+        console.log(window.myGameValues.hpValues, "hp");
         
         // Vérifie si le joueur est mort
-        if (player.hp == 0) {
+        if (window.myGameValues.hpValues == 0) {
           this.scene.physics.pause();
           this.scene.cameras.main.fadeOut(FONDU_CAM); // Fondu de la caméra
           setTimeout(() => {

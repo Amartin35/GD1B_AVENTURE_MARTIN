@@ -1,5 +1,5 @@
 import Player from "../entities/player.js";
-import { Zombie1 } from "../entities/enemy.js";
+import Zombie1 from "../entities/enemy.js";
 
 
 // définition de la classe "selection"
@@ -9,22 +9,9 @@ export default class Spawn_map extends Phaser.Scene{
     super({key : "Spawn_map"}); // mettre le meme nom que le nom de la classe
   }
   
-  init(data) {
-    // Récupérez les données passées depuis la scène précédente
-    this.hpData = data.hp;
-    this.hasArmeData = data.hasArme;
-    this.hasDashData = data.hasDash;
-    this.moneyData = data.money;
-    this.dropBossData = data.dropBoss;
   
 
-    console.log(data.hp, "hp");
-    console.log(data.hasArme ? "a  arme" :"n'a pas l'arme");
-    console.log(data.hasDash ? "a  dash" :"n'a pas le dash");
-    console.log(data.money, "money");
-    console.log(data.dropBoss ? "a  le drop du boss" :"n'a pas le drop du boss");
-  }
-
+ 
  
 
 
@@ -108,14 +95,13 @@ export default class Spawn_map extends Phaser.Scene{
 
     this.player = new Player(this, 1420, 1340, 'perso');
 
-
-    this.player.hp = this.hpData;
-    this.player.hasArme = this.hasArmeData;
-    this.player.hasDash = this.hasDashData;
-    this.player.money = this.moneyData;
-    this.player.hasDropBoss = this.dropBossData;
     this.physics.world.setBounds(0, 0, 1600, 1600);
     
+
+
+
+
+
     // ajout des collision  
     
     this.physics.add.overlap(this.player, this.enemies);
@@ -128,13 +114,7 @@ export default class Spawn_map extends Phaser.Scene{
     sortieLayer.setCollisionByExclusion(-1, true); 
     this.physics.add.collider(this.player, sortieLayer, () => {
       this.player.resetDash()
-      this.scene.switch("Hub", {
-        hp: this.player.hp,
-        hasArme: this.player.hasArme,
-        hasDash: this.player.hasDash,
-        money: this.player.money,
-        dropBoss: this.player.hasDropBoss,
-        
+      this.scene.switch("Hub", {        
       });
     });
 

@@ -1,3 +1,4 @@
+
 export default class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, texture) {
         super(scene, x, y, texture); 
@@ -27,6 +28,15 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.CreateAnimationsBarreHp();
         this.facingUp = false;
         
+
+        // Propriétés du player
+        this.hp = window.myGameValues.hpValues; 
+        this.hasArmeData = window.myGameValues.hasArmeValues;  
+        this.hasDashData = window.myGameValues.hasDashValues;
+        this.moneyData = window.myGameValues.moneyValues;
+        this.dropBossData = window.myGameValues.hasdropBossValues;
+
+
         // Propriétés du dash
         this.dashTime = 0;
         this.isDashing = false;
@@ -72,15 +82,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     
 
 
-    init(data){ 
     
-        this.hpData = data.hp; 
-        this.hasArmeData = data.arme;
-        this.hasDashData = data.dash;
-        this.moneyData = data.money;
-        this.dropBossData = data.dropBoss;
+    
 
-    }    
+    
 
     update(time, delta) {
         
@@ -214,6 +219,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.x = Math.round(this.x);
         this.y = Math.round(this.y);
         
+        this.degats();
         
         
     }
@@ -271,7 +277,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             bullet.destroy();
         });
 
-        this.degats();
+
 
     }    
     
@@ -354,27 +360,27 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     degats(){
-        if (this.healthBar && this.hp == 5) {
+        if (this.healthBar && window.myGameValues.hpValues == 5) {
             this.healthBar.anims.play("hp5", true);
             console.log("Animation hp5 est jouée");
         }
     
-        if (this.healthBar && this.hp == 4) {
+        if (this.healthBar && window.myGameValues.hpValues == 4) {
             this.healthBar.anims.play("hp4", true);
             console.log("Animation hp4 est jouée");
         }
     
-        if (this.healthBar && this.hp == 3) {
+        if (this.healthBar && window.myGameValues.hpValues == 3) {
             this.healthBar.anims.play("hp3", true);
             console.log("Animation hp3 est jouée");
         }
     
-        if (this.healthBar && this.hp == 2) {
+        if (this.healthBar && window.myGameValues.hpValues == 2) {
             this.healthBar.anims.play("hp2", true);
             console.log("Animation hp2 est jouée");
         }
     
-        if (this.healthBar && this.hp == 1) {
+        if (this.healthBar && window.myGameValues.hpValues == 1) {
             this.healthBar.anims.play("hp1", true);
             console.log("Animation hp1 est jouée");
         }

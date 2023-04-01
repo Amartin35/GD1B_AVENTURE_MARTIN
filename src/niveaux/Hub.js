@@ -8,21 +8,6 @@ export default class Hub extends Phaser.Scene{
   }
   
   
-  init(data){ 
-    // Récupérez les données passées depuis la scène précédente
-    this.hpData = data.hp;
-    this.hasArmeData = data.hasArme;
-    this.hasDashData = data.hasDash;
-    this.moneyData = data.money;
-    this.dropBossData = data.dropBoss;
-
-    console.log(data.hp, "hp");
-    console.log(data.hasArme ? "a  arme" :"n'a pas l'arme");
-    console.log(data.hasDash ? "a  dash" :"n'a pas le dash");
-    console.log(data.money, "money");
-    console.log(data.dropBoss ? "a  le drop du boss" :"n'a pas le drop du boss");
-  }
-  
   
   preload() {
     this.load.tilemapTiledJSON('mapHub', 'src/assets/Hub.json');
@@ -58,11 +43,7 @@ export default class Hub extends Phaser.Scene{
         
         // affichage du sprite du personage
         this.player = new Player(this, 336, 1516, 'perso');
-        this.player.hp = this.hpData;
-        this.player.hasArme = this.hasArmeData;
-        this.player.hasDash = this.hasDashData;
-        this.player.money = this.moneyData;
-        this.player.hasDropBoss = this.dropBossData;
+
         this.physics.world.setBounds(0, 0, 1600, 1600);
         
         
@@ -75,22 +56,12 @@ export default class Hub extends Phaser.Scene{
         this.physics.add.collider(this.player, sortie_ELayer, () => {
           this.player.resetDash()
           this.scene.switch("Egout",{
-            hp: this.player.hp,
-            hasArme: this.player.hasArme,
-            hasDash: this.player.hasDash,
-            money: this.player.money,
-            dropBoss: this.player.hasDropBoss
           });
         });
         sortie_QLayer.setCollisionByExclusion(-1, true); 
         this.physics.add.collider(this.player, sortie_QLayer, () => {
           this.player.resetDash()
           this.scene.switch("Spawn_map",{
-            hp: this.player.hp,
-            hasArme: this.player.hasArme,
-            hasDash: this.player.hasDash,
-            money: this.player.money,
-            dropBoss: this.player.hasDropBoss
           });
         });
         

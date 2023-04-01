@@ -1,4 +1,4 @@
-import { Zombie1 } from "../entities/enemy.js";
+import Zombie1  from "../entities/enemy.js";
 import Player from "../entities/player.js";
 
 // définition de la classe "selection"
@@ -8,21 +8,6 @@ export default class Egout extends Phaser.Scene{
       super({key : "Egout"}); // mettre le meme nom que le nom de la classe
     }
     
-    init(data){ 
-    // Récupérez les données passées depuis la scène précédente
-    this.hpData = data.hpData;
-    this.hasArmeData = data.hasArmeData;
-    this.hasDashData = data.hasDashData;
-    this.moneyData = data.moneyData;
-    this.dropBossData = data.dropBossData;
-  
-
-    console.log(data.hpData, "hp");
-    console.log(data.hasArmeData ? "a  arme" :"n'a pas l'arme");
-    console.log(data.hasDashData ? "a  dash" :"n'a pas le dash");
-    console.log(data.moneyData, "money");
-    console.log(data.dropBossData ? "a  le drop du boss" :"n'a pas le drop du boss");
-    }
 
 
     preload() {
@@ -94,11 +79,11 @@ export default class Egout extends Phaser.Scene{
 
       // affichage du sprite du personage
     this.player = new Player(this, 960, 128, 'perso');
-    this.player.hp = this.hpData;
-    this.player.hasArme = this.hasArmeData;
-    this.player.hasDash = this.hasDashData;
-    this.player.money = this.moneyData;
-    this.player.hasDropBoss = this.dropBossData;
+    console.log(this.player.hp, "hp");
+    console.log(this.player.hasArmeData ? "a  arme" :"n'a pas l'arme");
+    console.log(this.player.hasDashData ? "a  dash" :"n'a pas le dash");
+    console.log(this.player.moneyData, "money");
+    console.log(this.player.dropBossData ? "a  le drop du boss" :"n'a pas le drop du boss");
     this.physics.world.setBounds(0, 0, 1600, 1600);
 
 
@@ -115,11 +100,6 @@ export default class Egout extends Phaser.Scene{
     this.physics.add.collider(this.player, sortie_HLayer, () => {
       this.player.resetDash()
       this.scene.switch("Hub",{
-        hp: this.player.hp,
-        hasArme: this.player.hasArme,
-        hasDash: this.player.hasDash,
-        money: this.player.money,
-        dropBoss: this.player.hasDropBoss
     });
     });
 
