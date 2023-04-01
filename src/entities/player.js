@@ -24,6 +24,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         
         // Propriétés des animations
         this.CreateAnimations();
+        this.CreateAnimationsBarreHp();
         this.facingUp = false;
         
         // Propriétés du dash
@@ -42,8 +43,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.attackCooldownMax = 30;
         this.attackDuration = 1;
 
-    
+        // vie et frame d'invu proprieter
         this.isInvincible = false; // Ajout de la variable "isInvincible"
+        this.degats();
 
 
         // resize collision 
@@ -143,6 +145,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             }
         }
         
+
+
+
+
+
         
         // Condition de frappe avec une arme RAJOUTER LA CONDITION THIS.HASARME
         if ((this.clavier.attack.isDown || this.pad?.B)&& this.attackCooldown <= 0) {
@@ -264,26 +271,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             bullet.destroy();
         });
 
+        this.degats();
 
-        if(this.hp == 5){
-            this.anims.play("Hp5",true);
-        }
-
-        if(this.hp == 4){
-            this.anims.play("Hp4",true);
-        }
-
-        if(this.hp == 3){
-            this.anims.play("Hp3",true);
-        }
-
-        if(this.hp == 2){
-            this.anims.play("Hp2",true);
-        }
-
-        if(this.hp == 1){
-            this.anims.play("Hp1",true);
-        }
     }    
     
     
@@ -331,36 +320,66 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             repeat: -1
         });
 
-        this.scene.anims.create({
-            key: 'hp5',
-            frames:[{key: 'UIHP5', frame: 0}],
-            frameRate: 20
-        });
-        this.scene.anims.create({
-            key: 'hp4',
-            frames:[{key: 'UIHP5', frame: 1}],
-            frameRate: 20
-        });
-        this.scene.anims.create({
-            key: 'hp3',
-            frames:[{key: 'UIHP5', frame: 2}],
-            frameRate: 20
-        });
-        this.scene.anims.create({
-            key: 'hp2',
-            frames:[{key: 'UIHP5', frame: 3}],
-            frameRate: 20
-        });
-        this.scene.anims.create({
-            key: 'hp1',
-            frames:[{key: 'UIHP5', frame: 4}],
-            frameRate: 20
-        });
+       
     }
 
 
+    CreateAnimationsBarreHp(){
 
+        this.scene.anims.create({
+            key: 'hp5',
+            frames:[{key: 'healtbar', frame: 0}],
+            frameRate: 10
+        });
+        this.scene.anims.create({
+            key: 'hp4',
+            frames:[{key: 'healtbar', frame: 1}],
+            frameRate: 10
+        });
+        this.scene.anims.create({
+            key: 'hp3',
+            frames:[{key: 'healtbar', frame: 2}],
+            frameRate: 10
+        });
+        this.scene.anims.create({
+            key: 'hp2',
+            frames:[{key: 'healtbar', frame: 3}],
+            frameRate: 10
+        });
+        this.scene.anims.create({
+            key: 'hp1',
+            frames:[{key: 'healtbar', frame: 4}],
+            frameRate: 10
+        });
+    }
 
+    degats(){
+        if (this.healthBar && this.hp == 5) {
+            this.healthBar.anims.play("hp5", true);
+            console.log("Animation hp5 est jouée");
+        }
+    
+        if (this.healthBar && this.hp == 4) {
+            this.healthBar.anims.play("hp4", true);
+            console.log("Animation hp4 est jouée");
+        }
+    
+        if (this.healthBar && this.hp == 3) {
+            this.healthBar.anims.play("hp3", true);
+            console.log("Animation hp3 est jouée");
+        }
+    
+        if (this.healthBar && this.hp == 2) {
+            this.healthBar.anims.play("hp2", true);
+            console.log("Animation hp2 est jouée");
+        }
+    
+        if (this.healthBar && this.hp == 1) {
+            this.healthBar.anims.play("hp1", true);
+            console.log("Animation hp1 est jouée");
+        }
+    }
+    
     
 }
 

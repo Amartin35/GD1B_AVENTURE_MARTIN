@@ -1,3 +1,4 @@
+import Player from "./player.js";
 export class Zombie1 extends Phaser.GameObjects.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, 'zombie1');
@@ -50,18 +51,19 @@ export class Zombie1 extends Phaser.GameObjects.Sprite {
   
         // Inflige des dégâts au joueur
         player.hp -= 1;
+        player.degats();
   
         player.isInvincible = true; // Rend le joueur invincible
         setTimeout(() => {
-          player.isInvincible = false; // Rend le joueur vulnérable après 1 seconde
-        }, 300);
+          player.isInvincible = false; // Rend le joueur vulnérable 
+        }, PLAYER_INVINCIBLE);
         
         console.log(player.hp, "hp");
         
         // Vérifie si le joueur est mort
         if (player.hp == 0) {
-          
-          this.scene.cameras.main.fadeOut(3000); // Fondu de la caméra
+          this.scene.physics.pause();
+          this.scene.cameras.main.fadeOut(FONDU_CAM); // Fondu de la caméra
           setTimeout(() => {
             
             this.scene.add.text(60, 120, "Vous êtes mort !", { font: "54px Arial", fill: "#FFFFFF" }).setScrollFactor(0); // Affichage du texte à la caméra

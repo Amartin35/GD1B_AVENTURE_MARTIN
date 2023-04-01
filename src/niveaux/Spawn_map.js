@@ -28,14 +28,17 @@ export default class Spawn_map extends Phaser.Scene{
 
 
   preload() {
-    this.load.spritesheet("UIHP5", "src/assets/UIHP5.png", {frameWidth: 100, frameHeight: 40}); 
+    this.load.spritesheet("healtbar", "src/assets/UIHP5.png", {frameWidth: 98, frameHeight: 33}); 
     this.load.image('TileSet', 'src/assets/Assets_zelda.png');    
     this.load.tilemapTiledJSON('map', 'src/assets/spawn_map.json');
     this.load.spritesheet('perso', 'src/assets/PlayerSpriteSheet.png',{frameWidth: 34, frameHeight: 66});
     this.load.image("bullet", "src/assets/SpriteAttack.png");  
     this.load.spritesheet('zombie1', 'src/assets/zombie_characters1.png',{frameWidth: 34, frameHeight: 66});
     this.load.spritesheet('zombie2', 'src/assets/zombie_characters2.png',{frameWidth: 34, frameHeight: 66});
+
     
+
+
   }
   
   create()  {
@@ -98,11 +101,13 @@ export default class Spawn_map extends Phaser.Scene{
     
     }
 
-  
+
 
     // affichage du sprite du personage
 
     this.player = new Player(this, 1420, 1340, 'perso');
+
+
     this.player.hp = this.hpData;
     this.player.hasArme = this.hasArmeData;
     this.player.hasDash = this.hasDashData;
@@ -135,6 +140,8 @@ export default class Spawn_map extends Phaser.Scene{
 
 
 
+    this.player.healthBar = this.add.sprite(50,20,'healtbar');
+    this.player.healthBar.setScrollFactor(0);
 
   
 
@@ -153,13 +160,11 @@ export default class Spawn_map extends Phaser.Scene{
   update()  {
     this.player.update();
     this.enemies.children.each((zombie) => {
-
       zombie.update();
-
     });
 
-
-
+    
+    
   }
 }
 
