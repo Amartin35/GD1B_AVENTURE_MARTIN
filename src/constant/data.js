@@ -1,7 +1,7 @@
 var myGameValues = {
-   hpValues: 10,
-   hasArmeValues: true,
-   hasDashValues: true,
+   hpValues: 5,
+   hasArmeValues: false,
+   hasDashValues: false,
    moneyValues: 0,
    hasdropBossValues: false,
    hasClefValues : false,

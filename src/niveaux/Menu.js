@@ -29,5 +29,6 @@ export default class Menu extends Phaser.Scene{
             this.scene.start("Spawn_map",{
             });
         } 
+        
     }
 }

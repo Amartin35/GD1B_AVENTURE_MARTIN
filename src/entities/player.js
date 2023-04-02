@@ -29,13 +29,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.facingUp = false;
         
 
-        // Propriétés du player
-        this.hp = window.myGameValues.hpValues; 
-        this.hasArmeData = window.myGameValues.hasArmeValues;  
-        this.hasDashData = window.myGameValues.hasDashValues;
-        this.moneyData = window.myGameValues.moneyValues;
-        this.dropBossData = window.myGameValues.hasdropBossValues;
-        this.hasClefData = window.myGameValues.hasClefValues;
+   
 
 
         // Propriétés du dash
@@ -189,7 +183,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         
         
         // Gestion du dash
-        if ((this.clavier.space.isDown || this.pad?.A) && this.hasDashData && this.dashCooldown <= 0 && this.isDashing == false) {
+        if ((this.clavier.space.isDown || this.pad?.A) && window.myGameValues.hasDashValues == true && this.dashCooldown <= 0 && this.isDashing == false) {
             this.isDashing = true;
             this.dashTime = 0;
             this.isInvincible = true; // Rend le joueur invincible

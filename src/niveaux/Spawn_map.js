@@ -1,7 +1,7 @@
 import Player from "../entities/player.js";
 import Zombie1 from "../entities/enemy.js";
-import Clef from "../entities/clef.js";
 import Monaie from "../entities/monaie.js";
+import DashPowerUp from "../entities/dashPowerUp.js";
 // définition de la classe "selection"
 export default class Spawn_map extends Phaser.Scene{ 
   
@@ -24,6 +24,7 @@ export default class Spawn_map extends Phaser.Scene{
     this.load.spritesheet('zombie1', 'src/assets/zombie_characters1.png',{frameWidth: 34, frameHeight: 68});
     this.load.spritesheet('zombie2', 'src/assets/zombie_characters2.png',{frameWidth: 34, frameHeight: 68});
     this.load.spritesheet('monaie', 'src/assets/Sprite-monaie.png',{frameWidth: 34, frameHeight: 34});
+    this.load.spritesheet('dashPowerUp', 'src/assets/Sprite-dashpowerup.png',{frameWidth: 34, frameHeight: 34});
 
     
 
@@ -128,6 +129,7 @@ export default class Spawn_map extends Phaser.Scene{
       new Monaie(this, 32, 384, 'monaie'),
     ];
 
+    this.dashPowerUp = new DashPowerUp(this, 1056, 1440, 'dashPowerUp');
 
     this.player.healthBar = this.add.sprite(50,20,'healtbar');
     this.player.healthBar.setScrollFactor(0);
@@ -147,6 +149,7 @@ export default class Spawn_map extends Phaser.Scene{
   }
   
   update()  {
+
     this.player.update();
     this.enemies.children.each((zombie) => {
       zombie.update();
@@ -158,7 +161,12 @@ export default class Spawn_map extends Phaser.Scene{
       if (this.physics.overlap(this.player, monaie)) {
           monaie.collectmonaie();
       }
-  }
+    }
+    this.physics.overlap(this.player, this.dashPowerUp, () => {
+      this.dashPowerUp.collectDashPowerUp();
+
+    });
+   
 
 
     
