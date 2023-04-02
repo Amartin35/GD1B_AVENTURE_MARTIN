@@ -1,5 +1,5 @@
 import Player from "../entities/player.js";
-
+import Monaie from "../entities/monaie.js";
 // définition de la classe "selection"
 export default class Hub extends Phaser.Scene{
   
@@ -65,6 +65,13 @@ export default class Hub extends Phaser.Scene{
           });
         });
         
+
+        this.monaies = [
+          new Monaie(this, 944, 720, 'monaie'),
+          new Monaie(this, 944, 1552, 'monaie'),
+          new Monaie(this, 112, 1552, 'monaie'),
+        ];
+    
         
         this.player.healthBar = this.add.sprite(50,20,'healtbar');
         this.player.healthBar.setScrollFactor(0);
@@ -81,7 +88,15 @@ export default class Hub extends Phaser.Scene{
       
       update() {
         this.player.update();
-        
+       
+        // Détection de collisions entre le joueur et les monaies
+        for (let i = 0; i < this.monaies.length; i++) {
+          const monaie = this.monaies[i];
+          if (this.physics.overlap(this.player, monaie)) {
+              monaie.collectmonaie();
+          }
+        }
+
       }
     }
     

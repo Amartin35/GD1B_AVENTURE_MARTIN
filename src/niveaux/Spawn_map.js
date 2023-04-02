@@ -1,7 +1,7 @@
 import Player from "../entities/player.js";
 import Zombie1 from "../entities/enemy.js";
 import Clef from "../entities/clef.js";
-
+import Monaie from "../entities/monaie.js";
 // définition de la classe "selection"
 export default class Spawn_map extends Phaser.Scene{ 
   
@@ -23,7 +23,7 @@ export default class Spawn_map extends Phaser.Scene{
     this.load.image("bullet", "src/assets/SpriteAttack.png");  
     this.load.spritesheet('zombie1', 'src/assets/zombie_characters1.png',{frameWidth: 34, frameHeight: 68});
     this.load.spritesheet('zombie2', 'src/assets/zombie_characters2.png',{frameWidth: 34, frameHeight: 68});
-
+    this.load.spritesheet('monaie', 'src/assets/Sprite-monaie.png',{frameWidth: 34, frameHeight: 34});
 
     
 
@@ -120,7 +120,13 @@ export default class Spawn_map extends Phaser.Scene{
     });
 
 
-
+    this.monaies = [
+      new Monaie(this, 368, 1408, 'monaie'),
+      new Monaie(this, 1552, 624, 'monaie'),
+      new Monaie(this, 752, 832, 'monaie'),
+      new Monaie(this, 1550, 1424, 'monaie'),
+      new Monaie(this, 32, 384, 'monaie'),
+    ];
 
 
     this.player.healthBar = this.add.sprite(50,20,'healtbar');
@@ -145,6 +151,14 @@ export default class Spawn_map extends Phaser.Scene{
     this.enemies.children.each((zombie) => {
       zombie.update();
     });
+
+     // Détection de collisions entre le joueur et les monaies
+     for (let i = 0; i < this.monaies.length; i++) {
+      const monaie = this.monaies[i];
+      if (this.physics.overlap(this.player, monaie)) {
+          monaie.collectmonaie();
+      }
+  }
 
 
     
