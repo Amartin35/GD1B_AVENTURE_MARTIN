@@ -1,6 +1,6 @@
 import Player from "../entities/player.js";
 import Zombie1 from "../entities/enemy.js";
-
+import Clef from "../entities/clef.js";
 
 // définition de la classe "selection"
 export default class Spawn_map extends Phaser.Scene{ 
@@ -21,8 +21,9 @@ export default class Spawn_map extends Phaser.Scene{
     this.load.tilemapTiledJSON('map', 'src/assets/spawn_map.json');
     this.load.spritesheet('perso', 'src/assets/PlayerSpriteSheet.png',{frameWidth: 34, frameHeight: 66});
     this.load.image("bullet", "src/assets/SpriteAttack.png");  
-    this.load.spritesheet('zombie1', 'src/assets/zombie_characters1.png',{frameWidth: 34, frameHeight: 66});
-    this.load.spritesheet('zombie2', 'src/assets/zombie_characters2.png',{frameWidth: 34, frameHeight: 66});
+    this.load.spritesheet('zombie1', 'src/assets/zombie_characters1.png',{frameWidth: 34, frameHeight: 68});
+    this.load.spritesheet('zombie2', 'src/assets/zombie_characters2.png',{frameWidth: 34, frameHeight: 68});
+
 
     
 
@@ -83,7 +84,7 @@ export default class Spawn_map extends Phaser.Scene{
       let x = positions[i].x;
       let y = positions[i].y;
       
-      let zombie = new Zombie1(this, x, y);
+      let zombie = new Zombie1(this, x, y, "normal");
       this.enemies.add(zombie);
       zombie.body.setImmovable(true);
     

@@ -1,3 +1,4 @@
+import Clef from "../entities/clef.js";
 import Zombie1  from "../entities/enemy.js";
 import Player from "../entities/player.js";
 
@@ -6,12 +7,16 @@ export default class Egout extends Phaser.Scene{
   
     constructor() {
       super({key : "Egout"}); // mettre le meme nom que le nom de la classe
+
     }
-    
+  
 
 
     preload() {
       this.load.tilemapTiledJSON('mapEgout', 'src/assets/Egout.json');
+      this.load.spritesheet('clef', 'src/assets/Sprite-clef.png',{frameWidth: 34, frameHeight: 34});
+      this.load.image('invisibleDoor', 'src/assets/invisibleDoor.png');
+  
     }
   
     create() {
@@ -40,6 +45,7 @@ export default class Egout extends Phaser.Scene{
         tileset
       );
 
+      this.porteLayer = porteLayer
     // Ajout des ennemis
     this.enemies = this.physics.add.group();
 
@@ -64,10 +70,11 @@ export default class Egout extends Phaser.Scene{
     for (let i = 0; i < 15; i++) {
       let x = positions[i].x;
       let y = positions[i].y;
-      
-      let zombie = new Zombie1(this, x, y);
+      let zombieType = Math.random() > 0.5 ? "rapide" : "normal";
+      let zombie = new Zombie1(this, x, y, zombieType);
       this.enemies.add(zombie);
       zombie.body.setImmovable(true);
+
     
     }
 
@@ -79,12 +86,18 @@ export default class Egout extends Phaser.Scene{
 
       // affichage du sprite du personage
     this.player = new Player(this, 960, 128, 'perso');
-    console.log(this.player.hp, "hp");
-    console.log(this.player.hasArmeData ? "a  arme" :"n'a pas l'arme");
-    console.log(this.player.hasDashData ? "a  dash" :"n'a pas le dash");
-    console.log(this.player.moneyData, "money");
-    console.log(this.player.dropBossData ? "a  le drop du boss" :"n'a pas le drop du boss");
+
     this.physics.world.setBounds(0, 0, 1600, 1600);
+
+
+
+  // création de l'objet porte invisible
+  this.invisibleDoor = this.add.sprite(1056, 608, 'invisibleDoor').setAlpha(0);
+  this.physics.add.existing(this.invisibleDoor);
+  this.physics.add.collider(this.player, this.invisibleDoor);
+  this.invisibleDoor.body.setAllowGravity(false);
+  this.invisibleDoor.body.immovable = true;
+  this.invisibleDoor.setSize(32,160);
 
 
     // ajout des collision  
@@ -95,13 +108,17 @@ export default class Egout extends Phaser.Scene{
     this.physics.add.collider(this.enemies, eauLayer);
     eauLayer.setCollisionByExclusion(-1, true); 
     porteLayer.setCollisionByExclusion(-1, true); 
-    this.physics.add.collider(this.player, porteLayer);
+    this.physics.add.collider(this.enemies, porteLayer);
     sortie_HLayer.setCollisionByExclusion(-1, true); 
     this.physics.add.collider(this.player, sortie_HLayer, () => {
       this.player.resetDash()
       this.scene.switch("Hub",{
     });
     });
+
+
+    this.clef = new Clef(this, 1312, 1184, 'clef');
+
 
      
     this.player.healthBar = this.add.sprite(50,20,'healtbar');
@@ -118,9 +135,16 @@ export default class Egout extends Phaser.Scene{
     update() {
       this.player.update();
       this.enemies.children.each((zombie) => {
-        zombie.update();
+          zombie.update();
       });
-    
-    }
-}
+  
+      this.physics.overlap(this.player, this.clef, () => {
+        this.clef.collect()
+        this.porteLayer.setVisible(false);
+        this.invisibleDoor.destroy();
+
+      });
+  }
+  
+} 
   

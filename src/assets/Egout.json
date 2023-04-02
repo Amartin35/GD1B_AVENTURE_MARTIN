@@ -317,7 +317,7 @@
         {
          "columns":37,
          "firstgid":1,
-         "image":"..\/..\/..\/Info 2D\/zeldaLike\/Assets_zelda.png",
+         "image":"F:\/Info 2D\/zeldaLike\/Assets_zelda.png",
          "imageheight":1200,
          "imagewidth":1200,
          "margin":0,
@@ -325,6 +325,43 @@
          "spacing":0,
          "tilecount":1369,
          "tileheight":32,
+         "tiles":[
+                {
+                 "id":178,
+                 "properties":[
+                        {
+                         "name":"eau",
+                         "type":"bool",
+                         "value":false
+                        }]
+                }, 
+                {
+                 "id":212,
+                 "properties":[
+                        {
+                         "name":"eau",
+                         "type":"bool",
+                         "value":false
+                        }]
+                }, 
+                {
+                 "id":213,
+                 "properties":[
+                        {
+                         "name":"eau",
+                         "type":"bool",
+                         "value":false
+                        }]
+                }, 
+                {
+                 "id":215,
+                 "properties":[
+                        {
+                         "name":"eau",
+                         "type":"bool",
+                         "value":false
+                        }]
+                }],
          "tilewidth":32
         }],
  "tilewidth":32,

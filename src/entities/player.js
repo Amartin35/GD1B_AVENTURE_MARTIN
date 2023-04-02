@@ -35,6 +35,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.hasDashData = window.myGameValues.hasDashValues;
         this.moneyData = window.myGameValues.moneyValues;
         this.dropBossData = window.myGameValues.hasdropBossValues;
+        this.hasClefData = window.myGameValues.hasClefValues;
 
 
         // Propriétés du dash
@@ -45,7 +46,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.dashDuration = 8;
         this.dashSpeed = 550;
         this.direction = "right"; 
-        
+    
         //Propriété de l'attaque
         this.attackTime = 0;
         this.isAttacking = false;
@@ -154,10 +155,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
 
 
-
         
         // Condition de frappe avec une arme RAJOUTER LA CONDITION THIS.HASARME
-        if ((this.clavier.attack.isDown || this.pad?.B)&& this.attackCooldown <= 0) {
+        if ((this.clavier.attack.isDown || this.pad?.B)&& this.hasArmeData && this.attackCooldown <= 0) {
             console.log("Frapper avec une arme");
             this.isAttacking = true;
             this.attackTime = 0;
@@ -189,9 +189,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         
         
         // Gestion du dash
-        if ((this.clavier.space.isDown || this.pad?.A) && this.hasDash && this.dashCooldown <= 0 && this.isDashing == false) {
+        if ((this.clavier.space.isDown || this.pad?.A) && this.hasDashData && this.dashCooldown <= 0 && this.isDashing == false) {
             this.isDashing = true;
             this.dashTime = 0;
+            this.isInvincible = true; // Rend le joueur invincible
+            setTimeout(() => {
+              this.isInvincible = false; // Rend le joueur vulnérable 
+            }, PLAYER_INVINCIBLE);
         }
         
         // Vérifie si le joueur est en train de dasher
@@ -387,5 +391,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
     
     
+
+
+
 }
 

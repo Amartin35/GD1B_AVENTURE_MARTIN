@@ -1,6 +1,5 @@
-
 export default class Zombie1 extends Phaser.GameObjects.Sprite {
-  constructor(scene, x, y) {
+  constructor(scene, x, y, type = "normal") {
     super(scene, x, y, 'zombie1');
     this.scene = scene;
     this.scene.add.existing(this);
@@ -9,6 +8,7 @@ export default class Zombie1 extends Phaser.GameObjects.Sprite {
     this.body.setSize(32, 44);
     this.body.setOffset(0, 21);
 
+    this.type = type;
     this.setRandomSkin();
   }
 
@@ -64,12 +64,15 @@ export default class Zombie1 extends Phaser.GameObjects.Sprite {
   
   overlapEnemies(enemies) {
     this.scene.physics.overlap(this, enemies, (zombie, otherZombie) => {
-      // Détermine la direction dans laquelle le zombie doit se déplacer pour éviter la collision avec l'autre zombie
+      // Ne pousse pas l'autre zombie si c'est un zombie rapide
+      if (otherZombie instanceof Zombie1 && otherZombie.type === "rapide") {
+        return;
+      }
+  
       let vecteurDeplacement = new Phaser.Math.Vector2(0, 0);
       vecteurDeplacement.setTo(zombie.x - otherZombie.x, zombie.y - otherZombie.y);
       vecteurDeplacement.normalize();
   
-      // Déplace le zombie dans la direction opposée à l'autre zombie
       zombie.body.setVelocity(
         vecteurDeplacement.x * ZOMBIE_SPEED,
         vecteurDeplacement.y * ZOMBIE_SPEED
@@ -91,10 +94,21 @@ export default class Zombie1 extends Phaser.GameObjects.Sprite {
       vecteurDeplacement.normalize();
   
       // Déplace le zombie vers le joueur
-      this.body.setVelocity(
-        vecteurDeplacement.x * ZOMBIE_SPEED,
-        vecteurDeplacement.y * ZOMBIE_SPEED
-      );
+      // Si le zombie est d etype rapide, on multiplie par 2 sa vitesse de deplacement
+      if (this.type === "rapide") {
+        this.body.setVelocity(
+          vecteurDeplacement.x * ZOMBIE_SPEED * 2,
+          vecteurDeplacement.y * ZOMBIE_SPEED * 2
+        );
+
+      // Sinon, il a la vitesse normale
+      } else {
+        this.body.setVelocity(
+          vecteurDeplacement.x * ZOMBIE_SPEED,
+          vecteurDeplacement.y * ZOMBIE_SPEED
+        );
+      }
+      
   
       // Détection des collisions entre le zombie et le joueur
       this.overlapPlayer(player);
@@ -106,3 +120,5 @@ export default class Zombie1 extends Phaser.GameObjects.Sprite {
     }
   }
 }
+
+
