@@ -2,6 +2,7 @@ import Player from "../entities/player.js";
 import Zombie1 from "../entities/enemy.js";
 import Monaie from "../entities/monaie.js";
 import DashPowerUp from "../entities/dashPowerUp.js";
+import RecupVie from "../entities/recupVie.js";
 // définition de la classe "selection"
 export default class Spawn_map extends Phaser.Scene{ 
   
@@ -25,7 +26,7 @@ export default class Spawn_map extends Phaser.Scene{
     this.load.spritesheet('zombie2', 'src/assets/zombie_characters2.png',{frameWidth: 34, frameHeight: 68});
     this.load.spritesheet('monaie', 'src/assets/Sprite-monaie.png',{frameWidth: 34, frameHeight: 34});
     this.load.spritesheet('dashPowerUp', 'src/assets/Sprite-dashpowerup.png',{frameWidth: 34, frameHeight: 34});
-
+    this.load.spritesheet('recupVie', 'src/assets/Spriteviecoeur.png',{frameWidth: 34, frameHeight: 34});
     
 
 
@@ -105,7 +106,7 @@ export default class Spawn_map extends Phaser.Scene{
 
 
     // ajout des collision  
-    
+
     this.physics.add.overlap(this.player, this.enemies);
     collisionLayer.setCollisionByExclusion(-1, true); 
     this.physics.add.collider(this.player, collisionLayer);
@@ -153,6 +154,7 @@ export default class Spawn_map extends Phaser.Scene{
     this.player.update();
     this.enemies.children.each((zombie) => {
       zombie.update();
+      
     });
 
      // Détection de collisions entre le joueur et les monaies
@@ -164,12 +166,14 @@ export default class Spawn_map extends Phaser.Scene{
     }
     this.physics.overlap(this.player, this.dashPowerUp, () => {
       this.dashPowerUp.collectDashPowerUp();
-
     });
    
 
 
     
+    
+    
   }
+ 
 }
 

@@ -1,3 +1,5 @@
+import RecupVie from "../entities/recupVie.js";
+
 export default class Zombie1 extends Phaser.GameObjects.Sprite {
   constructor(scene, x, y, type = "normal") {
     super(scene, x, y, 'zombie1');
@@ -10,6 +12,7 @@ export default class Zombie1 extends Phaser.GameObjects.Sprite {
 
     this.type = type;
     this.setRandomSkin();
+    
   }
 
 
@@ -65,7 +68,7 @@ export default class Zombie1 extends Phaser.GameObjects.Sprite {
   overlapEnemies(enemies) {
     this.scene.physics.overlap(this, enemies, (zombie, otherZombie) => {
       // Ne pousse pas l'autre zombie si c'est un zombie rapide
-      if (otherZombie instanceof Zombie1 && otherZombie.type === "rapide") {
+      if (otherZombie instanceof Zombie1 && otherZombie.type == "rapide") {
         return;
       }
   
@@ -80,7 +83,39 @@ export default class Zombie1 extends Phaser.GameObjects.Sprite {
     });
   }
   
+  kill() {
+    // Générer un nombre aléatoire entre 1 et 3
+    const random = Phaser.Math.Between(1, 3);
   
+    // Si le nombre aléatoire est égal à 1, créer le drop
+    if (random === 1) {
+      const drop = new RecupVie(this.scene, this.x, this.y, 'recupVie');
+  
+      this.scene.anims.create({
+        key: 'IdleVIE',
+        frames: this.scene.anims.generateFrameNumbers('recupVie', { start: 0, end: 3 }),
+        frameRate: 7,
+        repeat: -1
+      });
+  
+      drop.anims.play('IdleVIE');
+  
+      // Vérifier si le joueur touche le sprite de récupération de vie
+      this.scene.physics.add.overlap(drop, this.scene.player, () => {
+        // Incrémenter la variable de points de vie
+        window.myGameValues.hpValues += 1;
+        // Détruire le sprite de récupération de vie
+        drop.destroy();
+      });
+    }
+  
+    // Détruire l'objet courant
+    this.destroy();
+  }
+  
+
+
+
 
   update() {
     const player = this.scene.player;
@@ -94,11 +129,11 @@ export default class Zombie1 extends Phaser.GameObjects.Sprite {
       vecteurDeplacement.normalize();
   
       // Déplace le zombie vers le joueur
-      // Si le zombie est d etype rapide, on multiplie par 2 sa vitesse de deplacement
+      // Si le zombie est d etype rapide, on multiplie par 3 sa vitesse de deplacement
       if (this.type === "rapide") {
         this.body.setVelocity(
-          vecteurDeplacement.x * ZOMBIE_SPEED * 2,
-          vecteurDeplacement.y * ZOMBIE_SPEED * 2
+          vecteurDeplacement.x * ZOMBIE_SPEED * 3,
+          vecteurDeplacement.y * ZOMBIE_SPEED * 3
         );
 
       // Sinon, il a la vitesse normale

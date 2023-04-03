@@ -1,4 +1,5 @@
 
+
 export default class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, texture) {
         super(scene, x, y, texture); 
@@ -151,7 +152,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
         
         // Condition de frappe avec une arme RAJOUTER LA CONDITION THIS.HASARME
-        if ((this.clavier.attack.isDown || this.pad?.B)&& this.hasArmeData && this.attackCooldown <= 0) {
+        if ((this.clavier.attack.isDown || this.pad?.B)&& window.myGameValues.hasArmeValues == true && this.attackCooldown <= 0) {
             console.log("Frapper avec une arme");
             this.isAttacking = true;
             this.attackTime = 0;
@@ -226,7 +227,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         let x_offset = 0;
         let y_offset = 0;
         let angle = 0; // Ajouter une variable pour stocker l'angle
-        
+
         if (this.direction === "left") {
             x_offset = -45;
             angle = 180; // Définir l'angle pour "left"
@@ -242,7 +243,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                         // détecter la collision avec l'ennemi
             this.scene.physics.add.overlap(bullet, this.scene.enemies, (bullet, enemy) => {
                 // appel de la méthode de dégâts sur l'ennemi
-                enemy.destroy();
+                enemy.kill();
+                
                 // détruire le projectile
                 bullet.destroy();
             });
@@ -256,7 +258,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             // détecter la collision avec l'ennemi
             this.scene.physics.add.overlap(bullet, this.scene.enemies, (bullet, enemy) => {
                 // appel de la méthode de dégâts sur l'ennemi
-                enemy.destroy();
+                enemy.kill();
                 // détruire le projectile
                 bullet.destroy();
             });
@@ -270,7 +272,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         // détecter la collision avec l'ennemi
         this.scene.physics.add.overlap(bullet, this.scene.enemies, (bullet, enemy) => {
             // appel de la méthode de dégâts sur l'ennemi
-            enemy.destroy();
+            enemy.kill();
             // détruire le projectile
             bullet.destroy();
         });

@@ -94,7 +94,15 @@ export default class Egout extends Phaser.Scene{
   // création de l'objet porte invisible
   this.invisibleDoor = this.add.sprite(1056, 608, 'invisibleDoor').setAlpha(0);
   this.physics.add.existing(this.invisibleDoor);
-  this.physics.add.collider(this.player, this.invisibleDoor);
+  this.physics.add.collider(this.player, this.invisibleDoor, () => {
+    if (window.myGameValues.hasClefValues === true) {
+      console.log("Le joueur touche la porte invisible et a la clé");
+      this.porteLayer.setVisible(false);
+      this.invisibleDoor.destroy();
+    } else {
+      console.log("Le joueur touche la porte invisible mais n'a pas la clé");
+    }
+  });
   this.invisibleDoor.body.setAllowGravity(false);
   this.invisibleDoor.body.immovable = true;
   this.invisibleDoor.setSize(32,160);
@@ -134,16 +142,21 @@ export default class Egout extends Phaser.Scene{
     
     update() {
       this.player.update();
+
       this.enemies.children.each((zombie) => {
           zombie.update();
       });
   
       this.physics.overlap(this.player, this.clef, () => {
         this.clef.collect()
-        this.porteLayer.setVisible(false);
-        this.invisibleDoor.destroy();
-
       });
+
+     
+       
+    
+
+
+    
   }
   
 } 
