@@ -1,5 +1,4 @@
 export default class Menu extends Phaser.Scene{
-  
     constructor() {
       super({key : "Menu"}); // mettre le meme nom que le nom de la classe
     }
@@ -7,6 +6,7 @@ export default class Menu extends Phaser.Scene{
 
 
 
+    
     preload() {
         this.load.image('ecranTitre', 'src/assets/placeholder_menu.png');
     }

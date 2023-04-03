@@ -26,10 +26,10 @@ var config = {
   },
   pixelArt: true,
   physics: {
-    // définition des parametres physiques
-    default: "arcade", // mode arcade : le plus simple : des rectangles pour gérer les collisions. Pas de pentes
+   
+    default: "arcade", 
     arcade: {
-      // parametres du mode arcade
+
       debug: true // permet de voir les hitbox et les vecteurs d'acceleration quand mis à true
     },
     input: {
@@ -37,7 +37,7 @@ var config = {
     },
   },
   input: {
-    gamepad: true // Activer le support des manettes
+    gamepad: true // activer le support des manettes
   },
   fps: {
     target: 60,
@@ -46,8 +46,7 @@ var config = {
   scene: [Menu, Spawn_map, Hub, Egout]
 };
 
-// création et lancement du jeu à partir de la configuration config
 var game = new Phaser.Game(config);
-game.scene.start("Menu"); // lancement de la scene selection
+game.scene.start("Menu"); // lancement de la scene Menu
 
 

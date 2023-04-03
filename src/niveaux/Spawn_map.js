@@ -3,41 +3,39 @@ import Zombie1 from "../entities/enemy.js";
 import Monaie from "../entities/monaie.js";
 import DashPowerUp from "../entities/dashPowerUp.js";
 import RecupVie from "../entities/recupVie.js";
-// définition de la classe "selection"
+
 export default class Spawn_map extends Phaser.Scene{ 
   
   constructor() {
-    super({key : "Spawn_map"}); // mettre le meme nom que le nom de la classe
+    super({key : "Spawn_map"});
   }
   
   
 
  
  
-
+ /////////////////////////////////////// PRELOAD ///////////////////////////////////////
 
   preload() {
-    this.load.spritesheet("healtbar", "src/assets/UIHP5.png", {frameWidth: 98, frameHeight: 33}); 
-    this.load.image('TileSet', 'src/assets/Assets_zelda.png');    
+    this.load.image('TileSet', 'src/assets/Assets_zelda.png');   
+    this.load.image("bullet", "src/assets/SpriteAttack.png");   
     this.load.tilemapTiledJSON('map', 'src/assets/spawn_map.json');
     this.load.spritesheet('perso', 'src/assets/PlayerSpriteSheet.png',{frameWidth: 34, frameHeight: 66});
-    this.load.image("bullet", "src/assets/SpriteAttack.png");  
     this.load.spritesheet('zombie1', 'src/assets/zombie_characters1.png',{frameWidth: 34, frameHeight: 68});
     this.load.spritesheet('zombie2', 'src/assets/zombie_characters2.png',{frameWidth: 34, frameHeight: 68});
     this.load.spritesheet('monaie', 'src/assets/Sprite-monaie.png',{frameWidth: 34, frameHeight: 34});
     this.load.spritesheet('dashPowerUp', 'src/assets/Sprite-dashpowerup.png',{frameWidth: 34, frameHeight: 34});
     this.load.spritesheet('recupVie', 'src/assets/Spriteviecoeur.png',{frameWidth: 34, frameHeight: 34});
-    
-
-
+    this.load.spritesheet("healtbar", "src/assets/UIHP5.png", {frameWidth: 98, frameHeight: 33}); 
   }
   
+
+
+
+
+  /////////////////////////////////////// CREATE ///////////////////////////////////////
+
   create()  {
-
-
-    
-
-
     // creation de ma carte
     const map = this.add.tilemap("map");
     const tileset = map.addTilesetImage("Assets_zelda", "TileSet");
@@ -64,7 +62,10 @@ export default class Spawn_map extends Phaser.Scene{
     );
 
 
-    // Ajout des ennemis
+
+
+
+    // ajout des ennemis
     this.enemies = this.physics.add.group();
 
     let positions = [
@@ -94,19 +95,17 @@ export default class Spawn_map extends Phaser.Scene{
 
 
 
+
+
     // affichage du sprite du personage
-
     this.player = new Player(this, 1420, 1340, 'perso');
-
     this.physics.world.setBounds(0, 0, 1600, 1600);
     
 
 
 
 
-
     // ajout des collision  
-
     this.physics.add.overlap(this.player, this.enemies);
     collisionLayer.setCollisionByExclusion(-1, true); 
     this.physics.add.collider(this.player, collisionLayer);
@@ -122,6 +121,9 @@ export default class Spawn_map extends Phaser.Scene{
     });
 
 
+
+
+    // ajout des collectibles
     this.monaies = [
       new Monaie(this, 368, 1408, 'monaie'),
       new Monaie(this, 1552, 624, 'monaie'),
@@ -130,34 +132,35 @@ export default class Spawn_map extends Phaser.Scene{
       new Monaie(this, 32, 384, 'monaie'),
     ];
 
-    this.dashPowerUp = new DashPowerUp(this, 1056, 1440, 'dashPowerUp');
 
+
+
+    // ajout de l'ui barre de vie 
+    this.dashPowerUp = new DashPowerUp(this, 1056, 1440, 'dashPowerUp');
     this.player.healthBar = this.add.sprite(50,20,'healtbar');
     this.player.healthBar.setScrollFactor(0);
 
   
 
-    // Ajout de la caméra
+
+
+    // ajout de la caméra
     this.cameras.main.setBounds(0, 0, 1600, 1600);
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBackgroundColor(0xaaaaaa);
-
-
-
-
-
-
   }
   
-  update()  {
 
+
+
+ /////////////////////////////////////// UPDATE  ///////////////////////////////////////
+
+  update()  {
     this.player.update();
     this.enemies.children.each((zombie) => {
       zombie.update();
-      
     });
-
-     // Détection de collisions entre le joueur et les monaies
+     // détection de collisions entre le joueur et les monaies
      for (let i = 0; i < this.monaies.length; i++) {
       const monaie = this.monaies[i];
       if (this.physics.overlap(this.player, monaie)) {
@@ -167,13 +170,6 @@ export default class Spawn_map extends Phaser.Scene{
     this.physics.overlap(this.player, this.dashPowerUp, () => {
       this.dashPowerUp.collectDashPowerUp();
     });
-   
-
-
-    
-    
-    
   }
- 
 }
 
