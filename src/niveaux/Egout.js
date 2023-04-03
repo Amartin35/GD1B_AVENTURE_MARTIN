@@ -2,7 +2,7 @@ import Clef from "../entities/clef.js";
 import Zombie1  from "../entities/enemy.js";
 import Player from "../entities/player.js";
 
-// définition de la classe "selection"
+
 export default class Egout extends Phaser.Scene{
   
     constructor() {
@@ -11,6 +11,7 @@ export default class Egout extends Phaser.Scene{
     }
   
 
+ /////////////////////////////////////// PRELOAD ///////////////////////////////////////
 
     preload() {
       this.load.tilemapTiledJSON('mapEgout', 'src/assets/Egout.json');
@@ -19,6 +20,11 @@ export default class Egout extends Phaser.Scene{
   
     }
   
+
+
+
+ ////////////////////////////////////// CREATE ///////////////////////////////////////
+
     create() {
       const map = this.add.tilemap("mapEgout");
       const tileset = map.addTilesetImage("Assets_zelda", "TileSet");
@@ -46,7 +52,12 @@ export default class Egout extends Phaser.Scene{
       );
 
       this.porteLayer = porteLayer
-    // Ajout des ennemis
+
+
+
+
+
+    // ajout des ennemis
     this.enemies = this.physics.add.group();
 
     let positions = [
@@ -74,38 +85,38 @@ export default class Egout extends Phaser.Scene{
       let zombie = new Zombie1(this, x, y, zombieType);
       this.enemies.add(zombie);
       zombie.body.setImmovable(true);
-
-    
     }
 
 
 
 
 
-
-
-      // affichage du sprite du personage
+    // affichage du sprite du personage
     this.player = new Player(this, 960, 128, 'perso');
-
     this.physics.world.setBounds(0, 0, 1600, 1600);
 
 
 
-  // création de l'objet porte invisible
-  this.invisibleDoor = this.add.sprite(1056, 608, 'invisibleDoor').setAlpha(0);
-  this.physics.add.existing(this.invisibleDoor);
-  this.physics.add.collider(this.player, this.invisibleDoor, () => {
-    if (window.myGameValues.hasClefValues === true) {
-      console.log("Le joueur touche la porte invisible et a la clé");
-      this.porteLayer.setVisible(false);
-      this.invisibleDoor.destroy();
-    } else {
-      console.log("Le joueur touche la porte invisible mais n'a pas la clé");
-    }
-  });
-  this.invisibleDoor.body.setAllowGravity(false);
-  this.invisibleDoor.body.immovable = true;
-  this.invisibleDoor.setSize(32,160);
+ 
+ 
+    // création de l'objet porte invisible
+    this.invisibleDoor = this.add.sprite(1056, 608, 'invisibleDoor').setAlpha(0);
+    this.physics.add.existing(this.invisibleDoor);
+    this.physics.add.collider(this.player, this.invisibleDoor, () => {
+      if (window.myGameValues.hasClefValues === true) {
+        console.log("Le joueur touche la porte invisible et a la clé");
+        this.porteLayer.setVisible(false);
+        this.invisibleDoor.destroy();
+      } else {
+        console.log("Le joueur touche la porte invisible mais n'a pas la clé");
+      }
+    });
+    this.invisibleDoor.body.setAllowGravity(false);
+    this.invisibleDoor.body.immovable = true;
+    this.invisibleDoor.setSize(32,160);
+
+
+
 
 
     // ajout des collision  
@@ -125,21 +136,34 @@ export default class Egout extends Phaser.Scene{
     });
 
 
+
+
+
     this.clef = new Clef(this, 1312, 1184, 'clef');
 
 
      
+
+
+
     this.player.healthBar = this.add.sprite(50,20,'healtbar');
     this.player.healthBar.setScrollFactor(0);
+
+
+
+
     // ajout camera
     this.cameras.main.setBounds(0, 0, 1600, 1600);
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBackgroundColor(0xaaaaaa)
-    // ancrage de la camera sur le joueur
     this.cameras.main.startFollow(this.player);  
-  
     }
     
+
+
+
+
+ ////////////////////////////////////// UPDATE ///////////////////////////////////////
     update() {
       this.player.update();
 

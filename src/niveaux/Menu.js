@@ -6,15 +6,14 @@ export default class Menu extends Phaser.Scene{
 
 
 
-    
+/////////////////////////////////////// PRELOAD ///////////////////////////////////////
     preload() {
         this.load.image('ecranTitre', 'src/assets/placeholder_menu.png');
     }
 
-
+/////////////////////////////////////// CREATE ///////////////////////////////////////
     create(){
         this.add.image(288, 512, "ecranTitre");
-
         this.add.text(100, 250, "Appuyer sur Space pour commencer"), {
             fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
             fontSize: "40pt"
@@ -22,7 +21,7 @@ export default class Menu extends Phaser.Scene{
         this.clavier = this.input.keyboard.createCursorKeys();
     }
 
-
+ /////////////////////////////////////// UPDATE  ///////////////////////////////////////
     update(){
         //LANCE PREMIERE SCENE QUAND ESPACE APPUYE
         if (Phaser.Input.Keyboard.JustDown(this.clavier.space) == true){

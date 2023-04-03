@@ -13,12 +13,15 @@ export default class Hub extends Phaser.Scene{
   preload() {
     this.load.tilemapTiledJSON('mapHub', 'src/assets/Hub.json');
     this.load.image('invisibleDoor', 'src/assets/invisibleDoor.png');
+    this.load.spritesheet('marchand', 'src/assets/SpritePnjmarchand.png',{frameWidth: 34, frameHeight: 64});
+    this.load.spritesheet('marchandExclamation', 'src/assets/SpritePnjmarchandPointExclamation.png',{frameWidth: 34, frameHeight: 96});
   }
   
 
 
 
    /////////////////////////////////////// CREATE ///////////////////////////////////////
+
   create() {
    // creation de ma carte
     const map = this.add.tilemap("mapHub");
@@ -46,11 +49,16 @@ export default class Hub extends Phaser.Scene{
       );
         
       
+
+
+
     // affichage du sprite du personage
     this.player = new Player(this, 336, 1516, 'perso');
-
     this.physics.world.setBounds(0, 0, 1600, 1600);
     
+
+
+
 
     // bloque l'acces au egouts is pas de dash
     this.invisibleDoor = this.add.sprite(1024, 864, 'invisibleDoor').setAlpha(0);
@@ -67,6 +75,8 @@ export default class Hub extends Phaser.Scene{
     this.invisibleDoor.body.immovable = true;
     this.invisibleDoor.setSize(32,160);
     
+
+
 
 
     // ajout des collision  
@@ -89,6 +99,8 @@ export default class Hub extends Phaser.Scene{
     
 
 
+
+
     // ajout des collectibles
     this.monaies = [
       new Monaie(this, 944, 720, 'monaie'),
@@ -96,31 +108,87 @@ export default class Hub extends Phaser.Scene{
       new Monaie(this, 112, 1552, 'monaie'),
     ];
 
-    
+
+
+
+
+    // ajout de l'ui barre de vie 
     this.player.healthBar = this.add.sprite(50,20,'healtbar');
     this.player.healthBar.setScrollFactor(0);
+
+
+
+
+
     // ajout camera
     this.cameras.main.setBounds(0, 0, 1600, 1600);
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBackgroundColor(0xaaaaaa)
-    // ancrage de la camera sur le joueur
     this.cameras.main.startFollow(this.player);  
+
+        // Pour le marchand avec point d'exclamation
+    this.anims.create({
+      key: 'IdlemarchandExclamation',
+      frames: this.anims.generateFrameNumbers('marchandExclamation', { start: 0, end: 1 }),
+      frameRate: 4,
+      repeat: -1
+    });
+
+    // Pour le marchand sans point d'exclamation
+    this.anims.create({
+      key: 'Idlemarchand',
+      frames: this.anims.generateFrameNumbers('marchand', { start: 0, end: 1 }),
+      frameRate: 4,
+      repeat: -1
+    });
+
     
-    
+    // Ajout du marchand
+    if (window.myGameValues.hasArmeValues === true) {
+      // Si le joueur a déjà acheté une arme
+      this.marchand = this.add.sprite(75, 800, 'marchand');
+      this.marchand.anims.play('Idlemarchand');
+    } else {
+      // Si le joueur n'a pas encore acheté d'arme
+      this.marchand = this.add.sprite(75, 800, 'marchandExclamation');
+      this.marchand.anims.play('IdlemarchandExclamation');
+    }
+
+
+      // Ajouter un écouteur d'événements de clavier
+    this.input.keyboard.on('keydown', function(event) {
+    if (event.key === "a") {
+      // Appeler la fonction pour acheter l'arme
+      this.buyWeapon();
+    }
+  }, this);
+  
     
   }
-      
-      update() {
-        this.player.update();
-       
-        // Détection de collisions entre le joueur et les monaies
-        for (let i = 0; i < this.monaies.length; i++) {
-          const monaie = this.monaies[i];
-          if (this.physics.overlap(this.player, monaie)) {
-              monaie.collectmonaie();
-          }
-        }
+/////////////////////////////////////// UPDATE  ///////////////////////////////////////
 
-      }
+update() {
+  this.player.update();
+  // détection de collisions entre le joueur et les monaies
+  for (let i = 0; i < this.monaies.length; i++) {
+    const monaie = this.monaies[i];
+    if (this.physics.overlap(this.player, monaie)) {
+        monaie.collectmonaie();
     }
+  }
+}
+buyWeapon() {
+  // Vérifie que le joueur a suffisamment de monnaie pour acheter l'arme
+  const weaponPrice = 4; // prix de l'arme
+  if (window.myGameValues.moneyValues >= weaponPrice) {
+    // Déduit le prix de l'arme de la monnaie du joueur
+    window.myGameValues.moneyValues -= weaponPrice;
+    // Ajouter l'arme au joueur
+    window.myGameValues.hasArmeValues = true;
+    console.log("Arme achetée !");
+  } else {
+    console.log("Vous n'avez pas assez de monnaie pour acheter l'arme.");
+  }
+}
+}
     
