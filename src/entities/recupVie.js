@@ -1,5 +1,3 @@
-
-
 export default class RecupVie extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture) {
         super(scene, x, y, texture, 0);
@@ -10,8 +8,5 @@ export default class RecupVie extends Phaser.GameObjects.Sprite {
         this.body.setSize(35, 35);
        
     }
-    collectVie() {
-       
-        
-    }
+
 }    

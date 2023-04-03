@@ -157,6 +157,10 @@ export default class Egout extends Phaser.Scene{
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBackgroundColor(0xaaaaaa)
     this.cameras.main.startFollow(this.player);  
+
+    // cree un objet graphique
+    this.graphics = this.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.3 } });
+
     }
     
 
@@ -176,8 +180,32 @@ export default class Egout extends Phaser.Scene{
       });
 
      
-       
-    
+          
+
+      // Mettre à jour l'objet graphique
+      console.log('Clearing graphics object');
+      this.graphics.clear();
+      
+      // Crée une ligne représentant la direction dans laquelle le joueur regarde
+      const line = new Phaser.Geom.Line(this.player.x, this.player.y, this.player.x + Math.cos(this.player.rotation) * 10, this.player.y + Math.sin(this.player.rotation) * 10);
+      console.log('Created line:', line);
+      
+      // Crée une liste de points formant un polygone représentant la zone visible
+      const points = [
+        line.getPointA().x, line.getPointA().y,
+        line.getPointB().x, line.getPointB().y,
+        this.player.x, this.player.y
+      ];
+      console.log('Created points:', points);
+      
+      const polygon = new Phaser.Geom.Polygon(points);
+      console.log('Created polygon:', polygon);
+      
+      // Remplir le polygone en utilisant l'objet graphique
+      this.graphics.fillPoints(polygon.points, true);
+      console.log('Filled polygon with graphics object');
+
+
 
 
     

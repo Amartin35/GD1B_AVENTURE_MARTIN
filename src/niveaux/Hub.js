@@ -115,7 +115,7 @@ export default class Hub extends Phaser.Scene{
     // ajout de l'ui barre de vie 
     this.player.healthBar = this.add.sprite(50,20,'healtbar');
     this.player.healthBar.setScrollFactor(0);
-
+    this.player.healthBar.setDepth(1);
 
 
 
@@ -143,17 +143,22 @@ export default class Hub extends Phaser.Scene{
     });
 
     
-    // Ajout du marchand
-    if (window.myGameValues.hasArmeValues === true) {
-      // Si le joueur a déjà acheté une arme
-      this.marchand = this.add.sprite(75, 800, 'marchand');
-      this.marchand.anims.play('Idlemarchand');
-    } else {
-      // Si le joueur n'a pas encore acheté d'arme
-      this.marchand = this.add.sprite(75, 800, 'marchandExclamation');
-      this.marchand.anims.play('IdlemarchandExclamation');
-    }
+// Ajout du marchand
+if (window.myGameValues.hasArmeValues === true) {
+  // Si le joueur a déjà acheté une arme
+  this.marchand = this.physics.add.sprite(75, 800, 'marchand');
+  this.marchand.anims.play('Idlemarchand');
+} else {
+  // Si le joueur n'a pas encore acheté d'arme
+  this.marchand = this.physics.add.sprite(75, 800, 'marchandExclamation');
+  this.marchand.anims.play('IdlemarchandExclamation');
+}
 
+// Ajouter une collision entre le joueur et le marchand
+this.physics.add.collider(this.player, this.marchand);
+this.marchand.body.setImmovable(true);
+this.player.setDepth(1);
+this.marchand.setDepth(0);
 
       // Ajouter un écouteur d'événements de clavier
     this.input.keyboard.on('keydown', function(event) {
@@ -186,9 +191,17 @@ buyWeapon() {
     // Ajouter l'arme au joueur
     window.myGameValues.hasArmeValues = true;
     console.log("Arme achetée !");
+    
+    // Changer l'animation du marchand
+    this.marchand.anims.stop();
+    this.marchand.setTexture('marchand');
+    this.marchand.anims.play('Idlemarchand');
+    
   } else {
     console.log("Vous n'avez pas assez de monnaie pour acheter l'arme.");
   }
 }
+
 }
+
     
