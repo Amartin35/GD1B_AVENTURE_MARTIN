@@ -159,7 +159,7 @@ export default class Egout extends Phaser.Scene{
     this.cameras.main.startFollow(this.player);  
 
     // cree un objet graphique
-    this.graphics = this.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.3 } });
+    //this.graphics = this.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.3 } });
 
     }
     
@@ -180,7 +180,7 @@ export default class Egout extends Phaser.Scene{
       });
 
      
-          
+         /* 
 
       // Mettre à jour l'objet graphique
       console.log('Clearing graphics object');
@@ -204,7 +204,7 @@ export default class Egout extends Phaser.Scene{
       // Remplir le polygone en utilisant l'objet graphique
       this.graphics.fillPoints(polygon.points, true);
       console.log('Filled polygon with graphics object');
-
+*/
 
 
 
