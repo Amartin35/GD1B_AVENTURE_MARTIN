@@ -186,7 +186,7 @@ this.marchand.setDepth(0);
 // Ajouter un écouteur d'événements de clavier
 this.input.keyboard.on('keydown', function(event) {
   const distance = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.marchand.x, this.marchand.y);
-  if (event.key === "a" && distance < MARCHAND_TRIGGER) {
+  if ((event.key === "a"||this.pad?.A) && distance < MARCHAND_TRIGGER) {
     // Appeler la fonction pour acheter l'arme
     this.buyWeapon();
   }

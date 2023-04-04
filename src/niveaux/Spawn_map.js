@@ -114,6 +114,14 @@ export default class Spawn_map extends Phaser.Scene{
 
 
     // ajout des collision  
+    dashLayer.setCollisionByExclusion(-1, true);
+    if(window.myGameValues.hasDashValues === true){
+      this.physics.add.overlap(this.player, dashLayer);
+    }
+    else{
+      this.physics.add.collider(this.player, dashLayer);
+    }
+
     this.physics.add.overlap(this.player, this.enemies);
     collisionLayer.setCollisionByExclusion(-1, true); 
     this.physics.add.collider(this.player, collisionLayer);
@@ -177,9 +185,17 @@ export default class Spawn_map extends Phaser.Scene{
     }
     this.physics.overlap(this.player, this.dashPowerUp, () => {
       this.dashPowerUp.collectDashPowerUp();
+      
     });
     // Met à jour la position du sprite pour suivre le joueur
     this.bleuView.setPosition(this.player.x, this.player.y);
+
+    if(window.myGameValues.hasDashValues === true){
+      this.physics.add.overlap(this.player, dashLayer);
+    }
+    else{
+      this.physics.add.collider(this.player, dashLayer);
+    }
   }
 }
 

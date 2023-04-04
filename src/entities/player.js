@@ -181,7 +181,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         
         
         // Gestion du dash
-        if ((this.clavier.space.isDown || this.pad?.A) && window.myGameValues.hasDashValues == true && this.dashCooldown <= 0 && this.isDashing == false) {
+        if ((this.clavier.space.isDown || this.pad?.X) && window.myGameValues.hasDashValues == true && this.dashCooldown <= 0 && this.isDashing == false) {
             this.isDashing = true;
             this.dashTime = 0;
             this.isInvincible = true; // Rend le joueur invincible
