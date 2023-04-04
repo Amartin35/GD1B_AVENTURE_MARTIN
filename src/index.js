@@ -17,7 +17,7 @@ onResizeWindow();
 
 // configuration générale du jeu
 var config = {
-  type: Phaser.AUTO,
+  type: Phaser.CANVAS,
   width: GAME_WIDTH,
   height: GAME_HEIGHT, 
   parent: 'game_viewport',
