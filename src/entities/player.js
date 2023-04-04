@@ -1,5 +1,3 @@
-
-
 export default class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, texture) {
         super(scene, x, y, texture); 
@@ -8,7 +6,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
             up: Phaser.Input.Keyboard.KeyCodes.UP,
             down: Phaser.Input.Keyboard.KeyCodes.DOWN,
-            
             space: Phaser.Input.Keyboard.KeyCodes.SPACE,
             attack: Phaser.Input.Keyboard.KeyCodes.V,
         });

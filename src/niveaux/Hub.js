@@ -13,6 +13,7 @@ export default class Hub extends Phaser.Scene{
   preload() {
     this.load.tilemapTiledJSON('mapHub', 'src/assets/Hub.json');
     this.load.image('invisibleDoor', 'src/assets/invisibleDoor.png');
+    this.load.spritesheet('SpritetouchePNJ', 'src/assets/SpritetouchePNJ-sheet.png',{frameWidth: 34, frameHeight: 34});
     this.load.spritesheet('marchand', 'src/assets/SpritePnjmarchand.png',{frameWidth: 34, frameHeight: 64});
     this.load.spritesheet('marchandExclamation', 'src/assets/SpritePnjmarchandPointExclamation.png',{frameWidth: 34, frameHeight: 96});
   }
@@ -142,6 +143,12 @@ export default class Hub extends Phaser.Scene{
       frameRate: 4,
       repeat: -1
     });
+    this.anims.create({
+      key: 'toucheA',
+      frames: this.anims.generateFrameNumbers('SpritetouchePNJ', { start: 0, end: 1 }),
+      frameRate: 4,
+      repeat: -1
+    });
 
     // Pour le marchand sans point d'exclamation
     this.anims.create({
@@ -159,8 +166,11 @@ if (window.myGameValues.hasArmeValues === true) {
   this.marchand.anims.play('Idlemarchand');
 } else {
   // Si le joueur n'a pas encore acheté d'arme
+  this.toucheA = this.physics.add.sprite(100, 800, 'SpritetouchePNJ');
+  this.toucheA.anims.play('toucheA');
   this.marchand = this.physics.add.sprite(75, 800, 'marchandExclamation');
   this.marchand.anims.play('IdlemarchandExclamation');
+
 }
 
 // Ajouter une collision entre le joueur et le marchand
@@ -169,16 +179,19 @@ this.marchand.body.setImmovable(true);
 this.player.setDepth(1);
 this.marchand.setDepth(0);
 
-      // Ajouter un écouteur d'événements de clavier
-    this.input.keyboard.on('keydown', function(event) {
-    if (event.key === "a") {
-      // Appeler la fonction pour acheter l'arme
-      this.buyWeapon();
-    }
-  }, this);
-  
-    
+
+
+
+
+// Ajouter un écouteur d'événements de clavier
+this.input.keyboard.on('keydown', function(event) {
+  const distance = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.marchand.x, this.marchand.y);
+  if (event.key === "a" && distance < MARCHAND_TRIGGER) {
+    // Appeler la fonction pour acheter l'arme
+    this.buyWeapon();
   }
+}, this);
+}
 /////////////////////////////////////// UPDATE  ///////////////////////////////////////
 
 update() {
