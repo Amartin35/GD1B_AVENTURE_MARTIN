@@ -17,7 +17,7 @@ export default class Egout extends Phaser.Scene{
       this.load.tilemapTiledJSON('mapEgout', 'src/assets/Egout.json');
       this.load.spritesheet('clef', 'src/assets/Sprite-clef.png',{frameWidth: 34, frameHeight: 34});
       this.load.image('invisibleDoor', 'src/assets/invisibleDoor.png');
-  
+      this.load.image('field_of_view','src/assets/field_of_view.png');
     }
   
 
@@ -97,8 +97,16 @@ export default class Egout extends Phaser.Scene{
 
 
 
+
+
+    // Crée le sprite pour l'image du champ de vision
+    this.fieldOfView = this.add.sprite(this.player.x, this.player.y, 'field_of_view');
+    this.fieldOfView.setOrigin(0.5);
+
  
  
+
+
     // création de l'objet porte invisible
     this.invisibleDoor = this.add.sprite(1056, 608, 'invisibleDoor').setAlpha(0);
     this.physics.add.existing(this.invisibleDoor);
@@ -159,7 +167,7 @@ export default class Egout extends Phaser.Scene{
     this.cameras.main.startFollow(this.player);  
 
     // cree un objet graphique
-    //this.graphics = this.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.3 } });
+  //  this.graphics = this.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0.3 } });
 
     }
     
@@ -180,8 +188,9 @@ export default class Egout extends Phaser.Scene{
       });
 
      
-         /* 
-
+      // Met à jour la position du sprite pour suivre le joueur
+      this.fieldOfView.setPosition(this.player.x, this.player.y);
+/*
       // Mettre à jour l'objet graphique
       console.log('Clearing graphics object');
       this.graphics.clear();
@@ -204,8 +213,8 @@ export default class Egout extends Phaser.Scene{
       // Remplir le polygone en utilisant l'objet graphique
       this.graphics.fillPoints(polygon.points, true);
       console.log('Filled polygon with graphics object');
-*/
 
+*/
 
 
     

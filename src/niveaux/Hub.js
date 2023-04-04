@@ -55,6 +55,15 @@ export default class Hub extends Phaser.Scene{
     // affichage du sprite du personage
     this.player = new Player(this, 336, 1516, 'perso');
     this.physics.world.setBounds(0, 0, 1600, 1600);
+
+    
+
+
+
+
+    this.bleuView = this.add.sprite(this.player.x, this.player.y, 'bleuView');
+    this.bleuView.setOrigin(0.5);
+
     
 
 
@@ -181,6 +190,8 @@ update() {
         monaie.collectmonaie();
     }
   }
+  // Met à jour la position du sprite pour suivre le joueur
+  this.bleuView.setPosition(this.player.x, this.player.y);
 }
 buyWeapon() {
   // Vérifie que le joueur a suffisamment de monnaie pour acheter l'arme

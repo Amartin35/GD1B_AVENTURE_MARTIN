@@ -19,6 +19,7 @@ export default class Spawn_map extends Phaser.Scene{
   preload() {
     this.load.image('TileSet', 'src/assets/Assets_zelda.png');   
     this.load.image("bullet", "src/assets/SpriteAttack.png");   
+    this.load.image("bleuView", "src/assets/bleuView.png");   
     this.load.tilemapTiledJSON('map', 'src/assets/spawn_map.json');
     this.load.spritesheet('perso', 'src/assets/PlayerSpriteSheet.png',{frameWidth: 34, frameHeight: 66});
     this.load.spritesheet('zombie1', 'src/assets/zombie_characters1.png',{frameWidth: 34, frameHeight: 68});
@@ -100,7 +101,14 @@ export default class Spawn_map extends Phaser.Scene{
     // affichage du sprite du personage
     this.player = new Player(this, 1420, 1340, 'perso');
     this.physics.world.setBounds(0, 0, 1600, 1600);
+
     
+
+
+
+
+    this.bleuView = this.add.sprite(this.player.x, this.player.y, 'bleuView');
+    this.bleuView.setOrigin(0.5);
 
 
 
@@ -135,7 +143,7 @@ export default class Spawn_map extends Phaser.Scene{
 
 
 
-    // ajout de l'ui barre de vie 
+    // ajout de l'ui barre de vie et import du dash power up
     this.dashPowerUp = new DashPowerUp(this, 1056, 1440, 'dashPowerUp');
     this.player.healthBar = this.add.sprite(50,20,'healtbar');
     this.player.healthBar.setScrollFactor(0);
@@ -170,6 +178,8 @@ export default class Spawn_map extends Phaser.Scene{
     this.physics.overlap(this.player, this.dashPowerUp, () => {
       this.dashPowerUp.collectDashPowerUp();
     });
+    // Met à jour la position du sprite pour suivre le joueur
+    this.bleuView.setPosition(this.player.x, this.player.y);
   }
 }
 
