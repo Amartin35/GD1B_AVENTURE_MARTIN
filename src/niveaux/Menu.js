@@ -24,7 +24,7 @@ export default class Menu extends Phaser.Scene{
  /////////////////////////////////////// UPDATE  ///////////////////////////////////////
     update(){
         //LANCE PREMIERE SCENE QUAND ESPACE APPUYE
-        if (Phaser.Input.Keyboard.JustDown(this.clavier.space) == true){
+        if (Phaser.Input.Keyboard.JustDown(this.clavier.space)){
             this.scene.start("Spawn_map",{
             });
         } 

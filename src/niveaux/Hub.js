@@ -13,6 +13,9 @@ export default class Hub extends Phaser.Scene{
   preload() {
     this.load.tilemapTiledJSON('mapHub', 'src/assets/Hub.json');
     this.load.image('invisibleDoor', 'src/assets/invisibleDoor.png');
+    this.load.image('imgTexteTrue', 'src/assets/image_texte_true.png');
+    this.load.image('imgTexteFalse', 'src/assets/image_texte_false.png');
+    this.load.image('imgTexteBegin', 'src/assets/image_texte_begin.png');
     this.load.spritesheet('SpritetouchePNJ', 'src/assets/SpritetouchePNJ-sheet.png',{frameWidth: 34, frameHeight: 34});
     this.load.spritesheet('marchand', 'src/assets/SpritePnjmarchand.png',{frameWidth: 34, frameHeight: 64});
     this.load.spritesheet('marchandExclamation', 'src/assets/SpritePnjmarchandPointExclamation.png',{frameWidth: 34, frameHeight: 96});
@@ -183,14 +186,39 @@ this.marchand.setDepth(0);
 
 
 
+let canBuyWeapon = true;
+
 // Ajouter un écouteur d'événements de clavier
 this.input.keyboard.on('keydown', function(event) {
   const distance = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.marchand.x, this.marchand.y);
-  if ((event.key === "a"||this.pad?.A) && distance < MARCHAND_TRIGGER) {
-    // Appeler la fonction pour acheter l'arme
-    this.buyWeapon();
+  
+  if ((event.key === "a" || this.pad?.A) && distance < MARCHAND_TRIGGER && canBuyWeapon) {
+    canBuyWeapon = false;
+    
+    // Affiche l'image "begin"
+    this.imageBegin = this.add.image(256, 233, 'imgTexteBegin');
+    this.imageBegin.setOrigin(0.5);
+    this.imageBegin.setScrollFactor(0);
+    
+    // Détruit l'image après 1,5 seconde et acheter l'arme
+    this.time.delayedCall(1500, () => {
+      this.imageBegin.destroy();
+      this.buyWeapon();
+    }, [], this);
+    
+    // Réinitialise la variable canBuyWeapon après 5 secondes si le joueur n'a pas encore acheté l'arme
+    setTimeout(() => {
+      if (window.myGameValues.hasArmeValues === false) {
+        canBuyWeapon = true;
+      }
+    }, 5000);
   }
 }, this);
+
+
+
+
+
 }
 /////////////////////////////////////// UPDATE  ///////////////////////////////////////
 
@@ -215,17 +243,36 @@ buyWeapon() {
     // Ajouter l'arme au joueur
     window.myGameValues.hasArmeValues = true;
     console.log("Arme achetée !");
-    
+    const imageTrue = this.add.image(256, 233, 'imgTexteTrue');
+    imageTrue.setOrigin(0.5);
+    imageTrue.setScrollFactor(0);
     // Changer l'animation du marchand
     this.marchand.anims.stop();
     this.marchand.setTexture('marchand');
     this.marchand.anims.play('Idlemarchand');
     
+    // Destruction de l'image après 3 secondes
+    this.time.delayedCall(2500, () => {
+      imageTrue.destroy();
+    }, [], this);
+    
   } else {
     console.log("Vous n'avez pas assez de monnaie pour acheter l'arme.");
+    const imageFalse = this.add.image(256, 233, 'imgTexteFalse');
+    imageFalse.setOrigin(0.5);
+    imageFalse.setScrollFactor(0);
+    
+    // Destruction de l'image après 3 secondes
+    this.time.delayedCall(2500, () => {
+      imageFalse.destroy();
+    }, [], this);
   }
 }
 
 }
+
+
+
+
 
     
