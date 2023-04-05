@@ -1,8 +1,8 @@
 import Player from "../entities/player.js";
 import Zombie1 from "../entities/enemy.js";
-import Monaie from "../entities/monaie.js";
-import DashPowerUp from "../entities/dashPowerUp.js";
-import RecupVie from "../entities/recupVie.js";
+import Monaie from "../collectible/monaie.js";
+import DashPowerUp from "../collectible/dashPowerUp.js";
+import RecupVie from "../collectible/recupVie.js";
 
 export default class Spawn_map extends Phaser.Scene{ 
   
@@ -115,13 +115,11 @@ export default class Spawn_map extends Phaser.Scene{
 
     // ajout des collision  
     this.dashLayer.setCollisionByExclusion(-1, true);
-    if(window.myGameValues.hasDashValues === true){
-      this.physics.add.overlap(this.player, this.dashLayer);
-    }
-    else{
-      this.physics.add.collider(this.player, this.dashLayer);
-    }
-
+    this.physics.add.collider(this.player, this.dashLayer, () => { 
+      console.log("collision layer dash"); 
+    }, () => {
+      return !this.player.isDashing;
+    });
     this.physics.add.overlap(this.player, this.enemies);
     collisionLayer.setCollisionByExclusion(-1, true); 
     this.physics.add.collider(this.player, collisionLayer);
@@ -136,6 +134,7 @@ export default class Spawn_map extends Phaser.Scene{
       });
     });
 
+ 
 
 
 
@@ -186,10 +185,10 @@ export default class Spawn_map extends Phaser.Scene{
     }
     this.physics.overlap(this.player, this.dashPowerUp, () => {
       this.dashPowerUp.collectDashPowerUp();
-      
     });
     // Met à jour la position du sprite pour suivre le joueur
     this.bleuView.setPosition(this.player.x, this.player.y);
   }
+  
 }
 

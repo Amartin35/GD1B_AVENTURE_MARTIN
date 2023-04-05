@@ -1,5 +1,5 @@
 import Player from "../entities/player.js";
-import Monaie from "../entities/monaie.js";
+import Monaie from "../collectible/monaie.js";
 // définition de la classe "selection"
 export default class Hub extends Phaser.Scene{
   

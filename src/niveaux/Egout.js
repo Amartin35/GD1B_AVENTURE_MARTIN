@@ -1,4 +1,4 @@
-import Clef from "../entities/clef.js";
+import Clef from "../collectible/clef.js";
 import Zombie1  from "../entities/enemy.js";
 import Player from "../entities/player.js";
 
@@ -133,7 +133,11 @@ export default class Egout extends Phaser.Scene{
     this.physics.add.collider(this.enemies, collisionLayer);
     this.physics.add.collider(this.player, collisionLayer);
     this.physics.add.collider(this.enemies, eauLayer);
-    this.physics.add.collider(this.player, eauLayer);
+    this.physics.add.collider(this.player, eauLayer, () => { 
+      console.log("collision layer eau"); 
+    }, () => {
+      return !this.player.isDashing;
+    });
     eauLayer.setCollisionByExclusion(-1, true); 
     porteLayer.setCollisionByExclusion(-1, true); 
     this.physics.add.collider(this.enemies, porteLayer);

@@ -383,8 +383,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             console.log("Animation hp1 est jouée");
         }
     }
-    
-    
+
+
 
 
 

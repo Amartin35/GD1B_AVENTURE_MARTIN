@@ -1,4 +1,4 @@
-import RecupVie from "../entities/recupVie.js";
+import RecupVie from "../collectible/recupVie.js";
 
 export default class Zombie1 extends Phaser.GameObjects.Sprite {
   constructor(scene, x, y, type = "normal") {
