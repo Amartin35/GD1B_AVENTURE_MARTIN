@@ -101,6 +101,7 @@ export default class Spawn_map extends Phaser.Scene{
     // affichage du sprite du personage
     this.player = new Player(this, 1420, 1340, 'perso');
     this.physics.world.setBounds(0, 0, 1600, 1600);
+    this.oldPositions = [];
 
     
 
@@ -188,6 +189,21 @@ export default class Spawn_map extends Phaser.Scene{
     });
     // Met à jour la position du sprite pour suivre le joueur
     this.bleuView.setPosition(this.player.x, this.player.y);
+
+    // Ajouter une position à chaque fois que le joueur se déplace
+    this.oldPositions.push({ x: this.player.x, y: this.player.y });
+
+    // Pendant le dash, ajouter des sprites de rémanence à chaque ancienne position
+    for (let i = 0; this.oldPositions && i < this.oldPositions.length; i++) {
+      let perso = this.add.sprite(this.oldPositions[i].x, this.oldPositions[i].y, 'perso');
+      perso.alpha = 0.5 - (i / this.oldPositions.length) * 0.4;
+      this.add.tween(perso).to({ alpha: 0 }, 500, Phaser.Easing.Linear.None, true);
+    }
+
+    // Supprimer les anciennes positions après un certain temps
+    this.time.events.add(Phaser.Timer.SECOND * 0.5, function() {
+      this.oldPositions = [];
+    }, this);
   }
   
 }
