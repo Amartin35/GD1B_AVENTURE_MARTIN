@@ -5,6 +5,7 @@ export default class Hub extends Phaser.Scene{
   
   constructor() {
     super({key : "Hub"}); // mettre le meme nom que le nom de la classe
+    this.messageBloque = false;
   }
   
   
@@ -16,9 +17,14 @@ export default class Hub extends Phaser.Scene{
     this.load.image('imgTexteTrue', 'src/assets/image_texte_true.png');
     this.load.image('imgTexteFalse', 'src/assets/image_texte_false.png');
     this.load.image('imgTexteBegin', 'src/assets/image_texte_begin.png');
+    this.load.image('imgTextePnj1', 'src/assets/image_texte_pnj1.png');
+    this.load.image('imgTextePnjFalse', 'src/assets/image_texte_pnj2False.png');
+    this.load.image('imgTextePnjTrue', 'src/assets/image_texte_pnj2True.png');
+    this.load.image('imgTextePnj2DropBoss', 'src/assets/image_texte_pnj2DropBoss.png');
     this.load.spritesheet('SpritetouchePNJ', 'src/assets/SpritetouchePNJ-sheet.png',{frameWidth: 34, frameHeight: 34});
     this.load.spritesheet('marchand', 'src/assets/SpritePnjmarchand.png',{frameWidth: 34, frameHeight: 64});
     this.load.spritesheet('marchandExclamation', 'src/assets/SpritePnjmarchandPointExclamation.png',{frameWidth: 34, frameHeight: 96});
+    this.load.spritesheet('PnjQuete', 'src/assets/pnjQuetes.png',{frameWidth: 34, frameHeight: 64});
   }
   
 
@@ -76,14 +82,7 @@ export default class Hub extends Phaser.Scene{
     // bloque l'acces au egouts is pas de dash
     this.invisibleDoor = this.add.sprite(1024, 864, 'invisibleDoor').setAlpha(0);
     this.physics.add.existing(this.invisibleDoor);
-    this.physics.add.collider(this.player, this.invisibleDoor, () => {
-      if (window.myGameValues.hasDashValues === true) {
-        console.log("Le joueur touche la porte invisible et a le dash");
-        this.invisibleDoor.destroy();
-      } else {
-        console.log("Le joueur touche la porte invisible mais n'a pas le dash");
-      }
-    });
+    this.physics.add.collider(this.player, this.invisibleDoor);
     this.invisibleDoor.body.setAllowGravity(false);
     this.invisibleDoor.body.immovable = true;
     this.invisibleDoor.setSize(32,160);
@@ -139,7 +138,9 @@ export default class Hub extends Phaser.Scene{
     this.HudClef = this.add.image(487, 116, "HudClef");
     this.HudClef.setScrollFactor(0);
     this.HudClef.visible = false;
-
+    this.HudDropBoss = this.add.image(490, 150, "DropBoss");
+    this.HudDropBoss.setScrollFactor(0);
+    this.HudDropBoss.visible = false;
 
 
 
@@ -149,7 +150,7 @@ export default class Hub extends Phaser.Scene{
     this.cameras.main.setBackgroundColor(0xaaaaaa)
     this.cameras.main.startFollow(this.player);  
 
-        // Pour le marchand avec point d'exclamation
+    // Pour le marchand avec point d'exclamation
     this.anims.create({
       key: 'IdlemarchandExclamation',
       frames: this.anims.generateFrameNumbers('marchandExclamation', { start: 0, end: 1 }),
@@ -170,66 +171,141 @@ export default class Hub extends Phaser.Scene{
       frameRate: 4,
       repeat: -1
     });
+  // Pour le Pnj de la quete
+    this.anims.create({
+      key: 'IdlePnjQuete',
+      frames: this.anims.generateFrameNumbers('PnjQuete', { start: 0, end: 1 }),
+      frameRate: 4,
+      repeat: -1
+    });
+
+
 
     
-// Ajout du marchand
-if (window.myGameValues.hasArmeValues === true) {
-  // Si le joueur a déjà acheté une arme
-  this.marchand = this.physics.add.sprite(75, 800, 'marchand');
-  this.marchand.anims.play('Idlemarchand');
-} else {
-  // Si le joueur n'a pas encore acheté d'arme
-  this.toucheA = this.physics.add.sprite(100, 800, 'SpritetouchePNJ');
-  this.toucheA.anims.play('toucheA');
-  this.marchand = this.physics.add.sprite(75, 800, 'marchandExclamation');
-  this.marchand.anims.play('IdlemarchandExclamation');
+    // Ajout du marchand
+    if (window.myGameValues.hasArmeValues) {
+      // Si le joueur a déjà acheté une arme
+      this.marchand = this.physics.add.sprite(75, 800, 'marchand');
+      this.marchand.anims.play('Idlemarchand');
+      this.toucheA1.visible = false
+    } else {
+      // Si le joueur n'a pas encore acheté d'arme
+      this.toucheA1 = this.physics.add.sprite(100, 800, 'SpritetouchePNJ');
+      this.toucheA1.anims.play('toucheA');
+      this.marchand = this.physics.add.sprite(75, 800, 'marchandExclamation');
+      this.marchand.anims.play('IdlemarchandExclamation');
 
-}
+    }
 
-// Ajouter une collision entre le joueur et le marchand
-this.physics.add.collider(this.player, this.marchand);
-this.marchand.body.setImmovable(true);
-this.player.setDepth(1);
-this.marchand.setDepth(0);
-
-
-
+    // Ajouter une collision entre le joueur et le marchand
+    this.physics.add.collider(this.player, this.marchand);
+    this.marchand.body.setImmovable(true);
+    this.player.setDepth(1);
+    this.marchand.setDepth(0);
 
 
-let canBuyWeapon = true;
 
-// Ajouter un écouteur d'événements de clavier
-this.input.keyboard.on('keydown', function(event) {
-  const distance = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.marchand.x, this.marchand.y);
-  
-  if ((event.key === "a" || this.pad?.A) && distance < MARCHAND_TRIGGER && canBuyWeapon) {
-    canBuyWeapon = false;
-    
-    // Affiche l'image "begin"
-    this.imageBegin = this.add.image(256, 233, 'imgTexteBegin');
-    this.imageBegin.setOrigin(0.5);
-    this.imageBegin.setScrollFactor(0);
-    
-    // Détruit l'image après 1,5 seconde et acheter l'arme
-    this.time.delayedCall(1500, () => {
-      this.imageBegin.destroy();
-      this.buyWeapon();
-    }, [], this);
-    
-    // Réinitialise la variable canBuyWeapon après 5 secondes si le joueur n'a pas encore acheté l'arme
-    setTimeout(() => {
-      if (window.myGameValues.hasArmeValues === false) {
-        canBuyWeapon = true;
+
+
+    let canBuyWeapon = true;
+
+    // Ajouter un écouteur d'événements de clavier
+    this.input.keyboard.on('keydown', function(event) {
+      const distanceMarchand = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.marchand.x, this.marchand.y);
+      
+      if ((event.key === "a" || this.pad?.A) && distanceMarchand < MARCHAND_TRIGGER && canBuyWeapon) {
+        canBuyWeapon = false;
+        
+        // Affiche l'image "begin"
+        this.imageBegin = this.add.image(256, 233, 'imgTexteBegin');
+        this.imageBegin.setOrigin(0.5);
+        this.imageBegin.setScrollFactor(0);
+        
+        // Détruit l'image après 1,5 seconde et acheter l'arme
+        this.time.delayedCall(1500, () => {
+          this.imageBegin.destroy();
+          this.buyWeapon();
+        }, [], this);
+        
+        // Réinitialise la variable canBuyWeapon après 5 secondes si le joueur n'a pas encore acheté l'arme
+        setTimeout(() => {
+          if (window.myGameValues.hasArmeValues === false) {
+            canBuyWeapon = true;
+          }
+        }, 5000);
       }
-    }, 5000);
-  }
-}, this);
+    }, this);
 
 
 
+    this.pnjQuete = this.physics.add.sprite(944, 848, 'PnjQuete');
+    this.toucheA = this.physics.add.sprite(965, 820, 'SpritetouchePNJ');
+    this.toucheA.anims.play('toucheA');
+    this.pnjQuete.anims.play('IdlePnjQuete');
+    this.pnjQuete.setImmovable(true);
+    this.pnjQuete.setDepth(0);
 
+    this.input.keyboard.on('keydown', (event) => {
+      const distancePnj = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.pnjQuete.x, this.pnjQuete.y);
 
+       // variable pour éviter que les messages se superposent
+  
+      if ((event.key === "a" || this.pad?.A) && distancePnj < PNJ_TRIGGER && !this.messageBloque && !window.myGameValues.hasdropBossValues) {
+  
+          this.messageBloque = true; // définir la variable comme true pour éviter que les messages se superposent
+  
+          // Affiche l'image "imgTextePnj1"
+          this.imgTextePnj1 = this.add.image(256, 233, 'imgTextePnj1');
+          this.imgTextePnj1.setOrigin(0.5);
+          this.imgTextePnj1.setScrollFactor(0);
+  
+
+          this.time.delayedCall(7000, () => {
+            this.imgTextePnj1.destroy();
+          }, [], this);
+  
+          // Affiche le deuxième message après une pause de 1,5 seconde
+          this.time.delayedCall(7000, () => {
+            if(window.myGameValues.hasDashValues == true){
+              this.imgTextePnjTrue = this.add.image(256, 233, 'imgTextePnjTrue');
+              this.imgTextePnjTrue.setOrigin(0.5);
+              this.imgTextePnjTrue.setScrollFactor(0);
+              this.invisibleDoor.destroy();
+            }
+            else{
+              this.imgTextePnjFalse = this.add.image(256, 233, 'imgTextePnjFalse');
+              this.imgTextePnjFalse.setOrigin(0.5);
+              this.imgTextePnjFalse.setScrollFactor(0);
+            }
+  
+            // Détruit le deuxième message après 1,5 seconde
+            this.time.delayedCall(2000, () => {
+              if(window.myGameValues.hasDashValues == true){
+                this.imgTextePnjTrue.destroy();
+              }
+              else{
+                this.imgTextePnjFalse.destroy();
+              }
+            }, [], this);
+            setTimeout(() => {
+              this.messageBloque = false;
+            }, 1000);
+          }, [], this);
+
+        }
+        else if((event.key === "a" || this.pad?.A) && distancePnj < PNJ_TRIGGER && !this.messageBloque && window.myGameValues.hasdropBossValues){
+          this.messageBloque = true;
+          this.imgTextePnj1DropBoss = this.add.image(256, 233, 'imgTextePnj2DropBoss');
+          this.imgTextePnj1DropBoss.setOrigin(0.5);
+          this.imgTextePnj1DropBoss.setScrollFactor(0);
+          this.time.delayedCall(2000, () => {
+            this.imgTextePnj1DropBoss.destroy();
+          })
+        }
+     
+      });
 }
+  
 /////////////////////////////////////// UPDATE  ///////////////////////////////////////
 
 update() {
@@ -245,12 +321,16 @@ update() {
   this.bleuView.setPosition(this.player.x, this.player.y);
   if(window.myGameValues.hasArmeValues){
     this.barreMetalHud.visible = true;
+    this.toucheA1.visible = false
   }
   if(window.myGameValues.hasDashValues == true){
     this.HudDash.visible = true;
   }
   if(window.myGameValues.hasClefValues == true){
     this.HudClef.visible = true;
+  }
+  if(window.myGameValues.hasdropBossValues == true){
+    this.HudDropBoss.visible = true;
   }
 }
 buyWeapon() {

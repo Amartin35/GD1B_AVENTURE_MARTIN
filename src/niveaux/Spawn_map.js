@@ -22,6 +22,7 @@ export default class Spawn_map extends Phaser.Scene{
     this.load.image("bleuView", "src/assets/bleuView.png");   
     this.load.image("HudDash", "src/assets/HudDash.png"); 
     this.load.image("HudClef", "src/assets/HudClef.png"); 
+    this.load.image("DropBoss", "src/assets/DropBoss.png"); 
     this.load.image("barreMetalHud", "src/assets/SpriteBarreMetal.png"); 
     this.load.tilemapTiledJSON('map', 'src/assets/spawn_map.json');
     this.load.spritesheet('perso', 'src/assets/PlayerSpriteSheet.png',{frameWidth: 34, frameHeight: 66});
@@ -171,6 +172,10 @@ export default class Spawn_map extends Phaser.Scene{
     this.HudClef = this.add.image(487, 116, "HudClef");
     this.HudClef.setScrollFactor(0);
     this.HudClef.visible = false;
+    this.HudDropBoss = this.add.image(490, 150, "DropBoss");
+    this.HudDropBoss.setScrollFactor(0);
+    this.HudDropBoss.visible = false;
+
 
   
 
@@ -215,6 +220,9 @@ export default class Spawn_map extends Phaser.Scene{
     }
     if(window.myGameValues.hasClefValues == true){
       this.HudClef.visible = true;
+    }
+    if(window.myGameValues.hasdropBossValues == true){
+      this.HudDropBoss.visible = true;
     }
 
   }

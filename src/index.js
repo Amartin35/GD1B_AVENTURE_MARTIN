@@ -30,7 +30,7 @@ var config = {
     default: "arcade", 
     arcade: {
 
-      debug: false // permet de voir les hitbox et les vecteurs d'acceleration quand mis à true
+      debug: true // permet de voir les hitbox et les vecteurs d'acceleration quand mis à true
     },
     input: {
       gamepad: true

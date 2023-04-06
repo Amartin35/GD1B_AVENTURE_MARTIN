@@ -276,7 +276,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             bullet.destroy();
         });
 
-
+            // Détecter la collision avec le boss
+        this.scene.physics.add.overlap(bullet, this.scene.boss, (bullet, boss) => {
+        // Appliquer les dégâts au boss
+        boss.takeDamage();
+        console.log("boss toucher")
+        // détruire le projectile
+        bullet.destroy();
+        });
 
     }    
     

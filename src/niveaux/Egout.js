@@ -1,4 +1,5 @@
 import Clef from "../collectible/clef.js";
+import Boss from "../entities/boss.js";
 import Zombie1  from "../entities/enemy.js";
 import Player from "../entities/player.js";
 
@@ -18,6 +19,7 @@ export default class Egout extends Phaser.Scene{
     this.load.spritesheet('clef', 'src/assets/Sprite-clef.png',{frameWidth: 34, frameHeight: 34});
     this.load.image('invisibleDoor', 'src/assets/invisibleDoor.png');
     this.load.image('field_of_view','src/assets/field_of_view.png');
+    this.load.spritesheet("SpriteBoss", "src/assets/SpriteBoss.png", {frameWidth: 98, frameHeight: 98}); 
   }
 
 
@@ -96,6 +98,7 @@ export default class Egout extends Phaser.Scene{
   this.physics.world.setBounds(0, 0, 1600, 1600);
 
 
+  this.boss = new Boss(this,1312, 608, 'SpriteBoss', this.player);
 
 
 
@@ -173,6 +176,9 @@ export default class Egout extends Phaser.Scene{
   this.HudClef = this.add.image(487, 116, "HudClef");
   this.HudClef.setScrollFactor(0);
   this.HudClef.visible = false;
+  this.HudDropBoss = this.add.image(490, 150, "DropBoss");
+  this.HudDropBoss.setScrollFactor(0);
+  this.HudDropBoss.visible = false;
 
 
 
@@ -182,6 +188,7 @@ export default class Egout extends Phaser.Scene{
   this.cameras.main.startFollow(this.player);
   this.cameras.main.setBackgroundColor(0xaaaaaa)
   this.cameras.main.startFollow(this.player);  
+
 
 
 
@@ -203,6 +210,8 @@ update() {
     this.clef.collect()
   });
 
+  this.boss?.update();
+
   
   // Met à jour la position du sprite pour suivre le joueur
   this.fieldOfView.setPosition(this.player.x, this.player.y);
@@ -216,6 +225,9 @@ update() {
     this.HudClef.visible = true;
   }
 
+  if(window.myGameValues.hasdropBossValues == true){
+    this.HudDropBoss.visible = true;
+  }
 }
 
 } 

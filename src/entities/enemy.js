@@ -1,5 +1,5 @@
 import RecupVie from "../collectible/recupVie.js";
-
+import Player from "./player.js";
 export default class Zombie1 extends Phaser.GameObjects.Sprite {
   constructor(scene, x, y, type = "normal") {
     super(scene, x, y, 'zombie1');
@@ -13,6 +13,7 @@ export default class Zombie1 extends Phaser.GameObjects.Sprite {
     this.type = type;
     this.setRandomSkin();
     
+
   }
 
 
@@ -41,6 +42,13 @@ export default class Zombie1 extends Phaser.GameObjects.Sprite {
         // Inflige des dégâts au joueur
         window.myGameValues.hpValues -= 1;
         player.degats();
+        // Teinte le joueur en rouge
+        player.setTint(0xff0000);
+
+        setTimeout(() => {
+          player.clearTint();
+        }, 300);
+  
   
         player.isInvincible = true; // Rend le joueur invincible
         setTimeout(() => {

@@ -4,7 +4,7 @@
 
 **Musique**
 
-La musique utilisée dans ce jeu est "Welcome To The Jungle" de Guns N' Roses. Elle est extraite de l'album "Appetite For Destruction" et est publiée par Geffen Records. Elle a été publiée pour la première fois en 1987.
+La musique utilisée dans ce jeu est la version instrumentale de "Welcome To The Jungle" de Guns N' Roses. Elle est extraite de l'album "Appetite For Destruction" et est publiée par Geffen Records. Elle a été publiée pour la première fois en 1987.
 
 
 
