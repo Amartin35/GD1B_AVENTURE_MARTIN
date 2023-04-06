@@ -403,27 +403,22 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     degats(){
         if (this.healthBar && window.myGameValues.hpValues == 5) {
             this.healthBar.anims.play("hp5", true);
-            console.log("Animation hp5 est jouée");
         }
     
         if (this.healthBar && window.myGameValues.hpValues == 4) {
             this.healthBar.anims.play("hp4", true);
-            console.log("Animation hp4 est jouée");
         }
     
         if (this.healthBar && window.myGameValues.hpValues == 3) {
             this.healthBar.anims.play("hp3", true);
-            console.log("Animation hp3 est jouée");
         }
     
         if (this.healthBar && window.myGameValues.hpValues == 2) {
             this.healthBar.anims.play("hp2", true);
-            console.log("Animation hp2 est jouée");
         }
     
         if (this.healthBar && window.myGameValues.hpValues == 1) {
             this.healthBar.anims.play("hp1", true);
-            console.log("Animation hp1 est jouée");
         }
     }
 
@@ -432,46 +427,37 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         if (this.HudMonaie && window.myGameValues.moneyValues == 0) {
             this.HudMonaie.anims.play("MonaieHud1", true);
             this.HudMonaie.visible = false;
-            console.log("Animation MonaieHud1 est jouée");
         }
         if (this.HudMonaie && window.myGameValues.moneyValues == 1) {
             this.HudMonaie.anims.play("MonaieHud1", true);
             this.HudMonaie.visible = true;
-            console.log("Animation MonaieHud1 est jouée");
         }
         if (this.HudMonaie && window.myGameValues.moneyValues == 2) {
             this.HudMonaie.anims.play("MonaieHud2", true);
-            console.log("Animation MonaieHud2 est jouée");
         }
  
         if (this.HudMonaie && window.myGameValues.moneyValues == 3) {
             this.HudMonaie.anims.play("MonaieHud3", true);
-            console.log("Animation MonaieHud3 est jouée");
         }
  
         if (this.HudMonaie && window.myGameValues.moneyValues == 4) {
             this.HudMonaie.anims.play("MonaieHud4", true);
-            console.log("Animation MonaieHud4 est jouée");
         }
  
         if (this.HudMonaie && window.myGameValues.moneyValues == 5) {
             this.HudMonaie.anims.play("MonaieHud5", true);
-            console.log("Animation MonaieHud5 est jouée");
         }
  
         if (this.HudMonaie && window.myGameValues.moneyValues == 6) {
             this.HudMonaie.anims.play("MonaieHud6", true);
-            console.log("Animation MonaieHud6 est jouée");
         }
  
         if (this.HudMonaie && window.myGameValues.moneyValues == 7) {
             this.HudMonaie.anims.play("MonaieHud7", true);
-            console.log("Animation MonaieHud7 est jouée");
         }
  
         if (this.HudMonaie && window.myGameValues.moneyValues == 8) {
-            this.HudMonaie.anims.play("MonaieHud8", true);
-            console.log("Animation MonaieHud8 est jouée");
+            this.HudMonaie.anims.play("MonaieHud8", true);  
         }
  
  
