@@ -8,16 +8,18 @@ export default class Menu extends Phaser.Scene{
 
 /////////////////////////////////////// PRELOAD ///////////////////////////////////////
     preload() {
-        this.load.image('ecranTitre', 'src/assets/placeholder_menu.png');
+        this.load.image('ecranTitre', 'src/assets/EcranTitre.png');
+        this.load.audio('musique', 'src/assets/WelcomeToTheJungle.mp3');
     }
 
 /////////////////////////////////////// CREATE ///////////////////////////////////////
     create(){
-        this.add.image(288, 512, "ecranTitre");
-        this.add.text(100, 250, "Appuyer sur Space pour commencer"), {
-            fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
-            fontSize: "40pt"
-        }
+        this.add.image(256, 144, "ecranTitre");
+        // Ajoutez la piste audio à la scène
+        let musique = this.sound.add('musique', { loop: true });
+        // Jouez la musique
+        musique.play();
+        console.log('Music started');
         this.clavier = this.input.keyboard.createCursorKeys();
     }
 

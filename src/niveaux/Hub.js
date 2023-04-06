@@ -27,7 +27,7 @@ export default class Hub extends Phaser.Scene{
    /////////////////////////////////////// CREATE ///////////////////////////////////////
 
   create() {
-   // creation de ma carte
+    // creation de ma carte
     const map = this.add.tilemap("mapHub");
     const tileset = map.addTilesetImage("Assets_zelda", "TileSet");
     
@@ -125,10 +125,20 @@ export default class Hub extends Phaser.Scene{
 
 
 
-    // ajout de l'ui barre de vie 
+    // ajout de l'ui 
     this.player.healthBar = this.add.sprite(50,20,'healtbar');
     this.player.healthBar.setScrollFactor(0);
-    this.player.healthBar.setDepth(1);
+    this.player.HudMonaie = this.add.sprite(473, 20, "HudMonaie");
+    this.player.HudMonaie.setScrollFactor(0);
+    this.barreMetalHud = this.add.image(490, 45, "barreMetalHud");
+    this.barreMetalHud.setScrollFactor(0);
+    this.barreMetalHud.visible = false;
+    this.HudDash = this.add.image(495, 75, "HudDash");
+    this.HudDash.setScrollFactor(0);
+    this.HudDash.visible = false;
+    this.HudClef = this.add.image(487, 116, "HudClef");
+    this.HudClef.setScrollFactor(0);
+    this.HudClef.visible = false;
 
 
 
@@ -233,6 +243,15 @@ update() {
   }
   // Met à jour la position du sprite pour suivre le joueur
   this.bleuView.setPosition(this.player.x, this.player.y);
+  if(window.myGameValues.hasArmeValues){
+    this.barreMetalHud.visible = true;
+  }
+  if(window.myGameValues.hasDashValues == true){
+    this.HudDash.visible = true;
+  }
+  if(window.myGameValues.hasClefValues == true){
+    this.HudClef.visible = true;
+  }
 }
 buyWeapon() {
   // Vérifie que le joueur a suffisamment de monnaie pour acheter l'arme

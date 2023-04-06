@@ -23,6 +23,8 @@ export default class Monaie extends Phaser.GameObjects.Sprite {
 
     }
 
+    
+
     collectmonaie() {
         window.myGameValues.moneyValues += 1;
         console.log( window.myGameValues.moneyValues,"money");

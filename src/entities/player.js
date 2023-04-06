@@ -24,6 +24,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         // Propriétés des animations
         this.CreateAnimations();
         this.CreateAnimationsBarreHp();
+        this.CreateAnimationsMonaieHud();
         this.facingUp = false;
         
 
@@ -217,7 +218,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         
         this.degats();
         
-    
+        this.MonaieHud();
         
     }
 
@@ -328,6 +329,48 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
 
+    CreateAnimationsMonaieHud(){
+        this.scene.anims.create({
+            key: 'MonaieHud1',
+            frames:[{key: 'HudMonaie', frame: 0}],
+            frameRate: 10
+        });
+        this.scene.anims.create({
+            key: 'MonaieHud2',
+            frames:[{key: 'HudMonaie', frame: 1}],
+            frameRate: 10
+        });
+        this.scene.anims.create({
+            key: 'MonaieHud3',
+            frames:[{key: 'HudMonaie', frame: 2}],
+            frameRate: 10
+        });
+        this.scene.anims.create({
+            key: 'MonaieHud4',
+            frames:[{key: 'HudMonaie', frame: 3}],
+            frameRate: 10
+        });
+        this.scene.anims.create({
+            key: 'MonaieHud5',
+            frames:[{key: 'HudMonaie', frame: 4}],
+            frameRate: 10
+        });
+        this.scene.anims.create({
+            key: 'MonaieHud6',
+            frames:[{key: 'HudMonaie', frame: 5}],
+            frameRate: 10
+        });
+        this.scene.anims.create({
+            key: 'MonaieHud7',
+            frames:[{key: 'HudMonaie', frame: 6}],
+            frameRate: 10
+        });
+        this.scene.anims.create({
+            key: 'MonaieHud8',
+            frames:[{key: 'HudMonaie', frame: 7}],
+            frameRate: 10
+        });
+    }
     CreateAnimationsBarreHp(){
 
         this.scene.anims.create({
@@ -385,6 +428,54 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
 
+    MonaieHud(){
+        if (this.HudMonaie && window.myGameValues.moneyValues == 0) {
+            this.HudMonaie.anims.play("MonaieHud1", true);
+            this.HudMonaie.visible = false;
+            console.log("Animation MonaieHud1 est jouée");
+        }
+        if (this.HudMonaie && window.myGameValues.moneyValues == 1) {
+            this.HudMonaie.anims.play("MonaieHud1", true);
+            this.HudMonaie.visible = true;
+            console.log("Animation MonaieHud1 est jouée");
+        }
+        if (this.HudMonaie && window.myGameValues.moneyValues == 2) {
+            this.HudMonaie.anims.play("MonaieHud2", true);
+            console.log("Animation MonaieHud2 est jouée");
+        }
+ 
+        if (this.HudMonaie && window.myGameValues.moneyValues == 3) {
+            this.HudMonaie.anims.play("MonaieHud3", true);
+            console.log("Animation MonaieHud3 est jouée");
+        }
+ 
+        if (this.HudMonaie && window.myGameValues.moneyValues == 4) {
+            this.HudMonaie.anims.play("MonaieHud4", true);
+            console.log("Animation MonaieHud4 est jouée");
+        }
+ 
+        if (this.HudMonaie && window.myGameValues.moneyValues == 5) {
+            this.HudMonaie.anims.play("MonaieHud5", true);
+            console.log("Animation MonaieHud5 est jouée");
+        }
+ 
+        if (this.HudMonaie && window.myGameValues.moneyValues == 6) {
+            this.HudMonaie.anims.play("MonaieHud6", true);
+            console.log("Animation MonaieHud6 est jouée");
+        }
+ 
+        if (this.HudMonaie && window.myGameValues.moneyValues == 7) {
+            this.HudMonaie.anims.play("MonaieHud7", true);
+            console.log("Animation MonaieHud7 est jouée");
+        }
+ 
+        if (this.HudMonaie && window.myGameValues.moneyValues == 8) {
+            this.HudMonaie.anims.play("MonaieHud8", true);
+            console.log("Animation MonaieHud8 est jouée");
+        }
+ 
+ 
+    }
 
 
 
