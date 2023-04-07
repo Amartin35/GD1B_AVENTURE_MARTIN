@@ -18,7 +18,7 @@ Les bruitages ont été créés par Achille Martin.
 
 **Contrôles**
 
-Les touches de déplacement peuvent être configurées par le joueur selon son choix :
+Les touches de déplacement peuvent être clavier ou manettes selon le choix du joueur :
 
 Utilisation de la croix directionnelle de la manette
 Utilisation des touches directionnelles du clavier
