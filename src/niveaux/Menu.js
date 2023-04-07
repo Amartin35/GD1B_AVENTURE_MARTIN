@@ -17,9 +17,10 @@ export default class Menu extends Phaser.Scene{
         this.add.image(256, 144, "ecranTitre");
         // Ajoutez la piste audio à la scène
         let musique = this.sound.add('musique', { loop: true });
-        // Jouez la musique
         musique.play();
+        musique.setVolume(0.1); // Réduire le volume à 50%
         console.log('Music started');
+        
         this.clavier = this.input.keyboard.createCursorKeys();
     }
 

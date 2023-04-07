@@ -1,14 +1,10 @@
 export default class Monaie extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture) {
         super(scene, x, y, texture, 0);
-
         this.scene = scene;
         this.scene.add.existing(this);
         this.scene.physics.world.enable(this);
         this.body.setSize(32, 32);
-       
-
-        // Propriétés des animations
         this.createAnimationsMonaie();
     }
 
@@ -20,10 +16,7 @@ export default class Monaie extends Phaser.GameObjects.Sprite {
             repeat: -1
         });
         this.anims.play("IdleCapsule", true);
-
     }
-
-    
 
     collectmonaie() {
         window.myGameValues.moneyValues += 1;
