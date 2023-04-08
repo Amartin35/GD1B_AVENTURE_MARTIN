@@ -1,5 +1,6 @@
 import Player from "../entities/player.js";
 import Monaie from "../collectible/monaie.js";
+import Mouche from "../entities/Mouche.js";
 export default class Hub extends Phaser.Scene{
 	constructor() {
 		super({key : "Hub"}); // mettre le meme nom que le nom de la classe
@@ -105,6 +106,13 @@ export default class Hub extends Phaser.Scene{
 		];
 		
 		
+		// Ajout des mouches
+		this.mouches = [
+			new Mouche(this, 96, 608, 'mouche'),
+			new Mouche(this, 120, 650, 'mouche'),
+			new Mouche(this, 480, 620, 'mouche'),
+			new Mouche(this, 550, 600, 'mouche'),
+		];
 		
 		
 		// Ajout de l'ui 
@@ -195,36 +203,6 @@ export default class Hub extends Phaser.Scene{
 		
 		
 		
-		
-		let canBuyWeapon = true;
-		// Ajoute un écouteur d'événements de clavier
-		this.input.keyboard.on('keydown', function(event) {
-			const distanceMarchand = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.marchand.x, this.marchand.y);
-			
-			if ((event.key === "a" || this.pad?.A) && distanceMarchand < MARCHAND_TRIGGER && canBuyWeapon) {
-				canBuyWeapon = false;
-				
-				// Affiche l'image "begin"
-				this.imageBegin = this.add.image(256, 233, 'imgTexteBegin');
-				this.imageBegin.setOrigin(0.5);
-				this.imageBegin.setScrollFactor(0);
-				
-
-				this.time.delayedCall(1500, () => {
-					this.imageBegin.destroy();
-					this.buyWeapon();
-				}, [], this);
-				
-				// Réinitialise la variable canBuyWeapon après 5 secondes si le joueur n'a pas encore acheté l'arme
-				setTimeout(() => {
-					if (window.myGameValues.hasArmeValues === false) {
-						canBuyWeapon = true;
-					}
-				}, 5000);
-			}
-		}, this);
-		
-		
 		// Ajout du PNJ pour Quete
 		this.pnjQuete = this.physics.add.sprite(944, 848, 'PnjQuete');
 		this.toucheA = this.physics.add.sprite(965, 820, 'SpritetouchePNJ');
@@ -233,74 +211,17 @@ export default class Hub extends Phaser.Scene{
 		this.pnjQuete.setImmovable(true);
 		this.pnjQuete.setDepth(0);
 		
-		this.input.keyboard.on('keydown', (event) => {
-			const distancePnj = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.pnjQuete.x, this.pnjQuete.y);
-			
-			if ((event.key === "a" || this.pad?.A) && distancePnj < PNJ_TRIGGER && !this.messageBloque && !window.myGameValues.hasdropBossValues) {
-				
-				this.messageBloque = true; // définie la variable comme true pour éviter que les messages se superposent
-				
 
-				this.imgTextePnj1 = this.add.image(256, 233, 'imgTextePnj1');
-				this.imgTextePnj1.setOrigin(0.5);
-				this.imgTextePnj1.setScrollFactor(0);
-				
-				
-				this.time.delayedCall(7000, () => {
-					this.imgTextePnj1.destroy();
-				}, [], this);
-				
-				// Affiche le deuxième message
-				this.time.delayedCall(7000, () => {
-					if(window.myGameValues.hasDashValues == true){
-						this.imgTextePnjTrue = this.add.image(256, 233, 'imgTextePnjTrue');
-						this.imgTextePnjTrue.setOrigin(0.5);
-						this.imgTextePnjTrue.setScrollFactor(0);
-						this.invisibleDoor.destroy();
-					}
-					else{
-						this.imgTextePnjFalse = this.add.image(256, 233, 'imgTextePnjFalse');
-						this.imgTextePnjFalse.setOrigin(0.5);
-						this.imgTextePnjFalse.setScrollFactor(0);
-					}
-					
-					// Détruit le deuxième message
-					this.time.delayedCall(2000, () => {
-						if(window.myGameValues.hasDashValues == true){
-							this.imgTextePnjTrue.destroy();
-						}
-						else{
-							this.imgTextePnjFalse.destroy();
-						}
-					}, [], this);
-					setTimeout(() => {
-						this.messageBloque = false;
-					}, 1000);
-				}, [], this);
-				
-			}
-			else if((event.key === "a" || this.pad?.A) && distancePnj < PNJ_TRIGGER && !this.messageBloque && window.myGameValues.hasdropBossValues){
-				this.messageBloque = true;
-				this.imgTextePnj1DropBoss = this.add.image(256, 233, 'imgTextePnj2DropBoss');
-				this.imgTextePnj1DropBoss.setOrigin(0.5);
-				this.imgTextePnj1DropBoss.setScrollFactor(0);
-				this.time.delayedCall(2000, () => {
-					this.imgTextePnj1DropBoss.destroy();
-					this.time.delayedCall(1500, () => {
-						this.add.text(45, 75, "Merci d'avoir joué !", { font: "54px Arial", fill: "#FFFFFF" }).setScrollFactor(0);
-						this.cameras.main.fadeOut(FONDU_CAM);
-						this.time.delayedCall(3333, () => {
-							location.reload();
-						});
-					});
-				});
-			}
-		});
+		
+			
+		this.canBuyWeapon = true;	
+
 	}
 	
 	/////////////////////////////////////// UPDATE  ///////////////////////////////////////
 	
 	update() {
+		
 		this.player.update();
 
 		// détection de collisions entre le joueur et les monaies
@@ -327,6 +248,97 @@ export default class Hub extends Phaser.Scene{
 		}
 		if(window.myGameValues.hasdropBossValues == true){
 			this.HudDropBoss.visible = true;
+		}
+
+
+
+		// Message Marchand
+		const distanceMarchand = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.marchand.x, this.marchand.y);
+	
+		if ((this.player.clavier.parler.isDown || this.player.pad?.A) && distanceMarchand < MARCHAND_TRIGGER && this.canBuyWeapon) {
+			console.log("Achat de l'arme !");
+
+			this.canBuyWeapon = false;
+			
+			// Affiche l'image "begin"
+			this.imageBegin = this.add.image(256, 233, 'imgTexteBegin');
+			this.imageBegin.setOrigin(0.5);
+			this.imageBegin.setScrollFactor(0);
+
+			this.time.delayedCall(1500, () => {
+				this.imageBegin.destroy();
+				this.buyWeapon();
+			}, [], this);
+			
+			// Réinitialise la variable canBuyWeapon après 5 secondes si le joueur n'a pas encore acheté l'arme
+			setTimeout(() => {
+				if (window.myGameValues.hasArmeValues === false) {
+					this.canBuyWeapon = true;
+				}
+			}, 5000);
+		}
+
+		// Message PNJ Quete
+		const distancePnj = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.pnjQuete.x, this.pnjQuete.y);
+
+		if ((this.player.clavier.parler.isDown || this.player.pad?.A) && distancePnj < PNJ_TRIGGER && !this.messageBloque && !window.myGameValues.hasdropBossValues) {
+					
+			this.messageBloque = true; // définie la variable comme true pour éviter que les messages se superposent
+			
+
+			this.imgTextePnj1 = this.add.image(256, 233, 'imgTextePnj1');
+			this.imgTextePnj1.setOrigin(0.5);
+			this.imgTextePnj1.setScrollFactor(0);
+			
+			
+			this.time.delayedCall(6000, () => {
+				this.imgTextePnj1.destroy();
+			}, [], this);
+			
+			// Affiche le deuxième message
+			this.time.delayedCall(6000, () => {
+				if(window.myGameValues.hasDashValues == true){
+					this.imgTextePnjTrue = this.add.image(256, 233, 'imgTextePnjTrue');
+					this.imgTextePnjTrue.setOrigin(0.5);
+					this.imgTextePnjTrue.setScrollFactor(0);
+					this.invisibleDoor.destroy();
+				}
+				else{
+					this.imgTextePnjFalse = this.add.image(256, 233, 'imgTextePnjFalse');
+					this.imgTextePnjFalse.setOrigin(0.5);
+					this.imgTextePnjFalse.setScrollFactor(0);
+				}
+				
+				// Détruit le deuxième message
+				this.time.delayedCall(2000, () => {
+					if(window.myGameValues.hasDashValues == true){
+						this.imgTextePnjTrue.destroy();
+					}
+					else{
+						this.imgTextePnjFalse.destroy();
+					}
+				}, [], this);
+				setTimeout(() => {
+					this.messageBloque = false;
+				}, 1000);
+			}, [], this);
+			
+		}
+		else if((this.player.clavier.parler.isDown || this.player.pad?.A) && distancePnj < PNJ_TRIGGER && !this.messageBloque && window.myGameValues.hasdropBossValues){
+			this.messageBloque = true;
+			this.imgTextePnj1DropBoss = this.add.image(256, 233, 'imgTextePnj2DropBoss');
+			this.imgTextePnj1DropBoss.setOrigin(0.5);
+			this.imgTextePnj1DropBoss.setScrollFactor(0);
+			this.time.delayedCall(2000, () => {
+				this.imgTextePnj1DropBoss.destroy();
+				this.time.delayedCall(1500, () => {
+					this.add.text(45, 75, "Merci d'avoir joué !", { font: "54px Arial", fill: "#FFFFFF" }).setScrollFactor(0);
+					this.cameras.main.fadeOut(FONDU_CAM);
+					this.time.delayedCall(3333, () => {
+						location.reload();
+					});
+				});
+			});
 		}
 	}
 

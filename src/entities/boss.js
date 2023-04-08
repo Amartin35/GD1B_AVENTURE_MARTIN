@@ -16,6 +16,7 @@ export default class Boss extends Phaser.GameObjects.Sprite {
 		this.playerDetectionDistance = BOSS_DETECTION_DISTANCE;
 		this.startX = x;
 		this.startY = y;
+		this.CreateAnimationsBoss();
 	}
 	
 	overlapBossPlayer() {
@@ -71,6 +72,16 @@ export default class Boss extends Phaser.GameObjects.Sprite {
 			soundMortBoss.play();
 			soundMortBoss.setVolume(0.3);
 		}
+	}
+
+	CreateAnimationsBoss(){
+		this.scene.anims.create({
+			key: 'IdleBoss',
+			frames: this.scene.anims.generateFrameNumbers('SpriteBoss', {start:0, end:3}),
+			frameRate: 8,
+			repeat: -1,
+		});
+		this.anims.play("IdleBoss",true);
 	}
 	
 	update() {

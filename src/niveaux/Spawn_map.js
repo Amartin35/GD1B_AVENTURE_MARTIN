@@ -2,6 +2,7 @@ import Player from "../entities/player.js";
 import Zombie1 from "../entities/enemy.js";
 import Monaie from "../collectible/monaie.js";
 import DashPowerUp from "../collectible/dashPowerUp.js";
+import Mouche from "../entities/Mouche.js";
 export default class Spawn_map extends Phaser.Scene{ 
 	constructor() {
 		super({key : "Spawn_map"});
@@ -25,7 +26,8 @@ export default class Spawn_map extends Phaser.Scene{
 		this.load.spritesheet('dashPowerUp', 'src/assets/Sprite-dashpowerup.png',{frameWidth: 34, frameHeight: 34});
 		this.load.spritesheet('recupVie', 'src/assets/Spriteviecoeur.png',{frameWidth: 34, frameHeight: 34});
 		this.load.spritesheet("healtbar", "src/assets/UIHP5.png", {frameWidth: 98, frameHeight: 33}); 
-		this.load.spritesheet("HudMonaie", "src/assets/SpriteMonaieHud.png", {frameWidth: 66, frameHeight: 34}); 
+		this.load.spritesheet("HudMonaie", "src/assets/SpriteMonaieHud.png", {frameWidth: 66, frameHeight: 34});
+		this.load.spritesheet("mouche", "src/assets/Mouche.png", {frameWidth: 34, frameHeight: 34});
 		this.load.audio('attackSound', 'src/assets/bruit_barre_en_metal.mp3');
 	}
 
@@ -133,7 +135,13 @@ export default class Spawn_map extends Phaser.Scene{
 			new Monaie(this, 32, 384, 'monaie'),
 		];
 		
-		
+		// Ajout des mouches
+		this.mouches = [
+			new Mouche(this, 1376, 1265, 'mouche'),
+			new Mouche(this, 1460, 1250, 'mouche'),
+			new Mouche(this, 1350, 1300, 'mouche'),
+			new Mouche(this, 976, 592, 'mouche'),
+		];
 		
 		
 		// Ajout de l'ui et import du dash power up

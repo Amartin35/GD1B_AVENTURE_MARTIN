@@ -8,6 +8,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 			down: Phaser.Input.Keyboard.KeyCodes.DOWN,
 			space: Phaser.Input.Keyboard.KeyCodes.SPACE,
 			attack: Phaser.Input.Keyboard.KeyCodes.V,
+			parler: Phaser.Input.Keyboard.KeyCodes.A,
 		});
 
 		this.pad; // récupère la manette
