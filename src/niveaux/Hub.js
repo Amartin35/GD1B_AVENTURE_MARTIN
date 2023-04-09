@@ -240,13 +240,13 @@ export default class Hub extends Phaser.Scene{
 			this.barreMetalHud.visible = true;
 			this.toucheA1.visible = false
 		}
-		if(window.myGameValues.hasDashValues == true){
+		if(window.myGameValues.hasDashValues){
 			this.HudDash.visible = true;
 		}
-		if(window.myGameValues.hasClefValues == true){
+		if(window.myGameValues.hasClefValues){
 			this.HudClef.visible = true;
 		}
-		if(window.myGameValues.hasdropBossValues == true){
+		if(window.myGameValues.hasdropBossValues){
 			this.HudDropBoss.visible = true;
 		}
 
